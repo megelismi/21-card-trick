@@ -1,0 +1,51 @@
+.card-row {
+  position: relative;
+  width: 250px;
+  height: 300px;
+  margin: 1.5em;
+}
+
+.card {
+  position: absolute;
+  width: 200px;
+}
+
+.card-img {
+  width: 200px;
+}
+
+/* Offset each card to create the stack effect */
+.card:nth-child(1) {
+  top: 0;
+  z-index: 1; /* Higher z-index for cards on top */
+}
+
+.card:nth-child(2) {
+  top: 75px; /* Offset from the top */
+  z-index: 2;
+}
+
+.card:nth-child(3) {
+  top: 150px;
+  z-index: 3;
+}
+
+.card:nth-child(4) {
+  top: 225px;
+  z-index: 4;
+}
+
+.card:nth-child(5) {
+  top: 300px;
+  z-index: 5;
+}
+
+.card:nth-child(6) {
+  top: 375px;
+  z-index: 6;
+}
+
+.card:nth-child(7) {
+  top: 450px;
+  z-index: 7;
+}

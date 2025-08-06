@@ -22,21 +22,63 @@ import threeOfClubs from "./assets/svg_playing_cards/fronts/clubs_3.svg";
 import fourOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_4.svg";
 
 import Card from "./components/Card";
+import CardRow from "./components/CardRow";
 
 function App() {
   const cards = Object.keys(CARDS);
+  const firstRow = cards.slice(0, 7);
+  const secondRow = cards.slice(7, 14);
+  const thirdRow = cards.slice(14, 21);
 
   return (
-    <div style={{ margin: "20px auto", maxWidth: "1200px" }}>
-      {cards.map((key) => {
-        const src = CARDS[key];
+    <div className="app-container">
+      <div className="app">
+        <CardRow>
+          {firstRow.map((key) => {
+            const src = CARDS[key];
 
-        return (
-          <Card key={key}>
-            <img src={src} className="card-img" alt={key.replace(/_/g, " ")} />
-          </Card>
-        );
-      })}
+            return (
+              <Card>
+                <img
+                  src={src}
+                  className="card-img"
+                  alt={key.replace(/_/g, " ")}
+                />
+              </Card>
+            );
+          })}
+        </CardRow>
+        <CardRow>
+          {secondRow.map((key) => {
+            const src = CARDS[key];
+
+            return (
+              <Card>
+                <img
+                  src={src}
+                  className="card-img"
+                  alt={key.replace(/_/g, " ")}
+                />
+              </Card>
+            );
+          })}
+        </CardRow>
+        <CardRow>
+          {thirdRow.map((key) => {
+            const src = CARDS[key];
+
+            return (
+              <Card>
+                <img
+                  src={src}
+                  className="card-img"
+                  alt={key.replace(/_/g, " ")}
+                />
+              </Card>
+            );
+          })}
+        </CardRow>
+      </div>
     </div>
   );
 }
