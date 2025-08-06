@@ -5,10 +5,9 @@
 }
 
 .app {
-  max-width: 1200px;
+  max-width: 850px;
   display: flex;
   flex-wrap: wrap;
-  min-height: 100vh;
   background-color: var(--background-color);
   color: var(--text-color);
 }
