@@ -1,4 +1,5 @@
 import "./App.css";
+import { CardProvider } from "./CardContext";
 import tenOfSpades from "./assets/svg_playing_cards/fronts/spades_10.svg";
 import twoOfClubs from "./assets/svg_playing_cards/fronts/clubs_2.svg";
 import threeOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_3.svg";
@@ -36,118 +37,120 @@ function App() {
   const seventhRow = cards.slice(18, 21);
 
   return (
-    <div className="app-container">
-      <div className="app">
-        <div className="cards-container">
-          <CardRow>
-            {firstRow.map((key) => {
-              const src = CARDS[key];
+    <CardProvider>
+      <div className="app-container">
+        <div className="app">
+          <div className="cards-container">
+            <CardRow>
+              {firstRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
-          <CardRow>
-            {secondRow.map((key) => {
-              const src = CARDS[key];
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+            <CardRow>
+              {secondRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
-          <CardRow>
-            {thirdRow.map((key) => {
-              const src = CARDS[key];
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+            <CardRow>
+              {thirdRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
-          <CardRow>
-            {fourthRow.map((key) => {
-              const src = CARDS[key];
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+            <CardRow>
+              {fourthRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
-          <CardRow>
-            {fifthRow.map((key) => {
-              const src = CARDS[key];
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+            <CardRow>
+              {fifthRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
-          <CardRow>
-            {sixthRow.map((key) => {
-              const src = CARDS[key];
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+            <CardRow>
+              {sixthRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
-          <CardRow>
-            {seventhRow.map((key) => {
-              const src = CARDS[key];
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+            <CardRow>
+              {seventhRow.map((key) => {
+                const src = CARDS[key];
 
-              return (
-                <Card>
-                  <img
-                    src={src}
-                    className="card-img"
-                    alt={key.replace(/_/g, " ")}
-                  />
-                </Card>
-              );
-            })}
-          </CardRow>
+                return (
+                  <Card>
+                    <img
+                      src={src}
+                      className="card-img"
+                      alt={key.replace(/_/g, " ")}
+                    />
+                  </Card>
+                );
+              })}
+            </CardRow>
+          </div>
+          <ButtonRow />
         </div>
-        <ButtonRow />
       </div>
-    </div>
+    </CardProvider>
   );
 }
 
