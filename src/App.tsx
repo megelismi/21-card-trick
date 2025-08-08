@@ -1,186 +1,95 @@
 import "./App.css";
-import { CardProvider } from "./CardContext";
-import tenOfSpades from "./assets/svg_playing_cards/fronts/spades_10.svg";
-import twoOfClubs from "./assets/svg_playing_cards/fronts/clubs_2.svg";
-import threeOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_3.svg";
-import fourOfHearts from "./assets/svg_playing_cards/fronts/hearts_4.svg";
-import fiveOfSpades from "./assets/svg_playing_cards/fronts/spades_5.svg";
-import sixOfClubs from "./assets/svg_playing_cards/fronts/clubs_6.svg";
-import sevenOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_7.svg";
-import eightOfHearts from "./assets/svg_playing_cards/fronts/hearts_8.svg";
-import nineOfSpades from "./assets/svg_playing_cards/fronts/spades_9.svg";
-import jackOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_jack.svg";
-import queenOfHearts from "./assets/svg_playing_cards/fronts/hearts_queen.svg";
-import kingOfSpades from "./assets/svg_playing_cards/fronts/spades_king.svg";
-import aceOfClubs from "./assets/svg_playing_cards/fronts/clubs_ace.svg";
-import aceOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_ace.svg";
-import aceOfHearts from "./assets/svg_playing_cards/fronts/hearts_ace.svg";
-import aceOfSpades from "./assets/svg_playing_cards/fronts/spades_ace.svg";
-import twoOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_2.svg";
-import twoOfHearts from "./assets/svg_playing_cards/fronts/hearts_2.svg";
-import threeOfSpades from "./assets/svg_playing_cards/fronts/spades_3.svg";
-import threeOfClubs from "./assets/svg_playing_cards/fronts/clubs_3.svg";
-import fourOfDiamonds from "./assets/svg_playing_cards/fronts/diamonds_4.svg";
 
-import ButtonRow from "./components/ButtonRow";
-import Card from "./components/Card";
-import CardRow from "./components/CardRow";
+// import { CardProvider } from "./context/CardContext";
+
+// import CardTrick from "./CardTrick";
 
 function App() {
-  const cards = Object.keys(CARDS);
-  const firstRow = cards.slice(0, 3);
-  const secondRow = cards.slice(3, 6);
-  const thirdRow = cards.slice(6, 9);
-  const fourthRow = cards.slice(9, 12);
-  const fifthRow = cards.slice(12, 15);
-  const sixthRow = cards.slice(15, 18);
-  const seventhRow = cards.slice(18, 21);
-
   return (
-    <CardProvider>
-      <div className="app-container">
-        <div className="app">
-          <div className="cards-container">
-            <CardRow>
-              {firstRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-            <CardRow>
-              {secondRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-            <CardRow>
-              {thirdRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-            <CardRow>
-              {fourthRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-            <CardRow>
-              {fifthRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-            <CardRow>
-              {sixthRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-            <CardRow>
-              {seventhRow.map((key) => {
-                const src = CARDS[key];
-
-                return (
-                  <Card>
-                    <img
-                      src={src}
-                      className="card-img"
-                      alt={key.replace(/_/g, " ")}
-                    />
-                  </Card>
-                );
-              })}
-            </CardRow>
-          </div>
-          <ButtonRow />
-        </div>
-      </div>
-    </CardProvider>
+    <>
+      <Card suit="spades" rank="Q" />
+      <Card suit="hearts" rank="Q" />
+    </>
   );
 }
 
-const CARDS: { [key: string]: string } = {
-  clubs_ace: aceOfClubs,
-  clubs_2: twoOfClubs,
-  clubs_3: threeOfClubs,
-  clubs_6: sixOfClubs,
+type Suit = "hearts" | "diamonds" | "clubs" | "spades";
+type Rank =
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "10"
+  | "J"
+  | "Q"
+  | "K"
+  | "A";
 
-  spades_ace: aceOfSpades,
-  spades_3: threeOfSpades,
-  spades_5: fiveOfSpades,
-  spades_9: nineOfSpades,
-  spades_10: tenOfSpades,
-  spades_king: kingOfSpades,
+function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
+  return (
+    <div className="flex flex-col items-center justify-between p-3 sm:w-[150px] bg-white sm:h-[200px] md:w-[200px] md:h-[275px] border border-gray-200 rounded-sm shadow-sm">
+      <Rank rank={rank} suit={suit} />
+      <SuitIcon suit={suit} size="large" />
+    </div>
+  );
+}
 
-  diamonds_ace: aceOfDiamonds,
-  diamonds_2: twoOfDiamonds,
-  diamonds_3: threeOfDiamonds,
-  diamonds_4: fourOfDiamonds,
-  diamonds_7: sevenOfDiamonds,
-  diamonds_jack: jackOfDiamonds,
+function Rank({ rank, suit }: { rank: Rank; suit: Suit }) {
+  return (
+    <div
+      className={`${
+        suit === "hearts" || suit === "diamonds"
+          ? "text-red-500"
+          : "text-gray-900"
+      } flex w-full justify-evenly sm:text-3xl md:text-5xl font-bold`}
+    >
+      {rank}
+      <SuitIcon suit={suit} size="small" />
+    </div>
+  );
+}
 
-  hearts_ace: aceOfHearts,
-  hearts_2: twoOfHearts,
-  hearts_4: fourOfHearts,
-  hearts_8: eightOfHearts,
-  hearts_queen: queenOfHearts,
+function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
+  const icons: Record<Suit, string> = {
+    hearts: "♥",
+    diamonds: "♦",
+    clubs: "♣",
+    spades: "♠",
+  };
 
-  // Add more cards as needed
-};
+  return (
+    <span
+      className={
+        `${
+          suit === "hearts" || suit === "diamonds"
+            ? "text-red-500"
+            : "text-gray-900"
+        }` +
+        " " +
+        `${
+          size === "large"
+            ? "md:text-[150px] sm:text-[100px]"
+            : "md:text-[48px] sm:text-[36px]"
+        }`
+      }
+    >
+      {icons[suit]}
+    </span>
+  );
+}
 
 export default App;
+
+{
+  /* <CardProvider>
+      <div className="app-container">
+        <div className="app">
+        <CardTrick />
+         </div>
+      </div>
+    </CardProvider> */
+}

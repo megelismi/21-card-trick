@@ -92,16 +92,12 @@
  **************/
 
 @keyframes collapseUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-40px) scale(0.8);
+  to {
+    transform: translateY(-200px); /* or -200%, etc. */
   }
 }
 
-.card.collecting {
-  animation: collapseUp 0.4s ease-in forwards;
+.card.collapsing {
+  animation: collapseUp 0.5s forwards;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }

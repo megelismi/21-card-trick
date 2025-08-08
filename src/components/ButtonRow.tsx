@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useCardContext } from "../CardContext";
+import { useCardContext } from "../context/CardContext";
 import "../Buttons.css";
 import "../App.css";
 
 export default function ButtonRow() {
   const [isVisible, setIsVisible] = useState(false);
-  const { setSelectedStack } = useCardContext();
+  const { setIsCollecting, setSelectedStack } = useCardContext();
 
   useEffect(() => {
     setTimeout(() => {
@@ -14,8 +14,8 @@ export default function ButtonRow() {
   }, []);
 
   const handleClick = (stackNumber: number) => {
-    console.log(`Selected stack: ${stackNumber}`);
     setSelectedStack(stackNumber);
+    setIsCollecting(true);
   };
 
   return isVisible ? (
