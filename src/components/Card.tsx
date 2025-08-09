@@ -1,18 +1,4 @@
-type Suit = "hearts" | "diamonds" | "clubs" | "spades";
-type Rank =
-  | "2"
-  | "3"
-  | "4"
-  | "5"
-  | "6"
-  | "7"
-  | "8"
-  | "9"
-  | "10"
-  | "J"
-  | "Q"
-  | "K"
-  | "A";
+import type { Suit, Rank } from "../types/cards";
 
 export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (

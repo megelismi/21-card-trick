@@ -11,7 +11,6 @@ function TestPlayground() {
   const handleClick = () => {
     setY2(-40);
     setY3(-80);
-
     setX(-200);
   };
 
