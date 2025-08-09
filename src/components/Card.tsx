@@ -1,48 +1,68 @@
-import { useState } from "react";
-import { useCardContext } from "../context/CardContext";
-import "../Animations.css";
-import "../Cards.css";
+type Suit = "hearts" | "diamonds" | "clubs" | "spades";
+type Rank =
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "10"
+  | "J"
+  | "Q"
+  | "K"
+  | "A";
 
-export default function Card({
-  children,
-  stack,
-  positionInStack,
-}: {
-  children: React.ReactNode;
-  stack: number;
-  positionInStack: number;
-}) {
-  const [isDealing, setIsDealing] = useState(true);
-  const { isCollecting, selectedStack } = useCardContext();
+export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
+  return (
+    <div className="flex flex-col items-center justify-between p-3 m-3 bg-white max-sm:w-[150px] max-sm:h-[200px] w-[200px] h-[275px] border border-gray-200 rounded-sm shadow-sm">
+      <Rank rank={rank} suit={suit} />
+      <SuitIcon suit={suit} size="large" />
+    </div>
+  );
+}
 
-  const isLastCardInStack = positionInStack === 7;
-  const isCollapsing = isCollecting && selectedStack === stack;
+function Rank({ rank, suit }: { rank: Rank; suit: Suit }) {
+  return (
+    <div
+      className={`${
+        suit === "hearts" || suit === "diamonds"
+          ? "text-red-500"
+          : "text-gray-900"
+      } flex w-full justify-between max-sm:text-[48px] text-[60px] font-bold leading-none`}
+    >
+      {rank}
+      <SuitIcon suit={suit} size="small" />
+    </div>
+  );
+}
 
-  console.log(`Card stack: ${stack}`);
-  console.log(`Card position in stack: ${positionInStack}`);
-  console.log(`Card is the last in the stack: ${isLastCardInStack}`);
-
-  const handleAnimationEnd = (
-    animationEvent: React.AnimationEvent<HTMLDivElement>
-  ) => {
-    if (animationEvent.animationName === "dealCard") {
-      setIsDealing(false);
-    }
+function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
+  const icons: Record<Suit, string> = {
+    hearts: "♥",
+    diamonds: "♦",
+    clubs: "♣",
+    spades: "♠",
   };
 
   return (
-    <>
-      <div
-        onAnimationEnd={handleAnimationEnd}
-        className={`card ${
-          isDealing ? "dealing" : isCollapsing ? "collapsing" : ""
-        }`}
-        style={{
-          animationDelay: `${isCollapsing} ? ${positionInStack * 0.2}s : ''}`,
-        }}
-      >
-        {children}
-      </div>
-    </>
+    <div
+      className={
+        `leading-none ${
+          suit === "hearts" || suit === "diamonds"
+            ? "text-red-500"
+            : "text-gray-900"
+        }` +
+        " " +
+        `${
+          size === "large"
+            ? "text-[150px] max-sm:text-[100px]"
+            : "text-[60px] max-sm:text-[48px]"
+        }`
+      }
+    >
+      {icons[suit]}
+    </div>
   );
 }
