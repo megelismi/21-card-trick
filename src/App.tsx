@@ -6,10 +6,15 @@ import "./App.css";
 
 function App() {
   return (
-    <>
+    <div className="flex flex-wrap justify-center h-screen bg-gray-100">
       <Card suit="spades" rank="Q" />
       <Card suit="hearts" rank="Q" />
-    </>
+      <Card suit="hearts" rank="K" />
+      <Card suit="clubs" rank="K" />
+      <Card suit="diamonds" rank="2" />
+
+      <Card suit="clubs" rank="10" />
+    </div>
   );
 }
 
@@ -31,7 +36,7 @@ type Rank =
 
 function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (
-    <div className="flex flex-col items-center justify-between p-3 sm:w-[150px] bg-white sm:h-[200px] md:w-[200px] md:h-[275px] border border-gray-200 rounded-sm shadow-sm">
+    <div className="flex flex-col items-center justify-between p-3 m-3 bg-white max-sm:w-[150px] max-sm:h-[200px] w-[200px] h-[275px] border border-gray-200 rounded-sm shadow-sm">
       <Rank rank={rank} suit={suit} />
       <SuitIcon suit={suit} size="large" />
     </div>
@@ -45,7 +50,7 @@ function Rank({ rank, suit }: { rank: Rank; suit: Suit }) {
         suit === "hearts" || suit === "diamonds"
           ? "text-red-500"
           : "text-gray-900"
-      } flex w-full justify-evenly sm:text-3xl md:text-5xl font-bold`}
+      } flex w-full justify-between max-sm:text-[48px] text-[60px] font-bold leading-none`}
     >
       {rank}
       <SuitIcon suit={suit} size="small" />
@@ -62,9 +67,9 @@ function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
   };
 
   return (
-    <span
+    <div
       className={
-        `${
+        `leading-none ${
           suit === "hearts" || suit === "diamonds"
             ? "text-red-500"
             : "text-gray-900"
@@ -72,13 +77,13 @@ function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
         " " +
         `${
           size === "large"
-            ? "md:text-[150px] sm:text-[100px]"
-            : "md:text-[48px] sm:text-[36px]"
+            ? "text-[150px] max-sm:text-[100px]"
+            : "text-[60px] max-sm:text-[48px]"
         }`
       }
     >
       {icons[suit]}
-    </span>
+    </div>
   );
 }
 
