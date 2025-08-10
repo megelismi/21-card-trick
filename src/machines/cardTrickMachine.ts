@@ -7,12 +7,6 @@ interface Context {
   cards: Cards,
 }
 
-type Event =
-  | { type: "NEXT" }
-  | { type: "PREV" }
-  | { type: "SELECT_COLUMN"; columnIndex: number };
-
-
 const cardTrickMachine = setup({
   types: {
     context: {} as {
@@ -38,9 +32,11 @@ const cardTrickMachine = setup({
     cards: [] // <-- must be initialized here
   },
   states: {
-    intro: { on: { NEXT: 'dealRound1' } },
-    dealRound1: {
+    intro: { 
       entry: ['setRandomCards', 'logCards'],
+      on: { NEXT: 'dealRound1' } 
+    },
+    dealRound1: {
       on: { NEXT: 'askColumn1' },
     },
     askColumn1: {
