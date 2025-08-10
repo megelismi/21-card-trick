@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import generateRandomUniqueCards from "../utils/generateRandomCards";
 import Card from "./Card";
+import "../Cards.css";
 import type { Rank, Suit } from "../types/cards";
 
 interface Props {
@@ -9,29 +10,56 @@ interface Props {
 }
 
 const CardTable: React.FC<Props> = ({ phase, onCardClick }) => {
-  // get 21 random unique cards
-  // TODO: this needs to be memoized or handled in a way that doesn't regenerate cards on every render
-  // but for now we just generate them fresh each time
   const cards = generateRandomUniqueCards() as { suit: Suit; rank: Rank }[];
-  const firstCol = cards.slice(0, 7);
-  const secondCol = cards.slice(7, 14);
-  const thirdCol = cards.slice(14, 21);
+
+  console.log("phase", phase);
+  console.log("onCardClick", onCardClick);
+
+  // Column layout data
+  const columnCount = 3;
+  const cardWidth = 125;
+  const overlap = 70; // vertical overlap in px
 
   return (
-    <div className="flex flex-col gap-8 justify-center mt-16 relative w-4/5 min-w-[350px]">
-      {cards.map((card, index) => {
-        return (
-          <div
-            style={{
-              position: "absolute",
-              top: `${Math.floor(index / 3) * 75}px`,
-              left: `${((index % 3) + 1) * 270}px`,
-            }}
-          >
-            <Card suit={card.suit} rank={card.rank} />
-          </div>
-        );
-      })}
+    <div className="w-full flex justify-center bg-green-700 p-2">
+      <div
+        className="grid grid-cols-3 gap-4 mt-4"
+        style={{
+          maxWidth: "727px",
+          width: "100%",
+        }}
+      >
+        {cards.map((card, index) => {
+          const column = index % columnCount; // 0,1,2
+          const row = Math.floor(index / columnCount); // 0..6
+          const finalX = column * (cardWidth + 150); // 15px space between columns TODO: this will need to change based on screen size
+          const finalY = row * overlap; // overlap vertically
+
+          return (
+            <motion.div
+              key={index}
+              className="absolute"
+              initial={{
+                x: -200, // start off-screen left
+                y: finalY,
+                opacity: 0,
+              }}
+              animate={{
+                x: finalX,
+                y: finalY,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1, // stagger each card
+                ease: "easeOut",
+              }}
+            >
+              <Card suit={card.suit} rank={card.rank} />
+            </motion.div>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -56,3 +84,33 @@ export default CardTable;
 //       },
 //     }),
 //   };
+
+{
+  /* <div
+      ref={cardTableRef}
+      className="flex flex-col justify-center relative mt-6 w-[1000px] max-sm:w-[450px] max-md:w-[600px] max:lg:w-[800px] border border-b-blue-600"
+    >
+      {cards.map((card, index) => {
+        const columnNumber = (index % 3) + 1;
+
+        let style: React.CSSProperties = {
+          position: "absolute" as const,
+          top: `${Math.floor(index / 3) * 75}px`,
+        };
+
+        if (columnNumber === 1) {
+          style = { ...style, left: "24px" };
+        } else if (columnNumber === 2) {
+          style = { ...style, left: "40%" };
+        } else {
+          style = { ...style, right: "24px" };
+        }
+
+        return (
+          <div style={style}>
+            <Card suit={card.suit} rank={card.rank} />
+          </div>
+        );
+      })}
+    </div> */
+}

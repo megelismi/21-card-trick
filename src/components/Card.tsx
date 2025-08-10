@@ -2,7 +2,7 @@ import type { Suit, Rank } from "../types/cards";
 
 export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (
-    <div className="flex flex-col items-center justify-between p-3 m-3 bg-white max-sm:w-[150px] max-sm:h-[200px] w-[200px] h-[275px] border border-gray-200 rounded-sm shadow-sm">
+    <div className="flex flex-col items-center justify-between p-3 bg-white max-sm:w-[100px] max-sm:h-[150px]  max-md:w-[125px] max-md:h-[175px] w-[175px] h-[225px] border border-gray-500 rounded-sm shadow-sm">
       <Rank rank={rank} suit={suit} />
       <SuitIcon suit={suit} size="large" />
     </div>
@@ -16,7 +16,7 @@ function Rank({ rank, suit }: { rank: Rank; suit: Suit }) {
         suit === "hearts" || suit === "diamonds"
           ? "text-red-500"
           : "text-gray-900"
-      } flex w-full justify-between max-sm:text-[48px] text-[60px] font-bold leading-none`}
+      } flex w-full justify-between max-md:text-[36px] text-[48px] font-bold leading-none`}
     >
       {rank}
       <SuitIcon suit={suit} size="small" />
@@ -43,8 +43,8 @@ function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
         " " +
         `${
           size === "large"
-            ? "text-[150px] max-sm:text-[100px]"
-            : "text-[60px] max-sm:text-[48px]"
+            ? "text-[125px] max-md:text-[75px] max-sm:text-[68px]"
+            : "text-[48px] max-md:text-[36x] max-sm:text-[32px]"
         }`
       }
     >

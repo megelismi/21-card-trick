@@ -39,21 +39,6 @@ const DialogueBox: React.FC<Props> = ({ stateName, onNext, onPrev }) => {
             {text}
           </motion.div>
         </AnimatePresence>
-
-        <div className="mt-3 flex gap-3 pointer-events-auto">
-          <button
-            onClick={onPrev}
-            className="px-3 py-1 rounded bg-gray-700 text-white"
-          >
-            Back
-          </button>
-          <button
-            onClick={onNext}
-            className="px-3 py-1 rounded bg-blue-600 text-white"
-          >
-            Next
-          </button>
-        </div>
       </div>
     </div>
   );

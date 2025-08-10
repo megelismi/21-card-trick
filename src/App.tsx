@@ -33,3 +33,7 @@ function App() {
 }
 
 export default App;
+
+{
+  /* <CardTable phase={phase} onCardClick={handleCardClick} /> */
+}
