@@ -13,3 +13,5 @@ export type Rank =
   | "Q"
   | "K"
   | "A";
+
+  export type Cards = { suit: Suit; rank: Rank }[]; 

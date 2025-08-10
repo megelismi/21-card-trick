@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 
 interface Props {
-  stateName: string; // Current state name from the machine
+  phase: string; // Current phase from the machine
   onNext: () => void; // Callback for next action
   onPrev: () => void; // Callback for previous action
 }
@@ -21,15 +21,16 @@ const dialogueMap: Record<string, string> = {
   done: "Thanks for playing!",
 };
 
-const DialogueBox: React.FC<Props> = ({ stateName, onNext, onPrev }) => {
-  const text = dialogueMap[stateName] ?? "";
+const DialogueBox: React.FC<Props> = ({ phase, onNext, onPrev }) => {
+  console.log("phase", phase);
+  const text = dialogueMap[phase] ?? "";
 
   return (
     <div className="fixed bottom-8 w-full flex flex-col items-center pointer-events-none">
       <div className="pointer-events-auto flex flex-col items-center">
         <AnimatePresence mode="wait">
           <motion.div
-            key={stateName}
+            key={phase}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
@@ -39,6 +40,21 @@ const DialogueBox: React.FC<Props> = ({ stateName, onNext, onPrev }) => {
             {text}
           </motion.div>
         </AnimatePresence>
+
+        <div className="mt-3 flex gap-3 pointer-events-auto">
+          <button
+            onClick={onPrev}
+            className="px-3 py-1 rounded bg-gray-700 text-white"
+          >
+            Back
+          </button>
+          <button
+            onClick={onNext}
+            className="px-3 py-1 rounded bg-blue-600 text-white"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
