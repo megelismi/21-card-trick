@@ -4,7 +4,7 @@ import type { Cards } from "../types/cards";
 
 interface Context {
   selectedColumn?: number; // 0,1,2
-  cards: { suit: Suit; rank: Rank }[],
+  cards: Cards,
 }
 
 type Event =
