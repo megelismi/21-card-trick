@@ -27,22 +27,46 @@ const cardTrickMachine = setup({
   },
   states: {
     intro: { 
-      on: { DEAL_ROUND_1: 'dealRound1' } 
+      on: { DEAL_CARDS_1: 'dealCards1' } 
     },
-    dealRound1: {
+    dealCards1: {
       entry: ['setRandomCards', 'logCards'],
-      on: { GATHER_ROUND: 'gatherRound' }, // TODO: change later, this is just for testing
+      on: { ASK_COLUMN_1: 'askColumn1' }, 
     },
-    gatherRound: {
-      on: { DEAL_ROUND_2: 'dealRound2' },
+    askColumn1: {
+      entry: [], // column buttons should appear
+      on: { GATHER_CARDS_1: 'gatherCards1' }, 
     },
-     dealRound2: {
-      on: { DEAL_ROUND_3: 'dealRound3' }, 
+    gatherCards1: {
+      entry: [], // we should receive the selected column and reshuffle cards...
+      on: { DEAL_CARDS_2: 'dealCards2' }, 
     },
-    dealRound3: {
+    dealCards2: {
+      on: { ASK_COLUMN_2: 'askColumn2' }, 
+    },
+    askColumn2: {
+      entry: [], // column buttons should appear, or maybe they stay put...
+      on: { GATHER_CARDS_2: 'gatherCards2' }, 
+    },
+    gatherCards2: {
+      entry: [], // we should receive the selected column and reshuffle cards...
+      on: { DEAL_CARDS_3: 'dealCards3' }, 
+    },
+    dealCards3: {
+      on: { ASK_COLUMN_3: 'askColumn3' }, 
+    },
+    askColumn3: {
+      entry: [], // column buttons should appear, or maybe they stay put...
+      on: { GATHER_CARDS_3: 'gatherCards3' }, 
+    },
+    gatherCards3: {
+      entry: [], // we should receive the selected column and reshuffle cards...
       on: { REVEAL: 'reveal' }, 
     },
-    reveal: { type: 'final' }
+    reveal: {
+      on: { DONE: 'done' }, // reveal animation 
+    },
+    done: { type: 'final' }
   }
 });
 

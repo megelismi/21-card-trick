@@ -26,8 +26,15 @@ function AnimatedCard({
   const finalX = column * (cardWidth + 150); // 15px space between columns TODO: this will need to change based on screen size
   const finalY = row * overlap; // overlap vertically
 
+  // TODO: put these phases into constants
+  const isDealingCards =
+    phase === "dealCards1" || phase === "dealCards2" || phase === "dealCards3";
+  const isGatheringRound = phase === "gatherCards1" || phase === "gatherCards2";
+  const isFinalGather = phase === "gatherCards3";
+  const isReveal = phase === "reveal";
+
   useEffect(() => {
-    if (phase === "dealRound1") {
+    if (isDealingCards) {
       animate(
         scope.current,
         {
@@ -41,7 +48,7 @@ function AnimatedCard({
           ease: "easeOut",
         }
       );
-    } else if (phase === "gatherRound1") {
+    } else if (isGatheringRound) {
       // gather the cards up
       //   animate(
       //     scope.current,
@@ -56,8 +63,22 @@ function AnimatedCard({
       //       ease: "easeOut",
       //     }
       //   );
+    } else if (isFinalGather) {
+      // this is the final gather things go off screen
+    } else if (isReveal) {
+      // revealAnimation
     }
-  }, [phase, index, finalX, finalY, animate, scope]);
+  }, [
+    isDealingCards,
+    isGatheringRound,
+    isFinalGather,
+    isReveal,
+    finalX,
+    finalY,
+    animate,
+    scope,
+    index,
+  ]);
 
   return (
     <motion.div
