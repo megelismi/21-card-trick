@@ -10,7 +10,7 @@ const dialogueMap: Record<string, string> = {
   intro: "Hello! I'm your magician. Ready to see the 21 Card Trick?",
   dealRound1: "Dealing cards for round 1...",
   askColumn1:
-    "Pick a card in your mind, but don't tell me! Just tell me which column is it in?",
+    "Pick a card in your mind, but don't tell me! Just tell me which stack it's in.",
   gatherRound1: "Gathering the cards...",
   dealRound2: "Dealing cards for round 2...",
   askColumn2: "Which column is your card in now?",

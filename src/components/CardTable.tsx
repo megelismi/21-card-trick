@@ -1,5 +1,5 @@
-import { motion } from "motion/react";
-import Card from "./Card";
+// import { motion } from "motion/react";
+import AnimatedCard from "./AnimatedCard";
 import type { Cards } from "../types/cards";
 
 interface Props {
@@ -8,13 +8,8 @@ interface Props {
 }
 
 const CardTable = ({ cards, phase }: Props) => {
-  // Column layout data
-  const columnCount = 3;
-  const cardWidth = 125;
-  const overlap = 70; // vertical overlap in px
-
   return (
-    <div className="w-full flex justify-center bg-green-700 p-2">
+    <div className="w-full flex justify-center">
       <div
         className="grid grid-cols-3 gap-4 mt-4"
         style={{
@@ -22,44 +17,51 @@ const CardTable = ({ cards, phase }: Props) => {
           width: "100%",
         }}
       >
-        {phase === "dealRound1" && cards && cards.length
-          ? cards.map((card, index) => {
-              const column = index % columnCount; // 0,1,2
-              const row = Math.floor(index / columnCount); // 0..6
-              const finalX = column * (cardWidth + 150); // 15px space between columns TODO: this will need to change based on screen size
-              const finalY = row * overlap; // overlap vertically
-
-              return (
-                <motion.div
-                  key={index}
-                  className="absolute"
-                  initial={{
-                    x: -200, // start off-screen left
-                    y: finalY,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    x: finalX,
-                    y: finalY,
-                    opacity: 1,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.1, // stagger each card
-                    ease: "easeOut",
-                  }}
-                >
-                  <Card suit={card.suit} rank={card.rank} />
-                </motion.div>
-              );
-            })
-          : null}
+        {cards.map((card, index) => (
+          <AnimatedCard
+            rank={card.rank}
+            suit={card.suit}
+            phase={phase}
+            index={index}
+          />
+        ))}
       </div>
     </div>
   );
 };
 
 export default CardTable;
+
+// const column = index % columnCount; // 0,1,2
+//           const row = Math.floor(index / columnCount); // 0..6
+//           const finalX = column * (cardWidth + 150); // 15px space between columns TODO: this will need to change based on screen size
+//           const finalY = row * overlap; // overlap vertically
+
+//           return (
+//             <>
+//               <motion.div
+//                 key={index}
+//                 className="absolute"
+//                 initial={{
+//                   x: -200, // start off-screen left
+//                   y: finalY,
+//                   opacity: 0,
+//                 }}
+//                 animate={{
+//                   x: finalX,
+//                   y: finalY,
+//                   opacity: 1,
+//                 }}
+//                 transition={{
+//                   duration: 0.5,
+//                   delay: index * 0.1, // stagger each card
+//                   ease: "easeOut",
+//                 }}
+//               >
+//                 <Card suit={card.suit} rank={card.rank} />
+//               </motion.div>
+//             </>
+//           );
 
 //  const animate = phase.startsWith("dealRound")
 //           ? { y: [-40, 0], opacity: [0, 1], scale: [0.96, 1] }
