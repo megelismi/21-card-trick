@@ -41,6 +41,21 @@ function AnimatedCard({
           ease: "easeOut",
         }
       );
+    } else if (phase === "gatherRound1") {
+      // gather the cards up
+      //   animate(
+      //     scope.current,
+      //     {
+      //       x: finalX,
+      //       y: finalY,
+      //       opacity: 1,
+      //     },
+      //     {
+      //       duration: 0.5,
+      //       delay: index * 0.1, // stagger each card
+      //       ease: "easeOut",
+      //     }
+      //   );
     }
   }, [phase, index, finalX, finalY, animate, scope]);
 

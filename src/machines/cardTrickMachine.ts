@@ -1,21 +1,14 @@
 import { assign, setup, fromCallback } from 'xstate';
 import generateRandomUniqueCards from "../utils/generateRandomCards";
 import type { Cards } from "../types/cards";
-
-interface Context {
-  selectedColumn?: number; // 0,1,2
-  cards: Cards,
-}
+import type { Context, Events } from '../types/cardTrickMachine'
 
 const cardTrickMachine = setup({
   types: {
     context: {} as {
       cards: Cards;
     },
-    events: {} as
-      | { type: 'NEXT' }
-      | { type: 'SELECT_COLUMN'; column: number }
-      | { type: 'PREV' },
+    events: {} as Events
   },
   actions: {
     setRandomCards: assign({
@@ -26,6 +19,7 @@ const cardTrickMachine = setup({
     },
   }
 }).createMachine({
+  /** @xstate-layout N4IgpgJg5mDOIC5QGMCGAnCAVdBLZA1gHS4B2ALugPYDEAIgKICCAMgPoBKA8gKoBydNgEYA2gAYAuolAAHKrFzlcVUtJAAPREIBMATiLaAHDoCs2gMwAWMYaMB2ADQgAnlqF2il3d+8A2E3be5mJ2AL6hTmiYOPjEEGCoADYcVACupBBCNADiTFgAEgwcnLwC4lJIIHIKSipqmggm5vomYm3aIULmQpbaji5uHl4+uv6BusFhESBR2HiERFCo5AAWYOgp6RD0zOzc-ILa5WrVisqqlQ2GdtpEE3Zm2pbmvtYmJk6uCELuniOjASCIXCkQwc1iRHiSU2GW0O1YJQObHMx0qp1qF1ADR+uhMBmMRmsRl8dkM5k+gz+IzGQKmoOi8ziCWSaQy5hoHAYADVdqjZPIznVLloTL9XmJfJL-CZLIYxOSBt9fsMfDSJsCQSBSFR4vBKrMYoQTgKMfVEABaXwUhCWohte0Ox10mZgw3EMiUKjGmrnM0IXrWn4eEa9bQysTed6ag2MyHMmGZb2CzEaRDBQxEEy+MM-GyBQLy63GTP2jq6OxCMRebrR12xpardYJpOm4UIG54+5mHrlozGQO-EPaMPWSMmWsMiFQllbbQt31tyvvIh2fz+PQBVpkgfB-5q4KWCfghbThPmedCrFacx2DwPNo3yx2XqGSwDjMOgISoSGQySo9ukQ6BgAAbsyF4ptivg3nc2hCLoFi3rohgfIqPy+CuwxCK0vivhK-7hKEQA */
   id: 'cardTrick',
   initial: 'intro',
   context: {
@@ -33,20 +27,22 @@ const cardTrickMachine = setup({
   },
   states: {
     intro: { 
-      on: { NEXT: 'dealRound1' } 
+      on: { DEAL_ROUND_1: 'dealRound1' } 
     },
     dealRound1: {
       entry: ['setRandomCards', 'logCards'],
-      on: { NEXT: 'askColumn1' },
+      on: { GATHER_ROUND: 'gatherRound' }, // TODO: change later, this is just for testing
     },
-    askColumn1: {
-      on: { SELECT_COLUMN: 'gatherRound1', PREV: 'dealRound1' },
+    gatherRound: {
+      on: { DEAL_ROUND_2: 'dealRound2' },
     },
-    gatherRound1: {
-      invoke: { id: 'gather1', src: fromCallback(() => {}) },
-      on: { NEXT: 'done' },
+     dealRound2: {
+      on: { DEAL_ROUND_3: 'dealRound3' }, 
     },
-    done: { type: 'final' }
+    dealRound3: {
+      on: { REVEAL: 'reveal' }, 
+    },
+    reveal: { type: 'final' }
   }
 });
 
