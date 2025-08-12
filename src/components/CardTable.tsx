@@ -19,6 +19,7 @@ const CardTable = ({ cards, phase }: Props) => {
       >
         {cards.map((card, index) => (
           <AnimatedCard
+            key={index}
             rank={card.rank}
             suit={card.suit}
             phase={phase}

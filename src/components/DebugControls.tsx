@@ -1,6 +1,6 @@
-import type { Events } from "../types/cardTrickMachine";
+import type { CardTrickEvents } from "../types/cardTrickMachine";
 
-function DebugControls({ send }: { send: (arg0: Events) => void }) {
+function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
   return (
     <div className="absolute bottom-4 right-4 flex flex-col gap-2">
       <button

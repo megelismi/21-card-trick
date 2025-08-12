@@ -1,4 +1,4 @@
-export default function ButtonRow() {
+export default function StackSelectors() {
   return (
     <div className="fixed bottom-[175px] grid grid-cols-3 gap-4 mt-4 max-w-[727px]">
       <button onClick={() => console.log("1st stack")}>1st Stack</button>

@@ -1,72 +1,82 @@
-import { assign, setup, fromCallback } from 'xstate';
+import { assign, setup } from 'xstate';
 import generateRandomUniqueCards from "../utils/generateRandomCards";
 import type { Cards } from "../types/cards";
-import type { Context, Events } from '../types/cardTrickMachine'
+import type { Context, CardTrickEvents } from '../types/cardTrickMachine'
 
 const cardTrickMachine = setup({
   types: {
     context: {} as {
       cards: Cards;
     },
-    events: {} as Events
+    events: {} as CardTrickEvents
   },
   actions: {
     setRandomCards: assign({
       cards: () => generateRandomUniqueCards() as Cards
     }),
-    logCards: ({ context }: { context: Context }): void => {
-      console.log("Current cards in context:", context.cards);
-    },
+    logContext: ({ context }: { context: Context }): void => {
+      console.log("Current context:", context);
+    }
   }
 }).createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QGMCGAnCAVdBLZA1gHS4B2ALugPYDEAIgKICCAMgPoBKA8gKoBydNgEYA2gAYAuolAAHKrFzlcVUtJAAPREIBMATiLaAHDoCs2gMwAWMYaMB2ADQgAnlqF2il3d+8A2E3be5mJ2AL6hTmiYOPjEEGCoADYcVACupBBCNADiTFgAEgwcnLwC4lJIIHIKSipqmggm5vomYm3aIULmQpbaji5uHl4+uv6BusFhESBR2HiERFCo5AAWYOgp6RD0zOzc-ILa5WrVisqqlQ2GdtpEE3Zm2pbmvtYmJk6uCELuniOjASCIXCkQwc1iRHiSU2GW0O1YJQObHMx0qp1qF1ADR+uhMBmMRmsRl8dkM5k+gz+IzGQKmoOi8ziCWSaQy5hoHAYADVdqjZPIznVLloTL9XmJfJL-CZLIYxOSBt9fsMfDSJsCQSBSFR4vBKrMYoQTgKMfVEABaXwUhCWohte0Ox10mZgw3EMiUKjGmrnM0IXrWn4eEa9bQysTed6ag2MyHMmGZb2CzEaRDBQxEEy+MM-GyBQLy63GTP2jq6OxCMRebrR12xpardYJpOm4UIG54+5mHrlozGQO-EPaMPWSMmWsMiFQllbbQt31tyvvIh2fz+PQBVpkgfB-5q4KWCfghbThPmedCrFacx2DwPNo3yx2XqGSwDjMOgISoSGQySo9ukQ6BgAAbsyF4ptivg3nc2hCLoFi3rohgfIqPy+CuwxCK0vivhK-7hKEQA */
   id: 'cardTrick',
   initial: 'intro',
   context: {
-    cards: []
+    cards: [],
   },
+  entry: ['logContext'],
   states: {
     intro: { 
+      entry: ['logContext'],
       on: { DEAL_CARDS_1: 'dealCards1' } 
     },
     dealCards1: {
-      entry: ['setRandomCards', 'logCards'],
-      on: { ASK_COLUMN_1: 'askColumn1' }, 
+      entry: ['setRandomCards', 'logContext'],
+      after: {
+        4000: "askColumn1" // transition after 4 seconds
+      }
+      // on: { ASK_COLUMN_1: 'askColumn1' }, 
     },
     askColumn1: {
-      entry: [], // column buttons should appear
+      entry: ['logContext'], // column buttons should appear
       on: { GATHER_CARDS_1: 'gatherCards1' }, 
     },
     gatherCards1: {
-      entry: [], // we should receive the selected column and reshuffle cards...
+      entry: ['logContext'], // we should receive the selected column and reshuffle cards...
       on: { DEAL_CARDS_2: 'dealCards2' }, 
     },
     dealCards2: {
+      entry: ['logContext'],
       on: { ASK_COLUMN_2: 'askColumn2' }, 
     },
     askColumn2: {
-      entry: [], // column buttons should appear, or maybe they stay put...
+      entry: ['logContext'], // column buttons should appear, or maybe they stay put...
       on: { GATHER_CARDS_2: 'gatherCards2' }, 
     },
     gatherCards2: {
-      entry: [], // we should receive the selected column and reshuffle cards...
+      entry: ['logContext'], // we should receive the selected column and reshuffle cards...
       on: { DEAL_CARDS_3: 'dealCards3' }, 
     },
     dealCards3: {
+      entry: ['logContext'],
       on: { ASK_COLUMN_3: 'askColumn3' }, 
     },
     askColumn3: {
-      entry: [], // column buttons should appear, or maybe they stay put...
+      entry: ['logContext'], // column buttons should appear, or maybe they stay put...
       on: { GATHER_CARDS_3: 'gatherCards3' }, 
     },
     gatherCards3: {
-      entry: [], // we should receive the selected column and reshuffle cards...
+      entry: ['logContext'], // we should receive the selected column and reshuffle cards...
       on: { REVEAL: 'reveal' }, 
     },
     reveal: {
-      on: { DONE: 'done' }, // reveal animation 
+      entry: ['logContext'], // reveal animation 
+      on: { DONE: 'done' }, 
     },
-    done: { type: 'final' }
+    done: {
+      entry: ['logContext'],
+      type: 'final',
+    }
   }
 });
 

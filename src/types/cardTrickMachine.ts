@@ -2,10 +2,10 @@ import type { Cards } from './cards';
 
 export interface Context {
   selectedColumn?: number; // 0,1,2
-  cards: Cards,
+  cards: Cards;
 }
 
-export type Events =
+export type CardTrickEvents =
   | { type: "INTRO" }
   | { type: "DEAL_CARDS_1" }
   | { type: "ASK_COLUMN_1" }
