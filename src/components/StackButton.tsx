@@ -1,23 +1,39 @@
+import { motion, AnimatePresence } from "motion/react";
 import woodBackground from "../../public/images/beige-wooden-textured-flooring-background.jpg";
 
-function StackButton({ stackNumber }: { stackNumber: "1" | "2" | "3" }) {
+function StackButton({
+  stackNumber,
+  onClickCallback,
+}: {
+  stackNumber: "1" | "2" | "3";
+  onClickCallback: () => void;
+}) {
   return (
-    <button
-      className={`w-28 h-12
+    <AnimatePresence mode="wait">
+      <motion.button
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -12 }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        onClick={onClickCallback}
+        className={`
+        max-sm:w-[100px] max-md:w-[125px] w-[175px]
+        h-12
         magician-font
         cursor-pointer
-        scale-100 hover:scale-120
+        scale-100 hover:scale-110
         transition-transform duration-300
         uppercase 
         font-bold text-[36px] flex items-center 
         justify-center 
         bg-cover bg-center bg-no-repeat
         rounded-sm`}
-      style={{ backgroundImage: `url(${woodBackground})` }}
-    >
-      <span className="block mr-3">Stack</span>
-      <span>{stackNumber}</span>
-    </button>
+        style={{ backgroundImage: `url(${woodBackground})` }}
+      >
+        <span className="block mr-3">Stack</span>
+        <span>{stackNumber}</span>
+      </motion.button>
+    </AnimatePresence>
   );
 }
 

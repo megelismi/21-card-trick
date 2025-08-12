@@ -3,7 +3,7 @@ const cardTrickDialogue: Record<string, string> = {
   Ready to begin?`,
   dealCards1: "Here we go!",
   askColumn1:
-    `Ok pick a card in your mind, but don't tell me! Then tell me which stack it's in.`,
+    `Ok pick a card in your mind, but don't tell me! Just tell me which stack it's in.`,
   gatherCards1: "Interesting choice! Now let me shuffle the magic a little…",
   dealCards2: "Round 2!",
   askColumn2: "Do you see your card? Which stack is it in now?",

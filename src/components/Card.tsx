@@ -2,7 +2,7 @@ import type { Suit, Rank } from "../types/cards";
 
 export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (
-    <div className="flex flex-col items-center justify-between p-3 bg-white max-sm:w-[100px] max-sm:h-[150px]  max-md:w-[125px] max-md:h-[175px] w-[175px] h-[225px] border border-gray-500 rounded-sm shadow-sm">
+    <div className="crimson-text-semibold flex flex-col items-center justify-between p-3 bg-white max-sm:w-[100px] max-sm:h-[150px]  max-md:w-[125px] max-md:h-[175px] w-[175px] h-[225px] border border-gray-300 rounded-sm shadow-md">
       <Rank rank={rank} suit={suit} />
       <SuitIcon suit={suit} size="large" />
     </div>
