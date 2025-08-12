@@ -35,7 +35,6 @@ const cardTrickMachine = setup({
       after: {
         4000: "askColumn1" // transition after 4 seconds
       }
-      // on: { ASK_COLUMN_1: 'askColumn1' }, 
     },
     askColumn1: {
       entry: ['logContext'], // column buttons should appear
@@ -47,7 +46,9 @@ const cardTrickMachine = setup({
     },
     dealCards2: {
       entry: ['logContext'],
-      on: { ASK_COLUMN_2: 'askColumn2' }, 
+       after: {
+        4000: "askColumn2" // transition after 4 seconds
+      }
     },
     askColumn2: {
       entry: ['logContext'], // column buttons should appear, or maybe they stay put...
@@ -59,7 +60,9 @@ const cardTrickMachine = setup({
     },
     dealCards3: {
       entry: ['logContext'],
-      on: { ASK_COLUMN_3: 'askColumn3' }, 
+        after: {
+        4000: "askColumn3" // transition after 4 seconds
+      }
     },
     askColumn3: {
       entry: ['logContext'], // column buttons should appear, or maybe they stay put...
@@ -67,7 +70,9 @@ const cardTrickMachine = setup({
     },
     gatherCards3: {
       entry: ['logContext'], // we should receive the selected column and reshuffle cards...
-      on: { REVEAL: 'reveal' }, 
+      after: {
+        4000: "reveal" // transition after 4 seconds
+      }
     },
     reveal: {
       entry: ['logContext'], // reveal animation 
