@@ -1,9 +1,9 @@
-import "./App.css";
 import { useMachine } from "@xstate/react";
 import cardTrickMachine from "./machines/cardTrickMachine";
 import CardTable from "./components/CardTable";
 import DebugControls from "./components/DebugControls";
 import DialogueBox from "./components/DialogueBox";
+import StackButton from "./components/StackButton";
 
 function App() {
   const [state, send] = useMachine(cardTrickMachine);
@@ -15,6 +15,7 @@ function App() {
     <div className="flex flex-wrap justify-center  bg-green-700 p-2 h-screen">
       <DebugControls send={send} />
       <CardTable phase={phase} cards={cards} />
+      <StackButton stackNumber={"2"} />
       <DialogueBox phase={phase} />
     </div>
   );

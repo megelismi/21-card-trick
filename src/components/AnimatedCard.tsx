@@ -86,7 +86,7 @@ function AnimatedCard({
       key={index}
       className="absolute"
       initial={
-        phase === "dealRound1"
+        phase === "dealCards1"
           ? {
               x: -200, // start off-screen left
               y: finalY,

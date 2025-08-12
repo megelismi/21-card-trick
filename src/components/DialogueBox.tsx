@@ -14,9 +14,9 @@ function DialogueBox({ phase }: { phase: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35 }}
-            className="bg-black/60 text-white text-lg px-5 py-3 rounded-lg text-center"
+            className="magician-font bg-black/60 text-white text-[24px] px-5 py-3 rounded-lg"
           >
-            {text}
+            <p className="whitespace-pre-line">{text}</p>
           </motion.div>
         </AnimatePresence>
       </div>

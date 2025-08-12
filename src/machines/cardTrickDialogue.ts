@@ -1,12 +1,9 @@
 const cardTrickDialogue: Record<string, string> = {
-  intro: `Welcome! I'm going to show you the 21 Card Trick ✨"
-  I'll deal 21 cards into 3 stacks, 
-  then you'll pick a card in your mind...but don't tell me!
-  You just tell me which stack it's in. At the end we'll 
-  see if I can guess your card 🔮 Ready to begin?`,
+  intro: `Welcome! I'm going to show you the 21 Card Trick ✨ I'll deal 21 cards into 3 stacks, then you'll pick a card in your mind...but don't tell me! Just tell me which stack it's in. At the end we'll see if I can guess your card 🔮 \n
+  Ready to begin?`,
   dealCards1: "Here we go!",
   askColumn1:
-    "Ok pick a card in your mind, but remember don't tell me! Just tell which stack it's in.",
+    `Ok pick a card in your mind, but don't tell me! Then tell me which stack it's in.`,
   gatherCards1: "Interesting choice! Now let me shuffle the magic a little…",
   dealCards2: "Round 2!",
   askColumn2: "Do you see your card? Which stack is it in now?",

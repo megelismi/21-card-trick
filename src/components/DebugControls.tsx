@@ -16,12 +16,6 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
         Deal Cards 1
       </button>
       <button
-        onClick={() => send({ type: "ASK_COLUMN_1" })}
-        className="bg-blue-500 px-2 py-1 text-white"
-      >
-        Ask Column 1
-      </button>
-      <button
         onClick={() => send({ type: "GATHER_CARDS_1", selectedColumn: 2 })}
         className="bg-blue-500 px-2 py-1 text-white"
       >
@@ -34,12 +28,6 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
         Deal Cards 2
       </button>
       <button
-        onClick={() => send({ type: "ASK_COLUMN_2" })}
-        className="bg-blue-500 px-2 py-1 text-white"
-      >
-        Ask Column 2
-      </button>
-      <button
         onClick={() => send({ type: "GATHER_CARDS_2", selectedColumn: 2 })}
         className="bg-blue-500 px-2 py-1 text-white"
       >
@@ -50,12 +38,6 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
         className="bg-blue-500 px-2 py-1 text-white"
       >
         Deal Cards 3
-      </button>
-      <button
-        onClick={() => send({ type: "ASK_COLUMN_3" })}
-        className="bg-blue-500 px-2 py-1 text-white"
-      >
-        Ask Column 3
       </button>
       <button
         onClick={() => send({ type: "GATHER_CARDS_3", selectedColumn: 2 })}
@@ -78,5 +60,24 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
     </div>
   );
 }
+
+//  <button
+//     onClick={() => send({ type: "ASK_COLUMN_1" })}
+//     className="bg-blue-500 px-2 py-1 text-white"
+//   >
+//     Ask Column 1
+//   </button>
+//        <button
+//     onClick={() => send({ type: "ASK_COLUMN_2" })}
+//     className="bg-blue-500 px-2 py-1 text-white"
+//   >
+//     Ask Column 2
+//   </button>
+//     <button
+//     onClick={() => send({ type: "ASK_COLUMN_3" })}
+//     className="bg-blue-500 px-2 py-1 text-white"
+//   >
+//     Ask Column 3
+//   </button>
 
 export default DebugControls;
