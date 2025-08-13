@@ -5,17 +5,21 @@ import type { Context, CardTrickEvents } from '../types/cardTrickMachine'
 
 const cardTrickMachine = setup({
   types: {
-    context: {} as {
-      cards: Cards;
-    },
+    context: {} as Context,
     events: {} as CardTrickEvents
   },
   actions: {
     setRandomCards: assign({
       cards: () => generateRandomUniqueCards() as Cards
     }),
-    logContext: ({ context }: { context: Context }): void => {
+    setSelectedStack: assign({ 
+      selectedStack: ({ event }: { event: CardTrickEvents }) => {
+        return event.type === 'SELECT_STACK' ? event.selectedStack : null; 
+      } 
+    }),
+    logContext: ({ context, event }: { context: Context, event: CardTrickEvents }): void => {
       console.log("Current context:", context);
+      console.log("Current event", event.type);
     }
   }
 }).createMachine({
@@ -23,6 +27,7 @@ const cardTrickMachine = setup({
   initial: 'intro',
   context: {
     cards: [],
+    selectedStack: null,
   },
   entry: ['logContext'],
   states: {
@@ -33,12 +38,16 @@ const cardTrickMachine = setup({
     dealCards1: {
       entry: ['setRandomCards', 'logContext'],
       after: {
-        4000: "askColumn1" // transition after 4 seconds
+        3000: "askColumn1" // transition after 3 seconds
       }
     },
     askColumn1: {
-      entry: ['logContext'], // column buttons should appear
-      on: { GATHER_CARDS_1: 'gatherCards1' }, 
+      entry: ['logContext'], 
+      on: { GATHER_CARDS_1: 'gatherCards1', SELECT_STACK: 'selectStack' }, 
+    },
+    selectStack: {
+      entry: ['setSelectedStack', 'logContext'], 
+      target: 'gatherCards', // auto-advance here
     },
     gatherCards1: {
       entry: ['logContext'], // we should receive the selected column and reshuffle cards...
@@ -47,12 +56,12 @@ const cardTrickMachine = setup({
     dealCards2: {
       entry: ['logContext'],
        after: {
-        4000: "askColumn2" // transition after 4 seconds
+        3000: "askColumn2" // transition after 3 seconds
       }
     },
     askColumn2: {
-      entry: ['logContext'], // column buttons should appear, or maybe they stay put...
-      on: { GATHER_CARDS_2: 'gatherCards2' }, 
+      entry: ['logContext'], 
+      on: { GATHER_CARDS_2: 'gatherCards2', SELECT_STACK: 'selectStack' }, 
     },
     gatherCards2: {
       entry: ['logContext'], // we should receive the selected column and reshuffle cards...
@@ -61,17 +70,17 @@ const cardTrickMachine = setup({
     dealCards3: {
       entry: ['logContext'],
         after: {
-        4000: "askColumn3" // transition after 4 seconds
+        3000: "askColumn3" // transition after 3 seconds
       }
     },
     askColumn3: {
-      entry: ['logContext'], // column buttons should appear, or maybe they stay put...
-      on: { GATHER_CARDS_3: 'gatherCards3' }, 
+      entry: ['logContext'], 
+      on: { GATHER_CARDS_3: 'gatherCards3', SELECT_STACK: 'selectStack' }, 
     },
     gatherCards3: {
       entry: ['logContext'], // we should receive the selected column and reshuffle cards...
       after: {
-        4000: "reveal" // transition after 4 seconds
+        3000: "reveal" // transition after 3 seconds
       }
     },
     reveal: {

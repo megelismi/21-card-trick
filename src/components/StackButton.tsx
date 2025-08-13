@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from "motion/react";
-import woodBackground from "../../public/images/beige-wooden-textured-flooring-background.jpg";
+import woodBackground from "/images/beige-wooden-textured-flooring-background.jpg";
 
 function StackButton({
   stackNumber,
   onClickCallback,
 }: {
-  stackNumber: "1" | "2" | "3";
+  stackNumber: 1 | 2 | 3;
   onClickCallback: () => void;
 }) {
   return (
