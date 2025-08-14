@@ -15,7 +15,7 @@ function App() {
   const selectedStack = state.context.selectedStack;
 
   return (
-    <div className="flex flex-wrap justify-center  bg-green-700 p-2 h-screen">
+    <div className="flex flex-wrap justify-center p-2 h-screen">
       <DebugControls send={send} />
       <CardTable
         phase={phase}

@@ -6,6 +6,11 @@
 
 body {
   margin: 0 auto;
+  background-image: url("images/card-table-green-darker.png"); /* Relative path */
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: auto;
+  background-attachment: fixed;
 }
 
 .magician-font {
