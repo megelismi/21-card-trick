@@ -176,7 +176,7 @@ function AnimatedCard({
         if (!isChosen) {
           await animate(
             scope.current,
-            { opacity: 0.3, y: curY + offsetY, scale: 0.96 },
+            { opacity: 0.3, y: curY + offsetY + 6, scale: 0.96 },
             { duration: 0.22, ease: "easeOut" }
           );
           return;
@@ -186,7 +186,7 @@ function AnimatedCard({
         await animate(
           scope.current,
           {
-            y: curY + offsetY,
+            y: curY + offsetY - 24,
             scale: 1.08,
             filter: "drop-shadow(0 0 0px rgba(255,255,255,0))",
           },
@@ -196,7 +196,7 @@ function AnimatedCard({
         await animate(
           scope.current,
           {
-            scale: [1.06, 1.12, 1.0],
+            scale: [1.08, 1.12, 1.02],
             y: [curY + offsetY - 24, curY + offsetY - 30, curY + offsetY - 24],
             filter: [
               "drop-shadow(0 0 0px rgba(255,255,255,0))",
