@@ -66,7 +66,7 @@ function AnimatedCard({ phase, send, round, index, suit, rank }: Props) {
     return () => {
       cancelled = true; // prevents late callbacks after unmount/phase change
     };
-  }, [phase, round, finalX, finalY, animate, scope, index]);
+  }, [phase, round, finalX, finalY, animate, scope, index, send, isLastCard]);
 
   return (
     <motion.div
