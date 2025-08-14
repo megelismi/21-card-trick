@@ -1,7 +1,7 @@
 import { assign, setup } from 'xstate';
 import generateRandomUniqueCards from "../utils/generateRandomCards";
+import shuffleCardDeck from "../utils/shuffleCardDeck";
 import cardTrickDialogue from './cardTrickDialogue';
-import type { Cards } from "../types/cards";
 import type { CardTrickContext, CardTrickEvents } from '../types/cardTrickMachine'
 
 const cardTrickMachine = setup({
@@ -10,16 +10,41 @@ const cardTrickMachine = setup({
     events: {} as CardTrickEvents
   },
   actions: {
-    setIntroDialogue: assign({ dialogue: () => cardTrickDialogue.intro }),
-    setDealDialogue: assign({ dialogue: ({ context }) => cardTrickDialogue.deal(context.round) }),
-    setAskDialogue: assign({ dialogue: ({ context }) => cardTrickDialogue.ask(context.round) }),
-    setGatherDialogue: assign({ dialogue: ({ context }) => cardTrickDialogue.gather(context.round) }),
-    setRevealDialogue: assign({ dialogue: () => cardTrickDialogue.reveal }),
-    setDoneDialogue: assign({ dialogue: () => cardTrickDialogue.done }),
+    setIntroDialogue: assign({ 
+      dialogue: () => cardTrickDialogue.intro 
+    }),
+
+    setDealDialogue: assign({ 
+      dialogue: ({ context }: { context: CardTrickContext }) => {
+        return cardTrickDialogue.deal(context.round) 
+    }}),
+
+    setAskDialogue: assign({ 
+      dialogue: ({ context }: { context: CardTrickContext }) => {
+        return cardTrickDialogue.ask(context.round) 
+    }}),
+
+    setGatherDialogue: assign({ 
+      dialogue: ({ context }: { context: CardTrickContext }) => {
+        return cardTrickDialogue.gather(context.round) 
+    }}),
+
+    setRevealDialogue: assign({ 
+      dialogue: () => cardTrickDialogue.reveal 
+    }),
+
+    setDoneDialogue: assign({ 
+      dialogue: () => cardTrickDialogue.done 
+    }),
 
     setRandomCards: assign({
-      cards: () => generateRandomUniqueCards() as Cards
+      cards: () => generateRandomUniqueCards()
     }),
+
+    shuffleCards: assign({
+      cards: ({ context }: { context: CardTrickContext }) => {
+        return shuffleCardDeck({ cards: context.cards, selectedStack: context.selectedStack })
+    }}),
 
     setSelectedStack: assign({ 
       selectedStack: ({ event }: { event: CardTrickEvents }) => {
@@ -27,16 +52,17 @@ const cardTrickMachine = setup({
       } 
     }),
 
-     incrementRound: assign({
-      round: ({ context }: { context: CardTrickContext }) => (context.round < 3 ? ((context.round + 1) as 2 | 3) : context.round),
-    }),
+    incrementRound: assign({
+    round: ({ context }: { context: CardTrickContext }) => {
+      return context.round < 3 ? ((context.round + 1) as 2 | 3) : context.round; 
+    }}),
+
+    resetContext: assign({ round: 1 as const, selectedStack: null, dialogue: '' }),
 
     logContext: ({ context, event }: { context: CardTrickContext, event: CardTrickEvents }): void => {
       console.log("Current context:", context);
       console.log("Current event", event.type);
     },
-
-    resetContext: assign({ round: 1 as const, selectedStack: null, dialogue: '' }),
   },
   guards: {
     isLastRound: ({ context }: { context: CardTrickContext }) => context.round === 3,
@@ -69,7 +95,7 @@ const cardTrickMachine = setup({
       on: { SELECT_STACK: { actions: 'setSelectedStack', target: 'gather'} }, 
     },
     gather: {
-      entry: ['setGatherDialogue', 'logContext'], 
+      entry: ['shuffleCards', 'setGatherDialogue', 'logContext'], 
       // After a short beat (or after your gather animation), either loop to next round or reveal
       after: {
         3000: [

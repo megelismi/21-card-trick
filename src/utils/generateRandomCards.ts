@@ -1,16 +1,17 @@
+import type { Cards } from "../types/cards";
 import type { Suit, Rank } from "../types/cards";
 
-export default function generateRandomUniqueCards() {
+function generateRandomUniqueCards(): Cards {
     const suits: Suit[] = ["hearts", "diamonds", "clubs", "spades"];
     const ranks: Rank[] = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
     
-    const cards: { suit: string; rank: string; }[] = [];
+    const cards: Cards = [];
 
     // Generate 21 unique cards
     while (cards.length < 21) { 
-        const suit = suits[Math.floor(Math.random() * suits.length)];
-        const rank = ranks[Math.floor(Math.random() * ranks.length)];
-        const card = { suit, rank };
+        const suit: Suit = suits[Math.floor(Math.random() * suits.length)];
+        const rank: Rank = ranks[Math.floor(Math.random() * ranks.length)];
+        const card: { suit: Suit; rank: Rank } = { suit, rank };
 
         // Ensure the card is unique
         if (!cards.some(c => c.suit === suit && c.rank === rank)) {
@@ -20,3 +21,5 @@ export default function generateRandomUniqueCards() {
             
     return cards; 
 }
+
+export default generateRandomUniqueCards; 
