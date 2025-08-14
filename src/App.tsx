@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="flex flex-wrap justify-center  bg-green-700 p-2 h-screen">
       <DebugControls send={send} />
-      <CardTable phase={phase} cards={cards} round={round} />
+      <CardTable phase={phase} cards={cards} round={round} send={send} />
       <StackSelectors phase={phase} send={send} />
       <DialogueBox dialogue={dialogue} />
     </div>
