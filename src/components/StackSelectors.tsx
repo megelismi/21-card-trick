@@ -14,7 +14,6 @@ function StackSelectors({
   }
 
   const handleStackSelected = (selectedStack: SelectedStack): void => {
-    console.log("should be sending selectedStack", selectedStack);
     send({ type: "SELECT_STACK", selectedStack });
   };
 

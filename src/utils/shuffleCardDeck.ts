@@ -12,10 +12,6 @@ interface Args {
     // 2 [1, 2, 0]
 
 function shuffleCardDeck({ cards, selectedStack }: Args): Cards {
-    if (selectedStack === null) {
-        return cards; 
-    }
-
     const firstStack = [
         cards[0], 
         cards[3], 

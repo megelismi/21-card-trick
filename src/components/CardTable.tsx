@@ -2,16 +2,17 @@
 import AnimatedCard from "./AnimatedCard";
 import type { Cards } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
-import type { CardTrickEvents } from "../types/cardTrickMachine";
+import type { CardTrickEvents, SelectedStack } from "../types/cardTrickMachine";
 
 interface Props {
   phase: Phase; // Current phase from the machine
   cards: Cards;
   round: Round;
+  selectedStack: SelectedStack;
   send: (arg0: CardTrickEvents) => void;
 }
 
-const CardTable = ({ cards, phase, round, send }: Props) => {
+const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
   return (
     <div className="w-full flex justify-center">
       <div
@@ -24,6 +25,7 @@ const CardTable = ({ cards, phase, round, send }: Props) => {
         {cards.map((card, index) => (
           <AnimatedCard
             key={index}
+            selectedStack={selectedStack}
             rank={card.rank}
             suit={card.suit}
             phase={phase}

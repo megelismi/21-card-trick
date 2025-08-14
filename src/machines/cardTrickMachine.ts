@@ -48,7 +48,7 @@ const cardTrickMachine = setup({
 
     setSelectedStack: assign({ 
       selectedStack: ({ event }: { event: CardTrickEvents }) => {
-        return event.type === 'SELECT_STACK' ? event.selectedStack : null; 
+        return event.type === 'SELECT_STACK' ? event.selectedStack : 0; 
       } 
     }),
 
@@ -57,7 +57,7 @@ const cardTrickMachine = setup({
       return context.round < 3 ? ((context.round + 1) as 2 | 3) : context.round; 
     }}),
 
-    resetContext: assign({ round: 1 as const, selectedStack: null, dialogue: '' }),
+    resetContext: assign({ round: 1 as const, selectedStack: 0, dialogue: '' }),
 
     logContext: ({ context, event }: { context: CardTrickContext, event: CardTrickEvents }): void => {
       console.log("Current context:", context);
@@ -73,7 +73,7 @@ const cardTrickMachine = setup({
   initial: 'intro',
   context: {
     cards: [],
-    selectedStack: null,
+    selectedStack: 0,
     round: 1,
     dialogue: ''
   },
@@ -95,13 +95,10 @@ const cardTrickMachine = setup({
       on: { SELECT_STACK: { actions: 'setSelectedStack', target: 'gather'} }, 
     },
     gather: {
-      entry: ['shuffleCards', 'setGatherDialogue', 'logContext'], 
-      // After a short beat (or after your gather animation), either loop to next round or reveal
-      after: {
-        3000: [
-          { guard: 'notLastRound', actions: 'incrementRound', target: 'deal' },
-          { guard: 'isLastRound', target: 'reveal' }
-        ]
+      entry: ['setGatherDialogue', 'logContext'], 
+      on: { 
+        GATHER_DONE: { actions: ['shuffleCards', 'incrementRound'], target: 'deal' },
+        FINAL_GATHER_DONE: { actions: 'shuffleCards', target: 'reveal' }
       }
     },
     reveal: {

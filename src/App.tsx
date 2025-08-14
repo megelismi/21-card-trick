@@ -12,11 +12,18 @@ function App() {
   const cards = state.context.cards;
   const round = state.context.round;
   const dialogue = state.context.dialogue;
+  const selectedStack = state.context.selectedStack;
 
   return (
     <div className="flex flex-wrap justify-center  bg-green-700 p-2 h-screen">
       <DebugControls send={send} />
-      <CardTable phase={phase} cards={cards} round={round} send={send} />
+      <CardTable
+        phase={phase}
+        cards={cards}
+        round={round}
+        send={send}
+        selectedStack={selectedStack}
+      />
       <StackSelectors phase={phase} send={send} />
       <DialogueBox dialogue={dialogue} />
     </div>
