@@ -178,7 +178,7 @@ function AnimatedCard({
               y: finalY,
               opacity: 0,
             }
-          : {}
+          : undefined
       }
     >
       <Card suit={suit} rank={rank} />

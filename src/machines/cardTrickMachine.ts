@@ -97,9 +97,26 @@ const cardTrickMachine = setup({
     gather: {
       entry: ['setGatherDialogue', 'logContext'], 
       on: { 
-        GATHER_DONE: { actions: ['shuffleCards', 'incrementRound'], target: 'deal' },
-        FINAL_GATHER_DONE: { actions: 'shuffleCards', target: 'reveal' }
+        GATHER_DONE: { actions: ['shuffleCards'], target: 'pauseBeforeDeal' },
+        FINAL_GATHER_DONE: { actions: 'shuffleCards', target: 'pauseBeforeReveal' }
       }
+    },
+    pauseBeforeDeal: {
+      after: {
+        1700: {
+          // wait 1700ms before starting deal again
+          target: 'deal',
+          actions: 'incrementRound',
+        },
+      },
+    },
+    pauseBeforeReveal: {
+      after: {
+        2000: {
+          // wait 2000ms before starting reveal again
+          target: 'reveal',
+        },
+      },
     },
     reveal: {
       entry: ['setRevealDialogue','logContext'], // reveal animation 
