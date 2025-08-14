@@ -1,23 +1,21 @@
 import type { Cards } from './cards';
 
 export type SelectedStack = 0 | 1 | 2 | null; 
+export type Round = 1 | 2 | 3; 
+export type Phase = 'intro' | 'deal' | 'ask' | 'gather' | 'reveal' | 'done'; 
 
-export interface Context {
+export interface CardTrickContext {
   selectedStack: SelectedStack; 
   cards: Cards;
+  round: Round;
+  dialogue: string; 
 }
 
 export type CardTrickEvents =
-  | { type: "INTRO" }
-  | { type: "DEAL_CARDS_1" }
-  | { type: "ASK_COLUMN_1" }
-  | { type: "SELECT_STACK"; selectedStack: SelectedStack }
-  | { type: "GATHER_CARDS_1" }
-  | { type: "DEAL_CARDS_2" }
-  | { type: "ASK_COLUMN_2" }
-  | { type: "GATHER_CARDS_2" }
-  | { type: "DEAL_CARDS_3" }
-  | { type: "ASK_COLUMN_3" }
-  | { type: "GATHER_CARDS_3" }
+  | { type: "DEAL" }
+  | { type: "DEAL_DONE" }
+  | { type: "SELECT_STACK", selectedStack: SelectedStack }
   | { type: "REVEAL" }
-  | { type: "DONE" };
+  | { type: "TRICK_DONE" }
+  | { type: "RESET" }
+  

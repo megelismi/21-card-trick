@@ -4,46 +4,16 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
   return (
     <div className="absolute bottom-4 right-4 flex flex-col gap-2">
       <button
-        onClick={() => send({ type: "INTRO" })}
+        onClick={() => send({ type: "DEAL" })}
         className="bg-blue-500 p-3 rounded-sm uppercase text-white"
       >
-        Intro
+        Deal
       </button>
       <button
-        onClick={() => send({ type: "DEAL_CARDS_1" })}
+        onClick={() => send({ type: "DEAL_DONE" })}
         className="bg-blue-500 p-3 rounded-sm uppercase text-white"
       >
-        Deal Cards 1
-      </button>
-      <button
-        onClick={() => send({ type: "GATHER_CARDS_1", selectedColumn: 2 })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Gather Cards 1
-      </button>
-      <button
-        onClick={() => send({ type: "DEAL_CARDS_2" })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Deal Cards 2
-      </button>
-      <button
-        onClick={() => send({ type: "GATHER_CARDS_2", selectedColumn: 2 })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Gather Cards 2
-      </button>
-      <button
-        onClick={() => send({ type: "DEAL_CARDS_3" })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Deal Cards 3
-      </button>
-      <button
-        onClick={() => send({ type: "GATHER_CARDS_3", selectedColumn: 2 })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Gather Cards 3
+        Deal Done
       </button>
       <button
         onClick={() => send({ type: "REVEAL" })}
@@ -52,32 +22,19 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
         Reveal
       </button>
       <button
-        onClick={() => send({ type: "DONE" })}
+        onClick={() => send({ type: "TRICK_DONE" })}
         className="bg-blue-500 p-3 rounded-sm uppercase text-white"
       >
-        Done
+        Trick Done
+      </button>
+      <button
+        onClick={() => send({ type: "RESET" })}
+        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
+      >
+        Reset
       </button>
     </div>
   );
 }
-
-//  <button
-//     onClick={() => send({ type: "ASK_COLUMN_1" })}
-//     className="bg-blue-500 px-2 py-1 text-white"
-//   >
-//     Ask Column 1
-//   </button>
-//        <button
-//     onClick={() => send({ type: "ASK_COLUMN_2" })}
-//     className="bg-blue-500 px-2 py-1 text-white"
-//   >
-//     Ask Column 2
-//   </button>
-//     <button
-//     onClick={() => send({ type: "ASK_COLUMN_3" })}
-//     className="bg-blue-500 px-2 py-1 text-white"
-//   >
-//     Ask Column 3
-//   </button>
 
 export default DebugControls;

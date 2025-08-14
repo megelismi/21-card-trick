@@ -1,13 +1,15 @@
 // import { motion } from "motion/react";
 import AnimatedCard from "./AnimatedCard";
 import type { Cards } from "../types/cards";
+import type { Phase, Round } from "../types/cardTrickMachine";
 
 interface Props {
-  phase: string; // Current phase from the machine
+  phase: Phase; // Current phase from the machine
   cards: Cards;
+  round: Round;
 }
 
-const CardTable = ({ cards, phase }: Props) => {
+const CardTable = ({ cards, phase, round }: Props) => {
   return (
     <div className="w-full flex justify-center">
       <div
@@ -23,6 +25,7 @@ const CardTable = ({ cards, phase }: Props) => {
             rank={card.rank}
             suit={card.suit}
             phase={phase}
+            round={round}
             index={index}
           />
         ))}

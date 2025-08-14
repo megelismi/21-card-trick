@@ -1,26 +1,46 @@
 import { assign, setup } from 'xstate';
 import generateRandomUniqueCards from "../utils/generateRandomCards";
+import cardTrickDialogue from './cardTrickDialogue';
 import type { Cards } from "../types/cards";
-import type { Context, CardTrickEvents } from '../types/cardTrickMachine'
+import type { CardTrickContext, CardTrickEvents } from '../types/cardTrickMachine'
 
 const cardTrickMachine = setup({
   types: {
-    context: {} as Context,
+    context: {} as CardTrickContext,
     events: {} as CardTrickEvents
   },
   actions: {
+    setIntroDialogue: assign({ dialogue: () => cardTrickDialogue.intro }),
+    setDealDialogue: assign({ dialogue: ({ context }) => cardTrickDialogue.deal(context.round) }),
+    setAskDialogue: assign({ dialogue: ({ context }) => cardTrickDialogue.ask(context.round) }),
+    setGatherDialogue: assign({ dialogue: ({ context }) => cardTrickDialogue.gather(context.round) }),
+    setRevealDialogue: assign({ dialogue: () => cardTrickDialogue.reveal }),
+    setDoneDialogue: assign({ dialogue: () => cardTrickDialogue.done }),
+
     setRandomCards: assign({
       cards: () => generateRandomUniqueCards() as Cards
     }),
+
     setSelectedStack: assign({ 
       selectedStack: ({ event }: { event: CardTrickEvents }) => {
         return event.type === 'SELECT_STACK' ? event.selectedStack : null; 
       } 
     }),
-    logContext: ({ context, event }: { context: Context, event: CardTrickEvents }): void => {
+
+     incrementRound: assign({
+      round: ({ context }: { context: CardTrickContext }) => (context.round < 3 ? ((context.round + 1) as 2 | 3) : context.round),
+    }),
+
+    logContext: ({ context, event }: { context: CardTrickContext, event: CardTrickEvents }): void => {
       console.log("Current context:", context);
       console.log("Current event", event.type);
-    }
+    },
+
+    resetContext: assign({ round: 1 as const, selectedStack: null, dialogue: '' }),
+  },
+  guards: {
+    isLastRound: ({ context }: { context: CardTrickContext }) => context.round === 3,
+    notLastRound: ({ context }: { context: CardTrickContext }) => context.round < 3,
   }
 }).createMachine({
   id: 'cardTrick',
@@ -28,68 +48,45 @@ const cardTrickMachine = setup({
   context: {
     cards: [],
     selectedStack: null,
+    round: 1,
+    dialogue: ''
   },
   entry: ['logContext'],
   states: {
     intro: { 
-      entry: ['logContext'],
-      on: { DEAL_CARDS_1: 'dealCards1' } 
+      entry: ['setIntroDialogue', 'logContext'],
+      exit: ['setRandomCards', 'logContext'],
+      on: { DEAL: 'deal' } 
     },
-    dealCards1: {
-      entry: ['setRandomCards', 'logContext'],
+    deal: {
+      entry: ['setDealDialogue', 'logContext'],
+      on: {
+        DEAL_DONE: { target: 'ask' } // when deal animation finishes
+      }
+    },
+    ask: {
+      entry: ['setAskDialogue', 'logContext'], 
+      on: { SELECT_STACK: { actions: 'setSelectedStack', target: 'gather'} }, 
+    },
+    gather: {
+      entry: ['setGatherDialogue', 'logContext'], 
+      // After a short beat (or after your gather animation), either loop to next round or reveal
       after: {
-        3000: "askColumn1" // transition after 3 seconds
-      }
-    },
-    askColumn1: {
-      entry: ['logContext'], 
-      on: { GATHER_CARDS_1: 'gatherCards1', SELECT_STACK: 'selectStack' }, 
-    },
-    selectStack: {
-      entry: ['setSelectedStack', 'logContext'], 
-      target: 'gatherCards', // auto-advance here
-    },
-    gatherCards1: {
-      entry: ['logContext'], // we should receive the selected column and reshuffle cards...
-      on: { DEAL_CARDS_2: 'dealCards2' }, 
-    },
-    dealCards2: {
-      entry: ['logContext'],
-       after: {
-        3000: "askColumn2" // transition after 3 seconds
-      }
-    },
-    askColumn2: {
-      entry: ['logContext'], 
-      on: { GATHER_CARDS_2: 'gatherCards2', SELECT_STACK: 'selectStack' }, 
-    },
-    gatherCards2: {
-      entry: ['logContext'], // we should receive the selected column and reshuffle cards...
-      on: { DEAL_CARDS_3: 'dealCards3' }, 
-    },
-    dealCards3: {
-      entry: ['logContext'],
-        after: {
-        3000: "askColumn3" // transition after 3 seconds
-      }
-    },
-    askColumn3: {
-      entry: ['logContext'], 
-      on: { GATHER_CARDS_3: 'gatherCards3', SELECT_STACK: 'selectStack' }, 
-    },
-    gatherCards3: {
-      entry: ['logContext'], // we should receive the selected column and reshuffle cards...
-      after: {
-        3000: "reveal" // transition after 3 seconds
+        3000: [
+          { guard: 'notLastRound', actions: 'incrementRound', target: 'deal' },
+          { guard: 'isLastRound', target: 'reveal' }
+        ]
       }
     },
     reveal: {
-      entry: ['logContext'], // reveal animation 
-      on: { DONE: 'done' }, 
+      entry: ['setRevealDialogue','logContext'], // reveal animation 
+      on: { TRICK_DONE: { target: 'done' } }, 
     },
     done: {
-      entry: ['logContext'],
-      type: 'final',
+      entry: ['setDoneDialogue', 'logContext'],
+       on: {
+        RESET: { actions: 'resetContext', target: 'intro' },
+      },
     }
   }
 });

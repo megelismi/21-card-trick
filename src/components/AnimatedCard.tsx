@@ -2,18 +2,17 @@ import Card from "./Card";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
 import type { Rank, Suit } from "../types/cards";
+import type { Phase, Round } from "../types/cardTrickMachine";
 
-function AnimatedCard({
-  phase,
-  index,
-  suit,
-  rank,
-}: {
-  phase: string;
-  index: number;
+interface Props {
+  phase: Phase;
+  round: Round;
   suit: Suit;
   rank: Rank;
-}) {
+  index: number;
+}
+
+function AnimatedCard({ phase, round, index, suit, rank }: Props) {
   const [scope, animate] = useAnimate();
   // Column layout data
   const columnCount = 3; // this should be a constant
@@ -26,15 +25,8 @@ function AnimatedCard({
   const finalX = column * (cardWidth + 150); // 15px space between columns TODO: this will need to change based on screen size
   const finalY = row * overlap; // overlap vertically
 
-  // TODO: put these phases into constants
-  const isDealingCards =
-    phase === "dealCards1" || phase === "dealCards2" || phase === "dealCards3";
-  const isGatheringRound = phase === "gatherCards1" || phase === "gatherCards2";
-  const isFinalGather = phase === "gatherCards3";
-  const isReveal = phase === "reveal";
-
   useEffect(() => {
-    if (isDealingCards) {
+    if (phase === "deal") {
       animate(
         scope.current,
         {
@@ -48,37 +40,14 @@ function AnimatedCard({
           ease: "easeOut",
         }
       );
-    } else if (isGatheringRound) {
-      // gather the cards up
-      //   animate(
-      //     scope.current,
-      //     {
-      //       x: finalX,
-      //       y: finalY,
-      //       opacity: 1,
-      //     },
-      //     {
-      //       duration: 0.5,
-      //       delay: index * 0.1, // stagger each card
-      //       ease: "easeOut",
-      //     }
-      //   );
-    } else if (isFinalGather) {
+    } else if (phase === "gather" && round === 3) {
       // this is the final gather things go off screen
-    } else if (isReveal) {
+    } else if (phase === "gather") {
+      // gather the cards up
+    } else if (phase === "reveal") {
       // revealAnimation
     }
-  }, [
-    isDealingCards,
-    isGatheringRound,
-    isFinalGather,
-    isReveal,
-    finalX,
-    finalY,
-    animate,
-    scope,
-    index,
-  ]);
+  }, [phase, round, finalX, finalY, animate, scope, index]);
 
   return (
     <motion.div
@@ -86,7 +55,7 @@ function AnimatedCard({
       key={index}
       className="absolute"
       initial={
-        phase === "dealCards1"
+        phase === "deal" && round === 1
           ? {
               x: -200, // start off-screen left
               y: finalY,
