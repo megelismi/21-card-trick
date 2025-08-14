@@ -1,5 +1,5 @@
-// import { motion } from "motion/react";
 import AnimatedCard from "./AnimatedCard";
+import { useRef } from "react";
 import type { Cards } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
 import type { CardTrickEvents, SelectedStack } from "../types/cardTrickMachine";
@@ -13,10 +13,15 @@ interface Props {
 }
 
 const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
+  const tableRef = useRef<HTMLDivElement>(
+    null
+  ) as React.RefObject<HTMLDivElement>;
+
   return (
     <div className="w-full flex justify-center">
       <div
-        className="grid grid-cols-3 gap-4 mt-4"
+        ref={tableRef}
+        className="grid grid-cols-3 gap-4 mt-4 relative"
         style={{
           maxWidth: "727px",
           width: "100%",
@@ -32,6 +37,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
             round={round}
             send={send}
             index={index}
+            tableRef={tableRef}
           />
         ))}
       </div>

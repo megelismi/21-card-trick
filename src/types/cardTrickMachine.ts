@@ -2,7 +2,15 @@ import type { Cards } from './cards';
 
 export type SelectedStack = 0 | 1 | 2; 
 export type Round = 1 | 2 | 3; 
-export type Phase = 'intro' | 'deal' | 'ask' | 'gather' | 'reveal' | 'done'; 
+export type Phase = 
+| 'intro' 
+| 'deal' 
+| 'ask' 
+| 'gather' 
+| 'pauseBeforeDeal' 
+| 'pauseBeforeReveal' 
+| 'reveal' 
+| 'done'; 
 
 export interface CardTrickContext {
   selectedStack: SelectedStack; 
@@ -18,6 +26,7 @@ export type CardTrickEvents =
   | { type: "GATHER_DONE" }
   | { type: "FINAL_GATHER_DONE" }
   | { type: "REVEAL" }
+  | { type: "REVEAL_DONE" }
   | { type: "TRICK_DONE" }
   | { type: "RESET" }
   

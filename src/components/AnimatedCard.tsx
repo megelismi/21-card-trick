@@ -13,6 +13,7 @@ interface Props {
   selectedStack: SelectedStack;
   send: (arg0: CardTrickEvents) => void;
   index: number;
+  tableRef: React.RefObject<HTMLDivElement>;
 }
 
 function AnimatedCard({
@@ -23,6 +24,7 @@ function AnimatedCard({
   suit,
   rank,
   selectedStack,
+  tableRef,
 }: Props) {
   const [scope, animate] = useAnimate();
   // ----- Layout constants (tune these) -----
@@ -134,11 +136,78 @@ function AnimatedCard({
           }
         );
         if (!cancelled && orderIndex === 2 && row === 0) {
-          console.log("final gather done!!");
           send({ type: "FINAL_GATHER_DONE" });
         }
       } else if (phase === "reveal") {
-        // revealAnimation
+        const chosenIndex = 10;
+        const isChosen = index === chosenIndex;
+
+        // wait a tick to ensure any previous transforms/layout are applied
+        await new Promise((r) => requestAnimationFrame(r));
+
+        // 1) Measure table center (page coords)
+        const tableRect = tableRef.current?.getBoundingClientRect();
+        const tableCenterX = tableRect
+          ? tableRect.left + tableRect.width / 2
+          : 0;
+        const tableCenterY = tableRect
+          ? tableRect.top + tableRect.height / 2
+          : 0;
+
+        // 2) Measure this card center (page coords)
+        const cardRect = scope.current?.getBoundingClientRect();
+        const cardCenterX = cardRect ? cardRect.left + cardRect.width / 2 : 0;
+        const cardCenterY = cardRect ? cardRect.top + cardRect.height / 2 : 0;
+
+        // 3) Compute the *offset* needed to move the card to the table center
+        const offsetX = tableCenterX - cardCenterX;
+        const offsetY = tableCenterY - cardCenterY;
+
+        // 4) Read current translate so we can set an *absolute* target
+        const { x: curX, y: curY } = getCurrentTranslate(scope.current);
+
+        // 5) Move entire pile to exact center (tiny stagger for flavor)
+        await animate(
+          scope.current,
+          { x: curX + offsetX, y: curY + offsetY },
+          { duration: 0.45, delay: index * 0.01, ease: "easeInOut" }
+        );
+
+        if (!isChosen) {
+          await animate(
+            scope.current,
+            { opacity: 0.3, y: curY + offsetY, scale: 0.96 },
+            { duration: 0.22, ease: "easeOut" }
+          );
+          return;
+        }
+
+        // Chosen card: lift + glow + bounce
+        await animate(
+          scope.current,
+          {
+            y: curY + offsetY,
+            scale: 1.08,
+            filter: "drop-shadow(0 0 0px rgba(255,255,255,0))",
+          },
+          { duration: 0.3, ease: "easeOut" }
+        );
+
+        await animate(
+          scope.current,
+          {
+            scale: [1.06, 1.12, 1.0],
+            y: [curY + offsetY - 24, curY + offsetY - 30, curY + offsetY - 24],
+            filter: [
+              "drop-shadow(0 0 0px rgba(255,255,255,0))",
+              "drop-shadow(0 0 12px rgba(255,255,255,0.9))",
+              "drop-shadow(0 0 0px rgba(255,255,255,0))",
+            ],
+          },
+          { duration: 0.5, ease: "easeOut" }
+        );
+
+        send({ type: "REVEAL_DONE" }); // if you want to finish here
       }
     })();
 
@@ -163,6 +232,7 @@ function AnimatedCard({
     cornerY,
     foldDuration,
     moveDuration,
+    tableRef,
   ]);
 
   return (
@@ -170,7 +240,13 @@ function AnimatedCard({
       ref={scope}
       key={index}
       className="absolute"
-      style={phase === "gather" ? { zIndex: zDuringGather } : undefined}
+      style={
+        phase === "gather"
+          ? { zIndex: zDuringGather }
+          : index === 10 && (phase === "reveal" || phase === "done")
+          ? { zIndex: 999 }
+          : undefined
+      }
       initial={
         phase === "deal" && round === 1
           ? {
@@ -184,6 +260,14 @@ function AnimatedCard({
       <Card suit={suit} rank={rank} />
     </motion.div>
   );
+}
+
+function getCurrentTranslate(el: Element | null) {
+  if (!el) return { x: 0, y: 0 };
+  const t = window.getComputedStyle(el).transform;
+  if (!t || t === "none") return { x: 0, y: 0 };
+  const m = new DOMMatrixReadOnly(t);
+  return { x: m.m41, y: m.m42 }; // translateX, translateY
 }
 
 // Helper (co-locate or import)

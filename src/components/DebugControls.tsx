@@ -9,24 +9,6 @@ function DebugControls({ send }: { send: (arg0: CardTrickEvents) => void }) {
       >
         Deal
       </button>
-      <button
-        onClick={() => send({ type: "REVEAL" })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Reveal
-      </button>
-      <button
-        onClick={() => send({ type: "TRICK_DONE" })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Trick Done
-      </button>
-      <button
-        onClick={() => send({ type: "RESET" })}
-        className="bg-blue-500 p-3 rounded-sm uppercase text-white"
-      >
-        Reset
-      </button>
     </div>
   );
 }

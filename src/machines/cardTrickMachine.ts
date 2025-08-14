@@ -97,7 +97,7 @@ const cardTrickMachine = setup({
     gather: {
       entry: ['setGatherDialogue', 'logContext'], 
       on: { 
-        GATHER_DONE: { actions: ['shuffleCards'], target: 'pauseBeforeDeal' },
+        GATHER_DONE: { actions: 'shuffleCards', target: 'pauseBeforeDeal' },
         FINAL_GATHER_DONE: { actions: 'shuffleCards', target: 'pauseBeforeReveal' }
       }
     },
@@ -120,7 +120,7 @@ const cardTrickMachine = setup({
     },
     reveal: {
       entry: ['setRevealDialogue','logContext'], // reveal animation 
-      on: { TRICK_DONE: { target: 'done' } }, 
+      on: { REVEAL_DONE: { target: 'done' } }, 
     },
     done: {
       entry: ['setDoneDialogue', 'logContext'],
