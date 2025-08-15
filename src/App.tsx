@@ -24,7 +24,6 @@ function App() {
         send={send}
         selectedStack={selectedStack}
       />
-      <StackSelectors phase={phase} send={send} />
       <DialogueBox dialogue={dialogue} />
     </div>
   );

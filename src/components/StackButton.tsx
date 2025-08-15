@@ -1,12 +1,15 @@
 import { motion, AnimatePresence } from "motion/react";
 import woodBackground from "/images/wood-button-background.png";
+import type { SelectedStack } from "../types/cardTrickMachine";
 
 function StackButton({
   stackNumber,
   onClickCallback,
+  phase,
 }: {
-  stackNumber: 1 | 2 | 3;
+  stackNumber: SelectedStack;
   onClickCallback: () => void;
+  phase: string;
 }) {
   return (
     <AnimatePresence mode="wait">
@@ -28,10 +31,13 @@ function StackButton({
         justify-center 
         bg-cover bg-center bg-no-repeat
         rounded-sm`}
-        style={{ backgroundImage: `url(${woodBackground})` }}
+        style={{
+          opacity: phase === "ask" ? 1 : 0,
+          backgroundImage: `url(${woodBackground})`,
+        }}
       >
         <span className="block mr-3">Stack</span>
-        <span>{stackNumber}</span>
+        <span>{stackNumber + 1}</span>
       </motion.button>
     </AnimatePresence>
   );

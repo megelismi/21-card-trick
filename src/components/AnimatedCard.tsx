@@ -10,7 +10,8 @@ interface Props {
   round: Round;
   suit: Suit;
   rank: Rank;
-  selectedStack: SelectedStack;
+  selectedStack: SelectedStack; // the stack numer that has been selected by the user
+  stackNumber: SelectedStack; // the stack number this card is in
   send: (arg0: CardTrickEvents) => void;
   index: number;
   tableRef: React.RefObject<HTMLDivElement>;
@@ -23,12 +24,13 @@ function AnimatedCard({
   index,
   suit,
   rank,
+  stackNumber,
   selectedStack,
   tableRef,
 }: Props) {
   const [scope, animate] = useAnimate();
   // ----- Layout constants (tune these) -----
-  const columnCount = 3; // this should be a constant
+
   const rowsPerStack = 7;
   const cardWidth = 125; // TODO: this should be grabbed dynamically
   const overlap = 70; // vertical overlap in px, this should change based on media queries
@@ -36,11 +38,12 @@ function AnimatedCard({
   const cornerY = 0;
 
   // ----- Derived per-card info -----
-  const column = index % columnCount; // 0,1,2
-  const row = Math.floor(index / columnCount); // 0..6
-  const finalX = column * (cardWidth + 150); // 15px space between columns TODO: this will need to change based on screen size
+  const column = stackNumber;
+  const row = index; // 0..6
+
   const finalY = row * overlap; // overlap vertically
-  const isLastCardOverall = index === 20;
+
+  const isLastCardOverall = column === 2 && index === 6;
 
   // ----- Gather choreography timing -----
   const [s0, s1, s2] = getStackOrder(selectedStack);
@@ -72,7 +75,7 @@ function AnimatedCard({
         await animate(
           scope.current,
           {
-            x: finalX,
+            x: 0,
             y: finalY,
             opacity: 1,
           },
@@ -83,6 +86,8 @@ function AnimatedCard({
           }
         );
 
+        console.log({ cancelled, isLastCardOverall });
+
         // only the last card should advance the state
         if (!cancelled && isLastCardOverall) {
           send({ type: "DEAL_DONE" });
@@ -91,7 +96,7 @@ function AnimatedCard({
         // 1) Fold each stack up so all rows end at the top card's Y (0 within the column)
         await animate(
           scope.current,
-          { x: finalX, y: 0 }, // x stays at column, y collapses to top card
+          { x: 0, y: 0 }, // x stays at column, y collapses to top card
           {
             duration: foldDuration,
             delay: foldDelayForThisCard,
@@ -119,7 +124,7 @@ function AnimatedCard({
         // Similar pattern, but after reaching corner you might slide offscreen or to reveal spot:
         await animate(
           scope.current,
-          { x: finalX, y: 0 },
+          { x: 0, y: 0 },
           {
             duration: foldDuration,
             delay: foldDelayForThisCard,
@@ -139,8 +144,7 @@ function AnimatedCard({
           send({ type: "FINAL_GATHER_DONE" });
         }
       } else if (phase === "reveal") {
-        const chosenIndex = 10;
-        const isChosen = index === chosenIndex;
+        const isChosen = column === 1 && index === 3; // the 11th card in the pile
 
         // wait a tick to ensure any previous transforms/layout are applied
         await new Promise((r) => requestAnimationFrame(r));
@@ -218,7 +222,7 @@ function AnimatedCard({
     phase,
     round,
     index,
-    finalX,
+    column,
     finalY,
     animate,
     scope,
@@ -239,13 +243,15 @@ function AnimatedCard({
     <motion.div
       ref={scope}
       key={index}
-      className="absolute"
+      className="absolute left-1/2 -translate-x-1/2"
       style={
         phase === "gather"
           ? { zIndex: zDuringGather }
-          : index === 10 && (phase === "reveal" || phase === "done")
+          : index === 3 &&
+            column === 1 &&
+            (phase === "reveal" || phase === "done")
           ? { zIndex: 999 }
-          : undefined
+          : { zIndex: 0 }
       }
       initial={
         phase === "deal" && round === 1
