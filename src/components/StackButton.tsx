@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import woodBackground from "/images/beige-wooden-textured-flooring-background.jpg";
+import woodBackground from "/images/wood-button-background.png";
 
 function StackButton({
   stackNumber,
