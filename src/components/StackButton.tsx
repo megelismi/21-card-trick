@@ -31,8 +31,8 @@ function StackButton({
           duration: 0.8, // Animation duration
           delay: 0.5, // Delay before animation starts
           ease: [0, 0.71, 0.2, 1.01], // Custom easing curve
-          type: "spring", // Use a spring animation
-          stiffness: 200, // Adjust spring stiffness
+          type: "spring",
+          stiffness: 200, // Spring stiffness
         }}
         onClick={onClickCallback}
         className={`
