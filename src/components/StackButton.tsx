@@ -16,17 +16,9 @@ function StackButton({
 
   useEffect(() => {
     if (phase === "ask") {
-      animate(
-        scope.current,
-        { opacity: 1, y: 0 },
-        { duration: 0.35, ease: "easeInOut" }
-      );
+      animate(scope.current, { opacity: 1, scale: 1 });
     } else {
-      animate(
-        scope.current,
-        { opacity: 0, y: -12 },
-        { duration: 0.35, ease: "easeInOut" }
-      );
+      animate(scope.current, { opacity: 0, scale: 0.6 });
     }
   }, [phase, animate, scope]);
 
@@ -34,7 +26,14 @@ function StackButton({
     <AnimatePresence mode="wait">
       <motion.button
         ref={scope}
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, scale: 0.6 }}
+        transition={{
+          duration: 0.8, // Animation duration
+          delay: 0.5, // Delay before animation starts
+          ease: [0, 0.71, 0.2, 1.01], // Custom easing curve
+          type: "spring", // Use a spring animation
+          stiffness: 200, // Adjust spring stiffness
+        }}
         onClick={onClickCallback}
         className={`
         max-sm:w-[100px] max-md:w-[125px] w-[175px]
