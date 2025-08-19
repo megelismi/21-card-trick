@@ -263,7 +263,7 @@ function getStackOrder(selected: 0 | 1 | 2): [number, number, number] {
 }
 
 // measure → diff → animate to viewport corner
-function getViewportDelta(el: Element, targetLeft = 12, targetTop = 12) {
+function getViewportDelta(el: Element, targetLeft = 24, targetTop = 24) {
   const rect = (el as HTMLElement).getBoundingClientRect();
   return { dx: targetLeft - rect.left, dy: targetTop - rect.top };
 }

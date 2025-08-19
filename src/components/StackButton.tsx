@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect } from "react";
+import { motion, AnimatePresence, useAnimate } from "motion/react";
 import woodBackground from "/images/wood-button-background.png";
 import type { SelectedStack } from "../types/cardTrickMachine";
 
@@ -11,13 +12,29 @@ function StackButton({
   onClickCallback: () => void;
   phase: string;
 }) {
+  const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    if (phase === "ask") {
+      animate(
+        scope.current,
+        { opacity: 1, y: 0 },
+        { duration: 0.35, ease: "easeInOut" }
+      );
+    } else {
+      animate(
+        scope.current,
+        { opacity: 0, y: -12 },
+        { duration: 0.35, ease: "easeInOut" }
+      );
+    }
+  }, [phase, animate, scope]);
+
   return (
     <AnimatePresence mode="wait">
       <motion.button
+        ref={scope}
         initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.35, ease: "easeInOut" }}
         onClick={onClickCallback}
         className={`
         max-sm:w-[100px] max-md:w-[125px] w-[175px]
@@ -32,7 +49,6 @@ function StackButton({
         bg-cover bg-center bg-no-repeat
         rounded-sm`}
         style={{
-          opacity: phase === "ask" ? 1 : 0,
           backgroundImage: `url(${woodBackground})`,
         }}
       >
