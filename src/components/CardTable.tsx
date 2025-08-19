@@ -14,15 +14,9 @@ interface Props {
 }
 
 // TODO: clean up
-function getStack({
-  cards,
-  stackNumber,
-}: {
-  cards: Cards;
-  stackNumber: number;
-}) {
-  if (stackNumber === 0) {
-    return [
+function getStack(cards: Cards) {
+  return {
+    firstStack: [
       cards[0],
       cards[3],
       cards[6],
@@ -30,9 +24,8 @@ function getStack({
       cards[12],
       cards[15],
       cards[18],
-    ];
-  } else if (stackNumber === 1) {
-    return [
+    ],
+    secondStack: [
       cards[1],
       cards[4],
       cards[7],
@@ -40,18 +33,17 @@ function getStack({
       cards[13],
       cards[16],
       cards[19],
-    ];
-  }
-
-  return [
-    cards[2],
-    cards[5],
-    cards[8],
-    cards[11],
-    cards[14],
-    cards[17],
-    cards[20],
-  ];
+    ],
+    thirdStack: [
+      cards[2],
+      cards[5],
+      cards[8],
+      cards[11],
+      cards[14],
+      cards[17],
+      cards[20],
+    ],
+  };
 }
 
 const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
@@ -60,21 +52,17 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
   ) as React.RefObject<HTMLDivElement>;
 
   if (cards.length !== 21) {
-    // don't render this component if our cards have not been populated
+    // don't render this component if our 21 cards have not been populated
     return null;
   }
 
-  const firstStack = getStack({ cards, stackNumber: 0 });
-  const secondStack = getStack({ cards, stackNumber: 1 });
-  const thirdStack = getStack({ cards, stackNumber: 2 });
-
-  console.log({ firstStack, secondStack, thirdStack });
+  const { firstStack, secondStack, thirdStack } = getStack(cards);
 
   return (
     <div className="w-full flex justify-center">
       <div
         ref={tableRef}
-        className="grid grid-cols-3 gap-4 mt-4 border border-b-blue-300"
+        className="grid grid-cols-3 mt-4 "
         style={{
           maxWidth: "727px",
           width: "100%",

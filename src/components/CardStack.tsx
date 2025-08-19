@@ -19,7 +19,7 @@ function CardStack({
   };
 
   return (
-    <div className="flex flex-col justify-between items-center border border-amber-500 max-h-[740px]">
+    <div className="flex flex-col justify-between items-center max-h-[740px]">
       <div
         className="relative cursor-pointer"
         onClick={() => handleStackSelected(stackNumber)}

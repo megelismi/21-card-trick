@@ -32,7 +32,7 @@ function AnimatedCard({
   // ----- Layout constants (tune these) -----
 
   const rowsPerStack = 7;
-  const cardWidth = 125; // TODO: this should be grabbed dynamically
+  // const cardWidth = 125; // TODO: this should be grabbed dynamically
   const overlap = 70; // vertical overlap in px, this should change based on media queries
   const cornerX = -320;
   const cornerY = 0;
@@ -68,11 +68,9 @@ function AnimatedCard({
   const zDuringGather = 10 + orderIndex;
 
   // during this phase, the user's chosen card will be the 11th card in the pile
-
+  // located in column 1 at index 3
   const isTheChosenCard =
     (phase === "reveal" || phase === "done") && column === 1 && index === 3;
-
-  console.log("isTheChosenCard", isTheChosenCard);
 
   useEffect(() => {
     let cancelled = false;
