@@ -29,10 +29,9 @@ function AnimatedCard({
   tableRef,
 }: Props) {
   const [scope, animate] = useAnimate();
-  // ----- Layout constants (tune these) -----
 
+  // ----- Layout constants (tune these) -----
   const rowsPerStack = 7;
-  // const cardWidth = 125; // TODO: this should be grabbed dynamically
   const overlap = 70; // vertical overlap in px, this should change based on media queries
   const cornerX = -320;
   const cornerY = 0;
@@ -67,7 +66,7 @@ function AnimatedCard({
   // For z-index layering: later stack on top (arrive later = higher z)
   const zDuringGather = 10 + orderIndex;
 
-  // during this phase, the user's chosen card will be the 11th card in the pile
+  // during the reveal/done phase, the user's chosen card will be the 11th card in the pile
   // located in column 1 at index 3
   const isTheChosenCard =
     (phase === "reveal" || phase === "done") && column === 1 && index === 3;
@@ -91,42 +90,12 @@ function AnimatedCard({
           }
         );
 
-        console.log({ cancelled, isLastCardOverall });
-
         // only the last card should advance the state
         if (!cancelled && isLastCardOverall) {
           send({ type: "DEAL_DONE" });
         }
-      } else if (phase === "gather" && round < 3) {
-        // 1) Fold each stack up so all rows end at the top card's Y (0 within the column)
-        await animate(
-          scope.current,
-          { x: 0, y: 0 }, // x stays at column, y collapses to top card
-          {
-            duration: foldDuration,
-            delay: foldDelayForThisCard,
-            ease: "easeInOut",
-          }
-        );
-
-        // 2) Move that whole stack to the left corner together (same delay for all rows in stack)
-        await animate(
-          scope.current,
-          { x: cornerX, y: cornerY },
-          {
-            duration: moveDuration,
-            delay: moveDelayForThisCard - (foldDelayForThisCard + foldDuration),
-            ease: "easeInOut",
-          }
-        );
-
-        // Only one card should notify the machine that ALL stacks are done.
-        // Choose a single representative: the last stack (orderIndex === 2) and the top card (row === 0)
-        if (!cancelled && orderIndex === 2 && row === 0) {
-          send({ type: "GATHER_DONE" });
-        }
-      } else if (phase === "gather" && round === 3) {
-        // Similar pattern, but after reaching corner you might slide offscreen or to reveal spot:
+      } else if (phase === "gather") {
+        // 1) fold to top card in column
         await animate(
           scope.current,
           { x: 0, y: 0 },
@@ -136,17 +105,25 @@ function AnimatedCard({
             ease: "easeInOut",
           }
         );
+
+        // 2) move the pile to the viewport corner
+        await new Promise((r) => requestAnimationFrame(r)); // ensure layout is up-to-date
+
+        const { x: curX, y: curY } = getCurrentTranslate(scope.current);
+        const { dx, dy } = getViewportDelta(scope.current, 24, 24); // tweak as desired for mobile
+
         await animate(
           scope.current,
-          { x: cornerX, y: cornerY, opacity: 1 },
+          { x: curX + dx, y: curY + dy },
           {
             duration: moveDuration,
             delay: moveDelayForThisCard - (foldDelayForThisCard + foldDuration),
             ease: "easeInOut",
           }
         );
+
         if (!cancelled && orderIndex === 2 && row === 0) {
-          send({ type: "FINAL_GATHER_DONE" });
+          send({ type: round === 3 ? "FINAL_GATHER_DONE" : "GATHER_DONE" });
         }
       } else if (phase === "reveal") {
         // wait a tick to ensure any previous transforms/layout are applied
@@ -214,7 +191,7 @@ function AnimatedCard({
           { duration: 0.5, ease: "easeOut" }
         );
 
-        send({ type: "REVEAL_DONE" }); // if you want to finish here
+        send({ type: "REVEAL_DONE" });
       }
     })();
 
@@ -283,6 +260,12 @@ function getStackOrder(selected: 0 | 1 | 2): [number, number, number] {
   if (selected === 0) return [1, 0, 2];
   if (selected === 1) return [0, 1, 2];
   return [1, 2, 0];
+}
+
+// measure → diff → animate to viewport corner
+function getViewportDelta(el: Element, targetLeft = 12, targetTop = 12) {
+  const rect = (el as HTMLElement).getBoundingClientRect();
+  return { dx: targetLeft - rect.left, dy: targetTop - rect.top };
 }
 
 export default AnimatedCard;
