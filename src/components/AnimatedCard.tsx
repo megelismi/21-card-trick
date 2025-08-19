@@ -39,6 +39,7 @@ function AnimatedCard({
   // ----- Derived per-card info -----
   const column = stackNumber;
   const row = index; // 0..6
+  const cardIndex = row * 3 + column;
 
   const finalY = row * overlap; // overlap vertically
 
@@ -85,7 +86,7 @@ function AnimatedCard({
           },
           {
             duration: 0.5,
-            delay: index * 0.1, // stagger each card
+            delay: cardIndex * 0.1, // stagger each card
             ease: "easeOut",
           }
         );
@@ -235,7 +236,7 @@ function AnimatedCard({
       initial={
         phase === "deal" && round === 1
           ? {
-              x: -200, // start off-screen left
+              x: -600, // start off-screen left
               y: finalY,
               opacity: 0,
             }

@@ -103,8 +103,8 @@ const cardTrickMachine = setup({
     },
     pauseBeforeDeal: {
       after: {
-        1700: {
-          // wait 1700ms before starting deal again
+        500: {
+          // wait 500ms before starting deal again
           target: 'deal',
           actions: 'incrementRound',
         },
