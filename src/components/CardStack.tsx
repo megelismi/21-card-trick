@@ -21,9 +21,14 @@ function CardStack({
   return (
     <div className="flex flex-col justify-between items-center border border-amber-500 max-h-[740px]">
       <div
-        className="scale-100 hover:scale-103
-        transition-transform duration-300 relative cursor-pointer"
+        className="relative cursor-pointer"
         onClick={() => handleStackSelected(stackNumber)}
+        style={{
+          zIndex:
+            (phase === "reveal" || phase === "done") && stackNumber === 1
+              ? 9000
+              : 1,
+        }}
       >
         {children}
       </div>
@@ -35,5 +40,8 @@ function CardStack({
     </div>
   );
 }
+
+// scale-100 hover:scale-103
+//         transition-transform duration-300
 
 export default CardStack;

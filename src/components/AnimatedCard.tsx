@@ -67,6 +67,13 @@ function AnimatedCard({
   // For z-index layering: later stack on top (arrive later = higher z)
   const zDuringGather = 10 + orderIndex;
 
+  // during this phase, the user's chosen card will be the 11th card in the pile
+
+  const isTheChosenCard =
+    (phase === "reveal" || phase === "done") && column === 1 && index === 3;
+
+  console.log("isTheChosenCard", isTheChosenCard);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -144,8 +151,6 @@ function AnimatedCard({
           send({ type: "FINAL_GATHER_DONE" });
         }
       } else if (phase === "reveal") {
-        const isChosen = column === 1 && index === 3; // the 11th card in the pile
-
         // wait a tick to ensure any previous transforms/layout are applied
         await new Promise((r) => requestAnimationFrame(r));
 
@@ -177,7 +182,7 @@ function AnimatedCard({
           { duration: 0.45, delay: index * 0.01, ease: "easeInOut" }
         );
 
-        if (!isChosen) {
+        if (!isTheChosenCard) {
           await animate(
             scope.current,
             { opacity: 0.3, y: curY + offsetY + 6, scale: 0.96 },
@@ -237,6 +242,7 @@ function AnimatedCard({
     foldDuration,
     moveDuration,
     tableRef,
+    isTheChosenCard,
   ]);
 
   return (
@@ -247,11 +253,9 @@ function AnimatedCard({
       style={
         phase === "gather"
           ? { zIndex: zDuringGather }
-          : index === 3 &&
-            column === 1 &&
-            (phase === "reveal" || phase === "done")
+          : isTheChosenCard
           ? { zIndex: 999 }
-          : { zIndex: 0 }
+          : undefined
       }
       initial={
         phase === "deal" && round === 1

@@ -74,7 +74,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
     <div className="w-full flex justify-center">
       <div
         ref={tableRef}
-        className="grid grid-cols-3 gap-4 mt-4 relative border border-b-blue-300"
+        className="grid grid-cols-3 gap-4 mt-4 border border-b-blue-300"
         style={{
           maxWidth: "727px",
           width: "100%",
