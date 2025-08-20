@@ -70,36 +70,19 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
         }}
       >
         {[0, 1, 2].map((stackNumber: SelectedStack) => {
-          const cardsInStack = cardStacks[stackNumber];
+          const cardsInCurrentStack = cardStacks[stackNumber];
 
           return (
             <CardStack
               key={`stack-${stackNumber}`}
               phase={phase}
+              round={round}
               send={send}
               stackNumber={stackNumber}
-            >
-              {cardsInStack.map((card, row) => {
-                // the index of this card in the stack of 21
-                const cardIndex = row * CARDS_PER_ROW + stackNumber;
-
-                return (
-                  <AnimatedCard
-                    key={cardIndex}
-                    cardIndex={cardIndex} // 0...21
-                    column={stackNumber} // 0...2
-                    row={row} // 0...6
-                    selectedStack={selectedStack} // the current stack the user selected
-                    rank={card.rank}
-                    suit={card.suit}
-                    phase={phase}
-                    round={round}
-                    send={send}
-                    tableRef={tableRef}
-                  />
-                );
-              })}
-            </CardStack>
+              selectedStack={selectedStack}
+              tableRef={tableRef}
+              cards={cardsInCurrentStack}
+            />
           );
         })}
       </div>

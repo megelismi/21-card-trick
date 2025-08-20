@@ -1,21 +1,31 @@
 import { useState } from "react";
-import StackButton from "./StackButton";
 import { motion } from "motion/react";
-import type { ReactNode } from "react";
-import type { CardTrickEvents } from "../types/cardTrickMachine";
+import AnimatedCard from "./AnimatedCard";
+import StackButton from "./StackButton";
+import { CARDS_PER_ROW } from "../constants/cards";
+import type { Cards } from "../types/cards";
+import type { CardTrickEvents, Phase, Round } from "../types/cardTrickMachine";
 import type { SelectedStack } from "../types/cardTrickMachine";
+
+interface Props {
+  phase: Phase;
+  cards: Cards;
+  round: Round;
+  stackNumber: SelectedStack;
+  selectedStack: SelectedStack;
+  send: (arg0: CardTrickEvents) => void;
+  tableRef: React.RefObject<HTMLDivElement>;
+}
 
 function CardStack({
   phase,
-  children,
+  cards,
+  round,
   stackNumber,
+  selectedStack,
   send,
-}: {
-  phase: string;
-  children: ReactNode;
-  stackNumber: SelectedStack;
-  send: (arg0: CardTrickEvents) => void;
-}) {
+  tableRef,
+}: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleStackSelected = (selectedStack: SelectedStack): void => {
@@ -48,7 +58,26 @@ function CardStack({
           filter: isHovered ? "brightness(1.05)" : "",
         }}
       >
-        {children}
+        {cards.map((card, row) => {
+          // the index of this card in the stack of 21
+          const cardIndex = row * CARDS_PER_ROW + stackNumber;
+
+          return (
+            <AnimatedCard
+              key={cardIndex}
+              cardIndex={cardIndex} // 0...21
+              column={stackNumber} // 0...2
+              row={row} // 0...6
+              selectedStack={selectedStack} // the current stack the user selected
+              rank={card.rank}
+              suit={card.suit}
+              phase={phase}
+              round={round}
+              send={send}
+              tableRef={tableRef}
+            />
+          );
+        })}
       </motion.div>
       <StackButton
         isHovered={isHovered}
