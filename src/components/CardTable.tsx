@@ -73,7 +73,12 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
           const cardsInStack = cardStacks[stackNumber];
 
           return (
-            <CardStack phase={phase} send={send} stackNumber={stackNumber}>
+            <CardStack
+              key={`stack-${stackNumber}`}
+              phase={phase}
+              send={send}
+              stackNumber={stackNumber}
+            >
               {cardsInStack.map((card, row) => {
                 // the index of this card in the stack of 21
                 const cardIndex = row * CARDS_PER_ROW + stackNumber;
@@ -101,56 +106,5 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
     </div>
   );
 };
-
-{
-  /* <CardStack phase={phase} send={send} stackNumber={0}>
-          {firstStack.map((card, index) => (
-            <AnimatedCard
-              key={index}
-              selectedStack={selectedStack}
-              stackNumber={0}
-              rank={card.rank}
-              suit={card.suit}
-              phase={phase}
-              round={round}
-              send={send}
-              row={index} // 0...6
-              tableRef={tableRef}
-            />
-          ))}
-        </CardStack>
-        <CardStack phase={phase} send={send} stackNumber={1}>
-          {secondStack.map((card, index) => (
-            <AnimatedCard
-              key={index}
-              selectedStack={selectedStack}
-              stackNumber={1}
-              rank={card.rank}
-              suit={card.suit}
-              phase={phase}
-              round={round}
-              send={send}
-              row={index} // 0...6
-              tableRef={tableRef}
-            />
-          ))}
-        </CardStack>
-        <CardStack phase={phase} send={send} stackNumber={2}>
-          {thirdStack.map((card, index) => (
-            <AnimatedCard
-              key={index}
-              selectedStack={selectedStack}
-              stackNumber={2}
-              rank={card.rank}
-              suit={card.suit}
-              phase={phase}
-              round={round}
-              send={send}
-              row={index} // 0...6
-              tableRef={tableRef}
-            />
-          ))}
-        </CardStack> */
-}
 
 export default CardTable;

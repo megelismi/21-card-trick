@@ -126,12 +126,14 @@ function AnimatedCard({
         const { x: curX, y: curY } = getCurrentTranslate(scope.current);
         const { dx, dy } = getViewportDelta(scope.current, 24, 24); // tweak as desired for mobile
 
+        const moveDelayForThisStack = orderIndex * 0.5;
+
         await animate(
           scope.current,
           { x: curX + dx, y: curY + dy },
           {
             duration: moveDuration,
-            delay: moveDelayForThisCard,
+            delay: moveDelayForThisStack,
             ease: "easeInOut",
           }
         );

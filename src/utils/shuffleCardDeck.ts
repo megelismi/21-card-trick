@@ -11,6 +11,7 @@ interface Args {
     // 1 [0, 1, 2]
     // 2 [1, 2, 0]
 
+
 function shuffleCardDeck({ cards, selectedStack }: Args): Cards {
     const firstStack = [
         cards[0], 
