@@ -2,7 +2,7 @@ import Card from "./Card";
 import useCssVarPx from "../hooks/useCssVarPx";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
-import { CARDS_PER_ROW, ROWS_PER_STACK } from "../constants/cards";
+import { ROWS_PER_STACK } from "../constants/cards";
 import type { Rank, Suit } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
 import type { SelectedStack, CardTrickEvents } from "../types/cardTrickMachine";
@@ -13,9 +13,10 @@ interface Props {
   suit: Suit;
   rank: Rank;
   selectedStack: SelectedStack; // the stack numer that has been selected by the user
-  stackNumber: SelectedStack; // the stack number this card is in
+  column: SelectedStack; // 0..2, column this card is in
+  cardIndex: number; // 0...20, where this card fall in the stack of 21
   send: (arg0: CardTrickEvents) => void;
-  row: number;
+  row: number; // 0...6
   tableRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -26,7 +27,8 @@ function AnimatedCard({
   row,
   suit,
   rank,
-  stackNumber,
+  column,
+  cardIndex,
   selectedStack,
   tableRef,
 }: Props) {
@@ -37,8 +39,6 @@ function AnimatedCard({
   const overlap = useCssVarPx("--overlap", 70);
 
   // ----- Derived per-card info -----
-  const column = stackNumber;
-  const cardIndex = row * 3 + column; // the index of this card in the stack of 21
   const isLastCardOverall = column === 2 && row === 6; // the 21st card on the screen
 
   // ----- Gather choreography timing -----
@@ -57,6 +57,7 @@ function AnimatedCard({
     orderIndex * (foldTotal + moveDuration + betweenStacksGap);
   const foldDelayForThisCard =
     stackStartTime + (rowsPerStack - 1 - row) * foldStaggerPerCard;
+
   const moveStartTime = stackStartTime + foldTotal; // all rows start moving together
   const moveDelayForThisCard = moveStartTime;
 
@@ -130,7 +131,7 @@ function AnimatedCard({
           { x: curX + dx, y: curY + dy },
           {
             duration: moveDuration,
-            delay: moveDelayForThisCard - (foldDelayForThisCard + foldDuration),
+            delay: moveDelayForThisCard,
             ease: "easeInOut",
           }
         );

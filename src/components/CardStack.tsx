@@ -5,18 +5,6 @@ import type { ReactNode } from "react";
 import type { CardTrickEvents } from "../types/cardTrickMachine";
 import type { SelectedStack } from "../types/cardTrickMachine";
 
-// const lift = {
-//   rest: {
-//     boxShadow: "0 2px 8px rgba(0,0,0,0.25), inset 0 0 0 rgba(255,255,255,0)",
-//     filter: "brightness(1)",
-//   },
-//   hover: {
-//     boxShadow:
-//       "0 20px 60px rgba(0,0,0,0.6), inset 0 0 24px rgba(255,255,255,0.35)",
-//     filter: "brightness(1.05)",
-//   },
-// };
-
 function CardStack({
   phase,
   children,

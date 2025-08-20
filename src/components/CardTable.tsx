@@ -4,6 +4,7 @@ import { useRef } from "react";
 import type { Cards } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
 import type { CardTrickEvents, SelectedStack } from "../types/cardTrickMachine";
+import { CARDS_PER_ROW } from "../constants/cards";
 
 interface Props {
   phase: Phase; // Current phase from the machine
@@ -14,9 +15,9 @@ interface Props {
 }
 
 // TODO: clean up
-function getStack(cards: Cards) {
+function getCardStacks(cards: Cards) {
   return {
-    firstStack: [
+    0: [
       cards[0],
       cards[3],
       cards[6],
@@ -25,7 +26,7 @@ function getStack(cards: Cards) {
       cards[15],
       cards[18],
     ],
-    secondStack: [
+    1: [
       cards[1],
       cards[4],
       cards[7],
@@ -34,7 +35,7 @@ function getStack(cards: Cards) {
       cards[16],
       cards[19],
     ],
-    thirdStack: [
+    2: [
       cards[2],
       cards[5],
       cards[8],
@@ -56,7 +57,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
     return null;
   }
 
-  const { firstStack, secondStack, thirdStack } = getStack(cards);
+  const cardStacks = getCardStacks(cards);
 
   return (
     <div className="w-full flex justify-center">
@@ -68,7 +69,41 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
           width: "100%",
         }}
       >
-        <CardStack phase={phase} send={send} stackNumber={0}>
+        {[0, 1, 2].map((stackNumber: SelectedStack) => {
+          const cardsInStack = cardStacks[stackNumber];
+
+          return (
+            <CardStack phase={phase} send={send} stackNumber={stackNumber}>
+              {cardsInStack.map((card, row) => {
+                // the index of this card in the stack of 21
+                const cardIndex = row * CARDS_PER_ROW + stackNumber;
+
+                return (
+                  <AnimatedCard
+                    key={cardIndex}
+                    cardIndex={cardIndex} // 0...21
+                    column={stackNumber} // 0...2
+                    row={row} // 0...6
+                    selectedStack={selectedStack} // the current stack the user selected
+                    rank={card.rank}
+                    suit={card.suit}
+                    phase={phase}
+                    round={round}
+                    send={send}
+                    tableRef={tableRef}
+                  />
+                );
+              })}
+            </CardStack>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+{
+  /* <CardStack phase={phase} send={send} stackNumber={0}>
           {firstStack.map((card, index) => (
             <AnimatedCard
               key={index}
@@ -115,10 +150,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
               tableRef={tableRef}
             />
           ))}
-        </CardStack>
-      </div>
-    </div>
-  );
-};
+        </CardStack> */
+}
 
 export default CardTable;
