@@ -13,6 +13,43 @@ body {
   background-attachment: fixed;
 }
 
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-style: normal;
+  line-height: 1;
+  font-weight: 400;
+
+  color: #213547;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --card-w: 175px;
+  --card-h: 225px;
+  --overlap: 75px;
+  --stack-button-gap: 7;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --card-w: 125px;
+    --card-h: 175px;
+    --overlap: 65px;
+    --stack-button-gap: 7.5;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --card-w: 100px;
+    --card-h: 150px;
+    --overlap: 55px;
+  }
+}
+
 .magician-font {
   font-family: "Smythe", system-ui;
 }
@@ -51,19 +88,4 @@ body {
   font-family: "Crimson Text", serif;
   font-weight: 700;
   font-style: italic;
-}
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-style: normal;
-  line-height: 1;
-  font-weight: 400;
-
-  color: #213547;
-  background-color: #ffffff;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }

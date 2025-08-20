@@ -2,7 +2,12 @@ import type { Suit, Rank } from "../types/cards";
 
 export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (
-    <div className="crimson-text-semibold flex flex-col items-center justify-between p-3 bg-white max-sm:w-[100px] max-sm:h-[150px]  max-md:w-[125px] max-md:h-[175px] w-[175px] h-[225px] border border-gray-300 rounded-sm shadow-md">
+    <div
+      className={`crimson-text-semibold flex flex-col 
+        items-center justify-between p-3 bg-white 
+        w-[var(--card-w)] h-[var(--card-h)] border border-gray-300 
+        rounded-sm shadow-md`}
+    >
       <Rank rank={rank} suit={suit} />
       <SuitIcon suit={suit} size="large" />
     </div>
@@ -35,7 +40,7 @@ function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
   return (
     <div
       className={
-        `leading-none ${
+        `leading-none mt-[5px] ${
           suit === "hearts" || suit === "diamonds"
             ? "text-red-500"
             : "text-gray-900"

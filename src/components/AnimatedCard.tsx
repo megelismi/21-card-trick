@@ -1,4 +1,5 @@
 import Card from "./Card";
+import useCssVarPx from "../hooks/useCssVarPx";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
 import type { Rank, Suit } from "../types/cards";
@@ -32,7 +33,11 @@ function AnimatedCard({
 
   // ----- Layout constants (tune these) -----
   const rowsPerStack = 7;
-  const overlap = 70; // vertical overlap in px, this should change based on media queries
+
+  const overlap = useCssVarPx("--overlap", 70);
+
+  console.log("OVERLAP", overlap);
+
   const cornerX = -320;
   const cornerY = 0;
 
@@ -203,6 +208,7 @@ function AnimatedCard({
     phase,
     round,
     index,
+    cardIndex,
     column,
     finalY,
     animate,
@@ -267,6 +273,15 @@ function getStackOrder(selected: 0 | 1 | 2): [number, number, number] {
 function getViewportDelta(el: Element, targetLeft = 24, targetTop = 24) {
   const rect = (el as HTMLElement).getBoundingClientRect();
   return { dx: targetLeft - rect.left, dy: targetTop - rect.top };
+}
+
+function getCssVarPx(el: HTMLElement, name: string, fallback = 40) {
+  console.log("el", el);
+  // const v = getComputedStyle(el).getPropertyValue(name);
+  // const n = parseFloat(v);
+  // return Number.isFinite(n) ? n : fallback;
+
+  return fallback;
 }
 
 export default AnimatedCard;

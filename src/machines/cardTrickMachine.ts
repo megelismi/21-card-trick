@@ -112,8 +112,8 @@ const cardTrickMachine = setup({
     },
     pauseBeforeReveal: {
       after: {
-        2000: {
-          // wait 2000ms before starting reveal again
+        4000: {
+          // wait 4000ms before starting reveal again
           target: 'reveal',
         },
       },
