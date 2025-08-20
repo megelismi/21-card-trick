@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 function readCssVarPx(name: string, fallback = 0): number {
   const v = getComputedStyle(document.documentElement)
     .getPropertyValue(name)
-    .trim();                  // important: remove leading/trailing whitespace
-  const n = Number.parseFloat(v); // "70px" -> 70
+    .trim();                 
+  const n = Number.parseFloat(v); // "75px" -> 75
   return Number.isFinite(n) ? n : fallback;
 }
 

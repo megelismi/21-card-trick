@@ -10,3 +10,6 @@ export const SHUFFLE_ORDER = {
     1: [0, 1, 2],
     2: [1, 2, 0],
 }
+
+export const ROWS_PER_STACK = 7; 
+export const CARDS_PER_ROW = 3; 

@@ -79,7 +79,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
               phase={phase}
               round={round}
               send={send}
-              index={index}
+              row={index} // 0...6
               tableRef={tableRef}
             />
           ))}
@@ -95,7 +95,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
               phase={phase}
               round={round}
               send={send}
-              index={index}
+              row={index} // 0...6
               tableRef={tableRef}
             />
           ))}
@@ -111,7 +111,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
               phase={phase}
               round={round}
               send={send}
-              index={index}
+              row={index} // 0...6
               tableRef={tableRef}
             />
           ))}

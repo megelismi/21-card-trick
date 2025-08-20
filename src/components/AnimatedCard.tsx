@@ -2,6 +2,7 @@ import Card from "./Card";
 import useCssVarPx from "../hooks/useCssVarPx";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
+import { CARDS_PER_ROW, ROWS_PER_STACK } from "../constants/cards";
 import type { Rank, Suit } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
 import type { SelectedStack, CardTrickEvents } from "../types/cardTrickMachine";
@@ -14,7 +15,7 @@ interface Props {
   selectedStack: SelectedStack; // the stack numer that has been selected by the user
   stackNumber: SelectedStack; // the stack number this card is in
   send: (arg0: CardTrickEvents) => void;
-  index: number;
+  row: number;
   tableRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -22,7 +23,7 @@ function AnimatedCard({
   phase,
   send,
   round,
-  index,
+  row,
   suit,
   rank,
   stackNumber,
@@ -32,23 +33,13 @@ function AnimatedCard({
   const [scope, animate] = useAnimate();
 
   // ----- Layout constants (tune these) -----
-  const rowsPerStack = 7;
-
+  const rowsPerStack = ROWS_PER_STACK;
   const overlap = useCssVarPx("--overlap", 70);
-
-  console.log("OVERLAP", overlap);
-
-  const cornerX = -320;
-  const cornerY = 0;
 
   // ----- Derived per-card info -----
   const column = stackNumber;
-  const row = index; // 0..6
-  const cardIndex = row * 3 + column;
-
-  const finalY = row * overlap; // overlap vertically
-
-  const isLastCardOverall = column === 2 && index === 6;
+  const cardIndex = row * 3 + column; // the index of this card in the stack of 21
+  const isLastCardOverall = column === 2 && row === 6; // the 21st card on the screen
 
   // ----- Gather choreography timing -----
   const [s0, s1, s2] = getStackOrder(selectedStack);
@@ -73,21 +64,37 @@ function AnimatedCard({
   const zDuringGather = 10 + orderIndex;
 
   // during the reveal/done phase, the user's chosen card will be the 11th card in the pile
-  // located in column 1 at index 3
+  // located in column 1 at row 3
   const isTheChosenCard =
-    (phase === "reveal" || phase === "done") && column === 1 && index === 3;
+    (phase === "reveal" || phase === "done") && column === 1 && row === 3;
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       if (phase === "deal") {
+        // wait a tick so layout/positions are correct
+        await new Promise((r) => requestAnimationFrame(r));
+
+        // 1) read current translate (whatever it is)
+        const { x: curX, y: curY } = getCurrentTranslate(scope.current);
+
+        // 2) compute how far to move this card to the viewport TL corner
+        const { dx, dy } = getViewportDelta(scope.current, 24, 24);
+
+        // 3) SNAP to the corner (no animation / no flash)
+        await animate(
+          scope.current,
+          { x: curX + dx, y: curY + dy },
+          { duration: 0 }
+        );
+
+        // 4) Now animate the "deal" from the corner to its column/row
         await animate(
           scope.current,
           {
             x: 0,
-            y: finalY,
-            opacity: 1,
+            y: row * overlap, // vertical overlap
           },
           {
             duration: 0.5,
@@ -96,7 +103,6 @@ function AnimatedCard({
           }
         );
 
-        // only the last card should advance the state
         if (!cancelled && isLastCardOverall) {
           send({ type: "DEAL_DONE" });
         }
@@ -115,6 +121,7 @@ function AnimatedCard({
         // 2) move the pile to the viewport corner
         await new Promise((r) => requestAnimationFrame(r)); // ensure layout is up-to-date
 
+        // Top left corner coordinates for card stack
         const { x: curX, y: curY } = getCurrentTranslate(scope.current);
         const { dx, dy } = getViewportDelta(scope.current, 24, 24); // tweak as desired for mobile
 
@@ -160,7 +167,7 @@ function AnimatedCard({
         await animate(
           scope.current,
           { x: curX + offsetX, y: curY + offsetY },
-          { duration: 0.45, delay: index * 0.01, ease: "easeInOut" }
+          { duration: 0.45, delay: row * 0.01, ease: "easeInOut" }
         );
 
         if (!isTheChosenCard) {
@@ -207,20 +214,17 @@ function AnimatedCard({
   }, [
     phase,
     round,
-    index,
+    row,
+    overlap,
     cardIndex,
     column,
-    finalY,
     animate,
     scope,
     isLastCardOverall,
     foldDelayForThisCard,
     moveDelayForThisCard,
     orderIndex,
-    row,
     send,
-    cornerX,
-    cornerY,
     foldDuration,
     moveDuration,
     tableRef,
@@ -230,7 +234,7 @@ function AnimatedCard({
   return (
     <motion.div
       ref={scope}
-      key={index}
+      key={cardIndex}
       className="absolute left-1/2 -translate-x-1/2"
       style={
         phase === "gather"
@@ -239,15 +243,7 @@ function AnimatedCard({
           ? { zIndex: 999 }
           : undefined
       }
-      initial={
-        phase === "deal" && round === 1
-          ? {
-              x: -600, // start off-screen left
-              y: finalY,
-              opacity: 0,
-            }
-          : undefined
-      }
+      initial={false}
     >
       <Card suit={suit} rank={rank} />
     </motion.div>
@@ -273,15 +269,6 @@ function getStackOrder(selected: 0 | 1 | 2): [number, number, number] {
 function getViewportDelta(el: Element, targetLeft = 24, targetTop = 24) {
   const rect = (el as HTMLElement).getBoundingClientRect();
   return { dx: targetLeft - rect.left, dy: targetTop - rect.top };
-}
-
-function getCssVarPx(el: HTMLElement, name: string, fallback = 40) {
-  console.log("el", el);
-  // const v = getComputedStyle(el).getPropertyValue(name);
-  // const n = parseFloat(v);
-  // return Number.isFinite(n) ? n : fallback;
-
-  return fallback;
 }
 
 export default AnimatedCard;
