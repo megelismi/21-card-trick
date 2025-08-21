@@ -1,10 +1,8 @@
-import AnimatedCard from "./AnimatedCard";
 import CardStack from "./CardStack";
 import { useRef } from "react";
 import type { Cards } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
 import type { CardTrickEvents, SelectedStack } from "../types/cardTrickMachine";
-import { CARDS_PER_ROW } from "../constants/cards";
 
 interface Props {
   phase: Phase; // Current phase from the machine
