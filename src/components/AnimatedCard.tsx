@@ -1,6 +1,6 @@
 import Card from "./Card";
 import useCssVarPx from "../hooks/useCssVarPx";
-import { Anim } from "../animation/animationConfig";
+import { Anim } from "../config/animation";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
 import type { Rank, Suit } from "../types/cards";

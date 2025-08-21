@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import AnimatedCard from "./AnimatedCard";
 import StackButton from "./StackButton";
-import { Anim } from "../animation/animationConfig";
+import { Anim } from "../config/animation";
 import { CARDS_PER_ROW } from "../constants/cards";
 import type { Cards } from "../types/cards";
 import type { CardTrickEvents, Phase, Round } from "../types/cardTrickMachine";
