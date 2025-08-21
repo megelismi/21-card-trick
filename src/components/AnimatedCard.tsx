@@ -87,16 +87,19 @@ function AnimatedCard({
           send({ type: "DEAL_DONE" });
         }
       } else if (phase === "gather") {
-        // ----- Gather choreography timing -----
+        // ----- Gather timing variables -----
         const [s0, s1, s2] = Anim.util.getStackOrder(selectedStack);
         const orderIndex = [s0, s1, s2].indexOf(column); // 0,1,2
 
-        const stackStartTime = Anim.util.stackStartTime(orderIndex); // absolute start for this stack
+        // absolute start for this stack
+        const stackStartTime = Anim.util.stackStartTime(orderIndex);
         const foldDelayForThisCard = Anim.util.foldDelayForThisCard({
           stackStartTime,
-          row, // still stagger fold bottom->top
+          row, // stagger fold bottom -> top
         });
-        const moveStartTime = stackStartTime + Anim.util.foldTotal(); // << SAME for all rows in this stack
+
+        // same start time for all rows in this stack
+        const moveStartTime = stackStartTime + Anim.util.foldTotal();
 
         // Precompute corner delta once (any time before the sequence runs)
         await new Promise((r) => requestAnimationFrame(r));
@@ -110,7 +113,7 @@ function AnimatedCard({
 
         if (row === 0) onMoveStart?.();
 
-        // Sequence: fold (staggered by row), then move (ONE start time for entire stack)
+        // (1) fold vertically (staggered by row)
         await animate([
           [
             scope.current,
@@ -121,6 +124,7 @@ function AnimatedCard({
               ease: Anim.fold.ease,
             },
           ],
+          // (2) move (ONE start time for entire stack)
           [
             scope.current,
             { x: curX + dx, y: curY + dy },
