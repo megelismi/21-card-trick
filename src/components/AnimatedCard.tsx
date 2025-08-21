@@ -1,5 +1,7 @@
 import Card from "./Card";
 import useCssVarPx from "../hooks/useCssVarPx";
+// AnimatedCard.tsx (snippets)
+import { Anim } from "../animation/animationConfig";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
 import { ROWS_PER_STACK } from "../constants/cards";
@@ -34,38 +36,13 @@ function AnimatedCard({
 }: Props) {
   const [scope, animate] = useAnimate();
 
-  // ----- Layout constants (tune these) -----
-  const rowsPerStack = ROWS_PER_STACK;
+  // ----- Layout constants s-----
   const overlap = useCssVarPx("--overlap", 70);
 
   // ----- Derived per-card info -----
   const isLastCardOverall = column === 2 && row === 6; // the 21st card on the screen
-
-  // ----- Gather choreography timing -----
-  const [s0, s1, s2] = getStackOrder(selectedStack);
-  const orderIndex = [s0, s1, s2].indexOf(column); // 0=first stack to move, 1=middle(selected), 2=last
-
-  // Folding bottom -> top (row 6 first, row 0 last)
-  const foldStaggerPerCard = 0.05;
-  const foldDuration = 0.25;
-  const foldTotal = foldDuration + foldStaggerPerCard * (rowsPerStack - 1); //time from the first card start to the last card finish
-
-  const moveDuration = 0.4;
-  const betweenStacksGap = 0.1; // small pause between stacks starting
-
-  const stackStartTime =
-    orderIndex * (foldTotal + moveDuration + betweenStacksGap);
-  const foldDelayForThisCard =
-    stackStartTime + (rowsPerStack - 1 - row) * foldStaggerPerCard;
-
-  const moveStartTime = stackStartTime + foldTotal; // all rows start moving together
-  const moveDelayForThisCard = moveStartTime;
-
-  // For z-index layering: later stack on top (arrive later = higher z)
-  const zDuringGather = 10 + orderIndex;
-
-  // during the reveal/done phase, the user's chosen card will be the 11th card in the pile
-  // located in column 1 at row 3
+  /* during the reveal/done phase, the user's chosen card will be the 11th card in the pile
+   * located in column 1 at row 3 */
   const isTheChosenCard =
     (phase === "reveal" || phase === "done") && column === 1 && row === 3;
 
@@ -81,8 +58,13 @@ function AnimatedCard({
         const { x: curX, y: curY } = getCurrentTranslate(scope.current);
 
         // 2) compute how far to move this card to the viewport TL corner
-        const { dx, dy } = getViewportDelta(scope.current, 24, 24);
+        const { dx, dy } = getViewportDelta(
+          scope.current,
+          Anim.cornerPadding,
+          Anim.cornerPadding
+        );
 
+        // TODO: this may not be necessary for dealing past round 1
         // 3) SNAP to the corner (no animation / no flash)
         await animate(
           scope.current,
@@ -93,14 +75,11 @@ function AnimatedCard({
         // 4) Now animate the "deal" from the corner to its column/row
         await animate(
           scope.current,
+          { x: 0, y: row * overlap }, // vertical overlap
           {
-            x: 0,
-            y: row * overlap, // vertical overlap
-          },
-          {
-            duration: 0.5,
-            delay: cardIndex * 0.1, // stagger each card
-            ease: "easeOut",
+            duration: Anim.deal.duration,
+            delay: cardIndex * Anim.deal.perCardDelay, // stagger each card
+            ease: Anim.deal.ease,
           }
         );
 
@@ -108,14 +87,33 @@ function AnimatedCard({
           send({ type: "DEAL_DONE" });
         }
       } else if (phase === "gather") {
+        // ----- Gather choreography timing -----
+        const [s0, s1, s2] = getStackOrder(selectedStack);
+        const orderIndex = [s0, s1, s2].indexOf(column); // 0=first stack to move, 1=middle(selected), 2=last
+
+        // Folding bottom -> top (row 6 first, row 0 last)
+        const foldStaggerPerCard = Anim.fold.staggerPerCard;
+        const foldDuration = Anim.fold.duration;
+        const foldTotal =
+          foldDuration + foldStaggerPerCard * (ROWS_PER_STACK - 1); //time from the first card start to the last card finish
+
+        const moveDuration = Anim.move.duration;
+        const stackStartTime = Anim.util.stackStartTime(orderIndex, foldTotal);
+
         // 1) fold to top card in column
+        const foldDelayForThisCard = Anim.util.foldDelayForThisCard(
+          stackStartTime,
+          Anim.fold.staggerPerCard,
+          row
+        );
+
         await animate(
           scope.current,
           { x: 0, y: 0 },
           {
-            duration: foldDuration,
+            duration: Anim.fold.duration,
             delay: foldDelayForThisCard,
-            ease: "easeInOut",
+            ease: Anim.fold.ease,
           }
         );
 
@@ -170,14 +168,25 @@ function AnimatedCard({
         await animate(
           scope.current,
           { x: curX + offsetX, y: curY + offsetY },
-          { duration: 0.45, delay: row * 0.01, ease: "easeInOut" }
+          {
+            duration: Anim.reveal.pileToCenter.duration,
+            delay: row * Anim.reveal.pileToCenter.staggerPerCard,
+            ease: Anim.reveal.pileToCenter.ease,
+          }
         );
 
         if (!isTheChosenCard) {
           await animate(
             scope.current,
-            { opacity: 0.3, y: curY + offsetY + 6, scale: 0.96 },
-            { duration: 0.22, ease: "easeOut" }
+            {
+              opacity: Anim.reveal.dimOthers.opacity,
+              y: curY + offsetY + Anim.reveal.dimOthers.yBump,
+              scale: Anim.reveal.dimOthers.scale,
+            },
+            {
+              duration: Anim.reveal.dimOthers.duration,
+              ease: Anim.reveal.dimOthers.ease,
+            }
           );
           return;
         }
@@ -186,25 +195,32 @@ function AnimatedCard({
         await animate(
           scope.current,
           {
-            y: curY + offsetY - 24,
-            scale: 1.08,
+            y: curY + offsetY - Anim.reveal.lift.lift,
+            scale: Anim.reveal.lift.scale,
             filter: "drop-shadow(0 0 0px rgba(255,255,255,0))",
           },
-          { duration: 0.3, ease: "easeOut" }
+          { duration: Anim.reveal.lift.duration, ease: Anim.reveal.lift.ease }
         );
 
         await animate(
           scope.current,
           {
-            scale: [1.08, 1.12, 1.02],
-            y: [curY + offsetY - 24, curY + offsetY - 30, curY + offsetY - 24],
+            scale: Anim.reveal.bounce.scaleKey,
+            y: [
+              curY + offsetY - Anim.reveal.lift.lift,
+              curY + offsetY - Anim.reveal.lift.lift + Anim.reveal.bounce.yKey,
+              curY + offsetY - Anim.reveal.lift.lift,
+            ],
             filter: [
               "drop-shadow(0 0 0px rgba(255,255,255,0))",
               "drop-shadow(0 0 12px rgba(255,255,255,0.9))",
               "drop-shadow(0 0 0px rgba(255,255,255,0))",
             ],
           },
-          { duration: 0.5, ease: "easeOut" }
+          {
+            duration: Anim.reveal.bounce.duration,
+            ease: Anim.reveal.bounce.ease,
+          }
         );
 
         send({ type: "REVEAL_DONE" });
@@ -223,13 +239,9 @@ function AnimatedCard({
     column,
     animate,
     scope,
+    selectedStack,
     isLastCardOverall,
-    foldDelayForThisCard,
-    moveDelayForThisCard,
-    orderIndex,
     send,
-    foldDuration,
-    moveDuration,
     tableRef,
     isTheChosenCard,
   ]);
@@ -239,13 +251,7 @@ function AnimatedCard({
       ref={scope}
       key={cardIndex}
       className="absolute left-1/2 -translate-x-1/2"
-      style={
-        phase === "gather"
-          ? { zIndex: zDuringGather }
-          : isTheChosenCard
-          ? { zIndex: 999 }
-          : undefined
-      }
+      style={isTheChosenCard ? { zIndex: Anim.z.chosenCard } : undefined}
       initial={false}
     >
       <Card suit={suit} rank={rank} />
