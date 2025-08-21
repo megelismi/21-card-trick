@@ -18,6 +18,8 @@ interface Props {
   send: (arg0: CardTrickEvents) => void;
   row: number; // 0...6
   tableRef: React.RefObject<HTMLDivElement>;
+  onMoveStart: () => void;
+  onMoveEnd: () => void;
 }
 
 function AnimatedCard({
@@ -31,6 +33,8 @@ function AnimatedCard({
   cardIndex,
   selectedStack,
   tableRef,
+  onMoveStart,
+  onMoveEnd,
 }: Props) {
   const [scope, animate] = useAnimate();
 
@@ -106,6 +110,8 @@ function AnimatedCard({
           Anim.cornerPadding
         );
 
+        if (row === 0) onMoveStart?.();
+
         // Sequence: fold (staggered by row), then move (ONE start time for entire stack)
         await animate([
           [
@@ -127,6 +133,8 @@ function AnimatedCard({
             },
           ],
         ]);
+
+        if (row === 0) onMoveEnd?.();
 
         // Notify machine once when the last stack’s top card finishes
         if (orderIndex === 2 && row === 0) {
@@ -227,6 +235,8 @@ function AnimatedCard({
     phase,
     round,
     row,
+    onMoveEnd,
+    onMoveStart,
     overlap,
     cardIndex,
     column,

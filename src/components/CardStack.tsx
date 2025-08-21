@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { motion } from "motion/react";
 import AnimatedCard from "./AnimatedCard";
 import StackButton from "./StackButton";
@@ -28,12 +28,30 @@ function CardStack({
   tableRef,
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
+  // TODO: add a note
+  const [zPhase, setZPhase] = useState<"idle" | "moving" | "parked">("idle");
+
+  // memoized functions that top card will call after each stack has moved
+  // to the corner of the screen during the "gather" phase
+  // this allows the zIndex of the stack to be larger when moving so that
+  // it doesn't go behind stacks that have been gathered yet
+  // but smaller once it has "parked" in the corner, so that subsequent
+  // stacks can be placed on top of it
+  const onMoveStart = useCallback(() => setZPhase("moving"), []);
+  const onMoveEnd = useCallback(() => setZPhase("parked"), []);
 
   const getStackOrder = (selected: 0 | 1 | 2) =>
     selected === 0 ? [1, 0, 2] : selected === 1 ? [0, 1, 2] : [1, 2, 0];
 
   const order = getStackOrder(selectedStack);
   const orderIndex = order.indexOf(stackNumber); // 0,1,2
+
+  // Very small z policy:
+  // - moving: huge so it passes in front of others during transit
+  // - parked: ordered layer so later stacks land on top
+  // - idle (folding / not moving yet): medium
+  const zForGather =
+    zPhase === "moving" ? 10_000 : zPhase === "parked" ? 100 + orderIndex : 50;
 
   const handleStackSelected = (selectedStack: SelectedStack): void => {
     if (phase === "ask") {
@@ -58,8 +76,8 @@ function CardStack({
             (phase === "reveal" || phase === "done") && stackNumber === 1
               ? Anim.z.overlayTop
               : phase === "gather"
-              ? 100 + orderIndex
-              : 1, // ← later stacks paint on top,
+              ? zForGather
+              : 1,
 
           boxShadow: isHovered
             ? "0 20px 60px rgba(0,0,0,0.6), inset 0 0 24px rgba(255,255,255,0.35)"
@@ -84,6 +102,8 @@ function CardStack({
               round={round}
               send={send}
               tableRef={tableRef}
+              onMoveStart={onMoveStart}
+              onMoveEnd={onMoveEnd}
             />
           );
         })}
