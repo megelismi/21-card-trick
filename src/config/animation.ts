@@ -42,25 +42,44 @@ export const Anim = {
 
   // --- z-ordering base values ---
   z: {
-    gatherBase: 100,   // wrapper z-index = gatherBase + orderIndex
+    gatherBase: 50,   // wrapper z-index = gatherBase + orderIndex
+    gatherStackParked: 100,
+    gatherStackMoved: 10_000,
     chosenCard: 999,   // z for chosen card during reveal
     overlayTop: 9000,  // emergency top (e.g., for middle stack during reveal)
   },
 
-  // --- helpers to compute times ---
+ 
   util: {
-    foldDelayForRow(row: number) {
+     // --- animation helpers ---
+    foldDelayForRow(row: number): number {
       // bottom -> top: row 6 first, row 0 last
       return (ROWS_PER_STACK - 1 - row) * Anim.fold.staggerPerCard;
     },
-    foldDelayForThisCard({ stackStartTime, row } : { stackStartTime: number, row: number }) {
+    foldDelayForThisCard({ stackStartTime, row } : { stackStartTime: number, row: number }): number {
     return ( stackStartTime + (ROWS_PER_STACK- 1 - row) * Anim.fold.staggerPerCard );
     },
-    foldTotal() {
+    foldTotal(): number {
       return Anim.fold.duration + Anim.fold.staggerPerCard * (ROWS_PER_STACK - 1);
     },
-    stackStartTime(orderIndex: number) {
+    stackStartTime(orderIndex: number): number {
       return orderIndex * (Anim.util.foldTotal() + Anim.move.duration + Anim.move.betweenStacksGap);
     },
+    getStackOrder(selected: 0 | 1| 2): [number, number, number] {
+      if (selected === 0) return [1, 0, 2];
+      if (selected === 1) return [0, 1, 2];
+      return [1, 2, 0];
+    },
+    getViewportDelta(el: Element) {
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      return { dx: Anim.cornerPadding - rect.left, dy: Anim.cornerPadding - rect.top };
+    },
+    getCurrentTranslate(el: Element | null) {
+      if (!el) return { x: 0, y: 0 };
+      const t = window.getComputedStyle(el).transform;
+      if (!t || t === "none") return { x: 0, y: 0 };
+      const m = new DOMMatrixReadOnly(t);
+      return { x: m.m41, y: m.m42 }; // translateX, translateY
+    }
   },
 };

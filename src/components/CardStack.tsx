@@ -40,10 +40,7 @@ function CardStack({
   const onMoveStart = useCallback(() => setZPhase("moving"), []);
   const onMoveEnd = useCallback(() => setZPhase("parked"), []);
 
-  const getStackOrder = (selected: 0 | 1 | 2) =>
-    selected === 0 ? [1, 0, 2] : selected === 1 ? [0, 1, 2] : [1, 2, 0];
-
-  const order = getStackOrder(selectedStack);
+  const order = Anim.util.getStackOrder(selectedStack);
   const orderIndex = order.indexOf(stackNumber); // 0,1,2
 
   // Very small z policy:
@@ -51,7 +48,11 @@ function CardStack({
   // - parked: ordered layer so later stacks land on top
   // - idle (folding / not moving yet): medium
   const zForGather =
-    zPhase === "moving" ? 10_000 : zPhase === "parked" ? 100 + orderIndex : 50;
+    zPhase === "moving"
+      ? Anim.z.gatherStackMoved
+      : zPhase === "parked"
+      ? Anim.z.gatherStackParked + orderIndex
+      : Anim.z.gatherBase;
 
   const handleStackSelected = (selectedStack: SelectedStack): void => {
     if (phase === "ask") {

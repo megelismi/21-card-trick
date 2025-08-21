@@ -57,14 +57,12 @@ function AnimatedCard({
         await new Promise((r) => requestAnimationFrame(r));
 
         // 1) read current translate (whatever it is)
-        const { x: curX, y: curY } = getCurrentTranslate(scope.current);
+        const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
+          scope.current
+        );
 
         // 2) compute how far to move this card to the viewport TL corner
-        const { dx, dy } = getViewportDelta(
-          scope.current,
-          Anim.cornerPadding,
-          Anim.cornerPadding
-        );
+        const { dx, dy } = Anim.util.getViewportDelta(scope.current);
 
         // TODO: this may not be necessary for dealing past round 1
         // 3) SNAP to the corner (no animation / no flash)
@@ -90,7 +88,7 @@ function AnimatedCard({
         }
       } else if (phase === "gather") {
         // ----- Gather choreography timing -----
-        const [s0, s1, s2] = getStackOrder(selectedStack);
+        const [s0, s1, s2] = Anim.util.getStackOrder(selectedStack);
         const orderIndex = [s0, s1, s2].indexOf(column); // 0,1,2
 
         const stackStartTime = Anim.util.stackStartTime(orderIndex); // absolute start for this stack
@@ -103,12 +101,12 @@ function AnimatedCard({
         // Precompute corner delta once (any time before the sequence runs)
         await new Promise((r) => requestAnimationFrame(r));
 
-        const { x: curX, y: curY } = getCurrentTranslate(scope.current);
-        const { dx, dy } = getViewportDelta(
-          scope.current,
-          Anim.cornerPadding,
-          Anim.cornerPadding
+        const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
+          scope.current
         );
+
+        // measure → diff → animate to viewport corner
+        const { dx, dy } = Anim.util.getViewportDelta(scope.current);
 
         if (row === 0) onMoveStart?.();
 
@@ -163,7 +161,9 @@ function AnimatedCard({
         const offsetY = tableCenterY - cardCenterY;
 
         // 4) Read current translate so we can set an *absolute* target
-        const { x: curX, y: curY } = getCurrentTranslate(scope.current);
+        const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
+          scope.current
+        );
 
         // 5) Move entire pile to exact center (tiny stagger for flavor)
         await animate(
@@ -260,27 +260,6 @@ function AnimatedCard({
       <Card suit={suit} rank={rank} />
     </motion.div>
   );
-}
-
-function getCurrentTranslate(el: Element | null) {
-  if (!el) return { x: 0, y: 0 };
-  const t = window.getComputedStyle(el).transform;
-  if (!t || t === "none") return { x: 0, y: 0 };
-  const m = new DOMMatrixReadOnly(t);
-  return { x: m.m41, y: m.m42 }; // translateX, translateY
-}
-
-// Helper (co-locate or import)
-function getStackOrder(selected: 0 | 1 | 2): [number, number, number] {
-  if (selected === 0) return [1, 0, 2];
-  if (selected === 1) return [0, 1, 2];
-  return [1, 2, 0];
-}
-
-// measure → diff → animate to viewport corner
-function getViewportDelta(el: Element, targetLeft = 24, targetTop = 24) {
-  const rect = (el as HTMLElement).getBoundingClientRect();
-  return { dx: targetLeft - rect.left, dy: targetTop - rect.top };
 }
 
 export default AnimatedCard;
