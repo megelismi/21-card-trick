@@ -49,19 +49,19 @@ export const Anim = {
 
   // --- helpers to compute times ---
   util: {
-    foldDelayForRow(row: number, stagger = 0.05) {
+    foldDelayForRow(row: number) {
       // bottom -> top: row 6 first, row 0 last
-      return (ROWS_PER_STACK - 1 - row) * stagger;
+      return (ROWS_PER_STACK - 1 - row) * Anim.fold.staggerPerCard;
     },
-    foldDelayForThisCard(stackStartTime: number, foldStaggerPerCard: number, row: number) {
-    return ( stackStartTime + (ROWS_PER_STACK- 1 - row) * foldStaggerPerCard );
+    foldDelayForThisCard({ stackStartTime, row } : { stackStartTime: number, row: number }) {
+    return ( stackStartTime + (ROWS_PER_STACK- 1 - row) * Anim.fold.staggerPerCard );
     },
-    foldTotal(duration = 0.25, stagger = 0.05) {
-      return duration + stagger * (ROWS_PER_STACK - 1);
+    foldTotal() {
+      return Anim.fold.duration + Anim.fold.staggerPerCard * (ROWS_PER_STACK - 1);
     },
-    stackStartTime(orderIndex: number, foldTotal: number, moveDuration = 0.4, betweenStacksGap = 0.1) {
+    stackStartTime(orderIndex: number) {
       // if you do time-based orchestration
-      return orderIndex * (foldTotal + moveDuration + betweenStacksGap);
+      return orderIndex * (Anim.util.foldTotal() + Anim.move.duration + Anim.move.betweenStacksGap);
     },
   },
 };

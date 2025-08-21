@@ -1,10 +1,8 @@
 import Card from "./Card";
 import useCssVarPx from "../hooks/useCssVarPx";
-// AnimatedCard.tsx (snippets)
 import { Anim } from "../animation/animationConfig";
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
-import { ROWS_PER_STACK } from "../constants/cards";
 import type { Rank, Suit } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
 import type { SelectedStack, CardTrickEvents } from "../types/cardTrickMachine";
@@ -92,20 +90,13 @@ function AnimatedCard({
         const orderIndex = [s0, s1, s2].indexOf(column); // 0=first stack to move, 1=middle(selected), 2=last
 
         // Folding bottom -> top (row 6 first, row 0 last)
-        const foldStaggerPerCard = Anim.fold.staggerPerCard;
-        const foldDuration = Anim.fold.duration;
-        const foldTotal =
-          foldDuration + foldStaggerPerCard * (ROWS_PER_STACK - 1); //time from the first card start to the last card finish
-
-        const moveDuration = Anim.move.duration;
-        const stackStartTime = Anim.util.stackStartTime(orderIndex, foldTotal);
+        const stackStartTime = Anim.util.stackStartTime(orderIndex);
 
         // 1) fold to top card in column
-        const foldDelayForThisCard = Anim.util.foldDelayForThisCard(
+        const foldDelayForThisCard = Anim.util.foldDelayForThisCard({
           stackStartTime,
-          Anim.fold.staggerPerCard,
-          row
-        );
+          row,
+        });
 
         await animate(
           scope.current,
@@ -130,7 +121,7 @@ function AnimatedCard({
           scope.current,
           { x: curX + dx, y: curY + dy },
           {
-            duration: moveDuration,
+            duration: Anim.move.duration,
             delay: moveDelayForThisStack,
             ease: "easeInOut",
           }
