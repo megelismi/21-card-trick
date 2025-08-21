@@ -29,6 +29,12 @@ function CardStack({
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
+  const getStackOrder = (selected: 0 | 1 | 2) =>
+    selected === 0 ? [1, 0, 2] : selected === 1 ? [0, 1, 2] : [1, 2, 0];
+
+  const order = getStackOrder(selectedStack);
+  const orderIndex = order.indexOf(stackNumber); // 0,1,2
+
   const handleStackSelected = (selectedStack: SelectedStack): void => {
     if (phase === "ask") {
       setIsHovered(false);
@@ -51,7 +57,9 @@ function CardStack({
           zIndex:
             (phase === "reveal" || phase === "done") && stackNumber === 1
               ? Anim.z.overlayTop
-              : 1,
+              : phase === "gather"
+              ? 100 + orderIndex
+              : 1, // ← later stacks paint on top,
 
           boxShadow: isHovered
             ? "0 20px 60px rgba(0,0,0,0.6), inset 0 0 24px rgba(255,255,255,0.35)"

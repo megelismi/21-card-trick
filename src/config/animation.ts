@@ -21,7 +21,7 @@ export const Anim = {
   // --- move whole stack wrapper to corner ---
   move: {
     duration: 0.40,        // seconds
-    betweenStacksGap: 0.10,// seconds pause between stacks 
+    betweenStacksGap: 0.20,// seconds pause between stacks 
     ease: "easeInOut" as const,
   },
 

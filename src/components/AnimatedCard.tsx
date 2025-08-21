@@ -87,47 +87,49 @@ function AnimatedCard({
       } else if (phase === "gather") {
         // ----- Gather choreography timing -----
         const [s0, s1, s2] = getStackOrder(selectedStack);
-        const orderIndex = [s0, s1, s2].indexOf(column); // 0=first stack to move, 1=middle(selected), 2=last
+        const orderIndex = [s0, s1, s2].indexOf(column); // 0,1,2
 
-        // Folding bottom -> top (row 6 first, row 0 last)
-        const stackStartTime = Anim.util.stackStartTime(orderIndex);
-
-        // 1) fold to top card in column
+        const stackStartTime = Anim.util.stackStartTime(orderIndex); // absolute start for this stack
         const foldDelayForThisCard = Anim.util.foldDelayForThisCard({
           stackStartTime,
-          row,
+          row, // still stagger fold bottom->top
         });
+        const moveStartTime = stackStartTime + Anim.util.foldTotal(); // << SAME for all rows in this stack
 
-        await animate(
-          scope.current,
-          { x: 0, y: 0 },
-          {
-            duration: Anim.fold.duration,
-            delay: foldDelayForThisCard,
-            ease: Anim.fold.ease,
-          }
-        );
+        // Precompute corner delta once (any time before the sequence runs)
+        await new Promise((r) => requestAnimationFrame(r));
 
-        // 2) move the pile to the viewport corner
-        await new Promise((r) => requestAnimationFrame(r)); // ensure layout is up-to-date
-
-        // Top left corner coordinates for card stack
         const { x: curX, y: curY } = getCurrentTranslate(scope.current);
-        const { dx, dy } = getViewportDelta(scope.current, 24, 24); // tweak as desired for mobile
-
-        const moveDelayForThisStack = orderIndex * 0.5;
-
-        await animate(
+        const { dx, dy } = getViewportDelta(
           scope.current,
-          { x: curX + dx, y: curY + dy },
-          {
-            duration: Anim.move.duration,
-            delay: moveDelayForThisStack,
-            ease: "easeInOut",
-          }
+          Anim.cornerPadding,
+          Anim.cornerPadding
         );
 
-        if (!cancelled && orderIndex === 2 && row === 0) {
+        // Sequence: fold (staggered by row), then move (ONE start time for entire stack)
+        await animate([
+          [
+            scope.current,
+            { x: 0, y: 0 },
+            {
+              duration: Anim.fold.duration,
+              delay: foldDelayForThisCard,
+              ease: Anim.fold.ease,
+            },
+          ],
+          [
+            scope.current,
+            { x: curX + dx, y: curY + dy },
+            {
+              duration: Anim.move.duration,
+              ease: Anim.move.ease,
+              at: moveStartTime,
+            },
+          ],
+        ]);
+
+        // Notify machine once when the last stack’s top card finishes
+        if (orderIndex === 2 && row === 0) {
           send({ type: round === 3 ? "FINAL_GATHER_DONE" : "GATHER_DONE" });
         }
       } else if (phase === "reveal") {
