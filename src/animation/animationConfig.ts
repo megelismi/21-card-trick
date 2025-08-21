@@ -21,7 +21,7 @@ export const Anim = {
   // --- move whole stack wrapper to corner ---
   move: {
     duration: 0.40,        // seconds
-    betweenStacksGap: 0.10,// seconds pause between stacks (if using time orchestration)
+    betweenStacksGap: 0.10,// seconds pause between stacks 
     ease: "easeInOut" as const,
   },
 
@@ -33,7 +33,7 @@ export const Anim = {
     bounce:       { duration: 0.50, ease: "easeOut" as const, scaleKey: [1.08, 1.12, 1.02], yKey: -6},
   },
 
-  // --- easing aliases (if you prefer named) ---
+  // --- easing aliases ---
   ease: {
     inOut: "easeInOut" as const,
     out: "easeOut" as const,
@@ -60,7 +60,6 @@ export const Anim = {
       return Anim.fold.duration + Anim.fold.staggerPerCard * (ROWS_PER_STACK - 1);
     },
     stackStartTime(orderIndex: number) {
-      // if you do time-based orchestration
       return orderIndex * (Anim.util.foldTotal() + Anim.move.duration + Anim.move.betweenStacksGap);
     },
   },
