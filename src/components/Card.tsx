@@ -5,7 +5,7 @@ export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
     <div
       className={`crimson-text-semibold flex flex-col 
         items-center justify-between p-3 bg-white 
-        w-[var(--card-w)] h-[var(--card-h)] border border-gray-300 
+        card-width card-height border border-gray-300 
         rounded-sm shadow-md`}
     >
       <Rank rank={rank} suit={suit} />
@@ -21,7 +21,7 @@ function Rank({ rank, suit }: { rank: Rank; suit: Suit }) {
         suit === "hearts" || suit === "diamonds"
           ? "text-red-500"
           : "text-gray-900"
-      } flex w-full justify-between max-md:text-[36px] text-[48px] font-bold leading-none`}
+      } flex w-full justify-between rank-size font-bold leading-none`}
     >
       {rank}
       <SuitIcon suit={suit} size="small" />
@@ -46,11 +46,7 @@ function SuitIcon({ suit, size }: { suit: Suit; size: "large" | "small" }) {
             : "text-gray-900"
         }` +
         " " +
-        `${
-          size === "large"
-            ? "text-[125px] max-md:text-[75px] max-sm:text-[68px]"
-            : "text-[48px] max-md:text-[36x] max-sm:text-[32px]"
-        }`
+        `${size === "large" ? "suit-size-large" : "suit-size-small"}`
       }
     >
       {icons[suit]}

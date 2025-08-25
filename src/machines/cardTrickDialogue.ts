@@ -1,15 +1,14 @@
 import type { CardTrickContext } from '../types/cardTrickMachine'
 
 const cardTrickDialogue= {
-  intro: `Welcome! I'm going to show you the 21 Card Trick ✨ I'll deal 21 cards into 3 stacks, then you'll pick a card in your mind...but don't tell me! Just tell me which stack it's in. At the end we'll see if I can guess your card 🔮 \n 
-  Ready to begin?`,
+  intro: `I'm going to show you the 21 Card Trick ✨ I'll deal 21 cards into 3 stacks, then you'll pick a card in your mind...but don't tell me! Ready?`,
   deal: (r: CardTrickContext['round']) => r === 1
       ? "Here we go!"
       : r === 2
       ? "Round 2!"
       : "One last deal...",
   ask:  (r: CardTrickContext['round']) => r === 1
-      ? "Ok, pick a card in your mind, but don't tell me! Just tell me which stack it's in."
+      ? "Pick a card in your mind, then tell me which stack it's in."
       : r === 2
       ? "Which stack is it in now?"
       : "Final time — which stack is it in now?",

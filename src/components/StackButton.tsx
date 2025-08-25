@@ -3,18 +3,6 @@ import { motion, useAnimate } from "motion/react";
 import woodBackground from "/images/wood-button-background.png";
 import type { SelectedStack } from "../types/cardTrickMachine";
 
-// const lift = {
-//   // rest: {
-//   //   boxShadow: "0 2px 8px rgba(0,0,0,0.25), inset 0 0 0 rgba(255,255,255,0)",
-//   //   filter: "brightness(1)",
-//   // },
-//   hover: {
-//     boxShadow:
-//       "0 12px 28px rgba(0,0,0,0.45), inset 0 0 14px rgba(255,255,255,0.18)",
-//     filter: "brightness(1.05)",
-//   },
-// };
-
 function StackButton({
   stackNumber,
   onClickCallback,
@@ -60,7 +48,7 @@ function StackButton({
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClickCallback}
       className={`
-        max-sm:w-[100px] max-md:w-[125px] w-[175px]
+        card-width
         h-12
         magician-font
         cursor-pointer

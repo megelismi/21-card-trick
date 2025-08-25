@@ -27,9 +27,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --card-w: 175px;
-  --card-h: 225px;
-  --overlap: 75px;
+  --card-w: 150px;
+  --card-h: 190px;
+  --card-rank-size: 42px;
+  --large-card-suit-size: 85px;
+  --small-card-suit-size: 40px;
+  --overlap: 65px; /* card overlap */
   --stack-button-gap: 7;
 }
 
@@ -37,6 +40,9 @@ body {
   :root {
     --card-w: 125px;
     --card-h: 175px;
+    --card-rank-size: 36px;
+    --large-card-suit-size: 75px;
+    --small-card-suit-size: 36px;
     --overlap: 65px;
     --stack-button-gap: 7.5;
   }
@@ -46,8 +52,30 @@ body {
   :root {
     --card-w: 100px;
     --card-h: 150px;
+    --large-card-suit-size: 68px;
+    --small-card-suit-size: 32px;
     --overlap: 55px;
   }
+}
+
+.rank-size {
+  font-size: var(--card-rank-size);
+}
+
+.suit-size-large {
+  font-size: var(--large-card-suit-size);
+}
+
+.suit-size-small {
+  font-size: var(--small-card-suit-size);
+}
+
+.card-width {
+  width: var(--card-w);
+}
+
+.card-height {
+  height: var(--card-h);
 }
 
 .magician-font {
