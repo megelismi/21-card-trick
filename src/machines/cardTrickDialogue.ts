@@ -10,8 +10,8 @@ const cardTrickDialogue= {
   ask:  (r: CardTrickContext['round']) => r === 1
       ? "Pick a card in your mind, then tell me which stack it's in."
       : r === 2
-      ? "Which stack is it in now?"
-      : "Final time — which stack is it in now?",
+      ? "Which stack is your card in now?"
+      : "Final time — which stack is your card in?",
   gather: (r: CardTrickContext['round']) => r === 1
       ? "Interesting choice! Now let me shuffle the magic a little…"
       : r === 2
