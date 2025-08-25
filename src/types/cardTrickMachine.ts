@@ -16,7 +16,7 @@ export interface CardTrickContext {
   selectedStack: SelectedStack; 
   cards: Cards;
   round: Round;
-  dialogue: string; 
+  dialogue: string | null; 
 }
 
 export type CardTrickEvents =

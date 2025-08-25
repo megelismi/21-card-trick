@@ -2,7 +2,7 @@ import { useMachine } from "@xstate/react";
 import cardTrickMachine from "./machines/cardTrickMachine";
 import CardTable from "./components/CardTable";
 import DebugControls from "./components/DebugControls";
-import ChatBox from "./components/ChatBox";
+import DialogueBox from "./components/DialogueBox";
 
 function App() {
   const [state, send] = useMachine(cardTrickMachine);
@@ -23,7 +23,7 @@ function App() {
         send={send}
         selectedStack={selectedStack}
       />
-      <ChatBox dialogue={dialogue} />
+      <DialogueBox dialogue={dialogue} visible={!!dialogue} />
     </div>
   );
 }

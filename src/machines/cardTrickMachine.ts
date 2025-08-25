@@ -14,27 +14,17 @@ const cardTrickMachine = setup({
       dialogue: () => cardTrickDialogue.intro 
     }),
 
-    setDealDialogue: assign({ 
-      dialogue: ({ context }: { context: CardTrickContext }) => {
-        return cardTrickDialogue.deal(context.round) 
-    }}),
-
     setAskDialogue: assign({ 
       dialogue: ({ context }: { context: CardTrickContext }) => {
         return cardTrickDialogue.ask(context.round) 
     }}),
 
-    setGatherDialogue: assign({ 
-      dialogue: ({ context }: { context: CardTrickContext }) => {
-        return cardTrickDialogue.gather(context.round) 
-    }}),
-
-    setRevealDialogue: assign({ 
-      dialogue: () => cardTrickDialogue.reveal 
-    }),
-
     setDoneDialogue: assign({ 
       dialogue: () => cardTrickDialogue.done 
+    }),
+
+    clearDialogue: assign({ 
+      dialogue: () => null 
     }),
 
     setRandomCards: assign({
@@ -75,27 +65,30 @@ const cardTrickMachine = setup({
     cards: [],
     selectedStack: 0,
     round: 1,
-    dialogue: ''
+    dialogue: null,
   },
   entry: ['logContext'],
   states: {
     intro: { 
       entry: ['setIntroDialogue', 'logContext'],
-      exit: ['setRandomCards', 'logContext'],
+      exit: ['clearDialogue', 'setRandomCards', 'logContext'],
       on: { DEAL: 'deal' } 
     },
     deal: {
-      entry: ['setDealDialogue', 'logContext'],
       on: {
         DEAL_DONE: { target: 'ask' } // when deal animation finishes
-      }
+      },
     },
     ask: {
-      entry: ['setAskDialogue', 'logContext'], 
       on: { SELECT_STACK: { actions: 'setSelectedStack', target: 'gather'} }, 
+      after: {
+        300: {
+          actions: ['setAskDialogue', 'logContext'],
+        },
+      },
+      exit: 'clearDialogue'
     },
     gather: {
-      entry: ['setGatherDialogue', 'logContext'], 
       on: { 
         GATHER_DONE: { actions: 'shuffleCards', target: 'pauseBeforeDeal' },
         FINAL_GATHER_DONE: { actions: 'shuffleCards', target: 'pauseBeforeReveal' }
@@ -103,8 +96,8 @@ const cardTrickMachine = setup({
     },
     pauseBeforeDeal: {
       after: {
-        500: {
-          // wait 500ms before starting deal again
+        1000: {
+          // wait 1000ms before starting deal again
           target: 'deal',
           actions: 'incrementRound',
         },
@@ -112,14 +105,13 @@ const cardTrickMachine = setup({
     },
     pauseBeforeReveal: {
       after: {
-        2000: {
-          // wait 2000ms before starting reveal again
+        1000: {
+          // wait 1000ms before starting reveal again
           target: 'reveal',
         },
       },
     },
     reveal: {
-      entry: ['setRevealDialogue','logContext'], // reveal animation 
       on: { REVEAL_DONE: { target: 'done' } }, 
     },
     done: {

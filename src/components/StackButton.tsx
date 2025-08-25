@@ -3,40 +3,37 @@ import { motion, useAnimate } from "motion/react";
 import woodBackground from "/images/wood-button-background.png";
 import type { SelectedStack } from "../types/cardTrickMachine";
 
+interface Props {
+  stackNumber: SelectedStack;
+  onClickCallback: () => void;
+  phase: string;
+  isHovered: boolean;
+  setIsHovered: (arg0: boolean) => void;
+}
+
 function StackButton({
   stackNumber,
   onClickCallback,
   phase,
   isHovered,
   setIsHovered,
-}: {
-  stackNumber: SelectedStack;
-  onClickCallback: () => void;
-  phase: string;
-  isHovered: boolean;
-  setIsHovered: (arg0: boolean) => void;
-}) {
+}: Props) {
   const [scope, animate] = useAnimate();
+  const isVisible = phase === "ask";
 
   useEffect(() => {
-    if (phase === "ask") {
+    if (isVisible) {
+      // entrance
       animate(
         scope.current,
         { opacity: 1, scale: [0.5, 1.1, 1] },
-        {
-          duration: 0.5, // Animation duration
-        }
+        { duration: 0.2 }
       );
     } else {
-      animate(
-        scope.current,
-        { opacity: 0, scale: 0.6 },
-        {
-          duration: 0.5, // Animation duration
-        }
-      );
+      // exit
+      animate(scope.current, { opacity: 0, scale: 0.6 }, { duration: 0.1 });
     }
-  }, [phase, animate, scope]);
+  }, [isVisible, animate, scope, stackNumber]);
 
   return (
     <motion.button

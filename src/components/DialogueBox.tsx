@@ -1,22 +1,42 @@
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, easeIn, easeOut, motion } from "motion/react";
+import meganMagician from "/images/megan_magician.png";
 
-function DialogueBox({ dialogue }: { dialogue: string }) {
+function DialogueBox({
+  dialogue,
+  visible,
+}: {
+  dialogue: string | null;
+  visible: boolean;
+}) {
   return (
-    <div className="fixed bottom-8 flex flex-col items-center pointer-events-none max-w-[720px]">
-      <div className="pointer-events-auto flex flex-col items-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.35 }}
-            className="magician-font bg-black/60 text-white text-[24px] px-5 py-3 rounded-lg"
-          >
-            <p className="whitespace-pre-line">{dialogue}</p>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </div>
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{
+            opacity: [0, 1, 1],
+            scale: [0.95, 1.05, 1],
+            transition: { duration: 0.2, ease: easeIn },
+          }}
+          exit={{
+            opacity: [1, 1, 0],
+            y: 20,
+            transition: { duration: 0.1, ease: easeOut },
+          }}
+          className="w-[645px] h-[115px] bg-black/50 rounded-lg mt-24 fixed bottom-8 border-[1.5px] border-yellow-600 "
+        >
+          <div className="pointer-events-auto flex justify-end items-center w-full h-full relative">
+            <div className="absolute left-2 bottom-0">
+              <img src={meganMagician} className="w-[135px]" />
+            </div>
+
+            <div className="magician-font text-white text-[24px] p-4 w-[75%] ">
+              <p className="whitespace-pre-line leading-[1.2]">{dialogue}</p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
