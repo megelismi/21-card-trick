@@ -27,7 +27,7 @@ export const Anim = {
 
   // --- reveal ---
   reveal: {
-    pileToCenter: { duration: 0.45, ease: "easeInOut" as const, staggerPerCard: 0.01 },
+    pileToCenter: { duration: 0.45, ease: "easeInOut" as const, staggerPerCard: 0.025 },
     dimOthers:    { duration: 0.22, ease: "easeOut" as const, yBump: 6, scale: 0.96, opacity: 0.3 },
     lift:         { duration: 0.30, ease: "easeOut" as const, lift: 20, scale: 1.10 },
     bounce:       { duration: 0.50, ease: "easeOut" as const, scaleKey: [1.08, 1.12, 1.02], yKey: -6},
