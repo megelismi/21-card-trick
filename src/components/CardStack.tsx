@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import AnimatedCard from "./AnimatedCard";
 import StackButton from "./StackButton";
@@ -30,6 +30,12 @@ function CardStack({
   const [isHovered, setIsHovered] = useState(false);
   // TODO: add a note
   const [zPhase, setZPhase] = useState<"idle" | "moving" | "parked">("idle");
+
+  useEffect(() => {
+    if (phase !== "ask" && isHovered) {
+      setIsHovered(false);
+    }
+  }, [phase, isHovered]);
 
   // memoized functions that top card will call after each stack has moved
   // to the corner of the screen during the "gather" phase

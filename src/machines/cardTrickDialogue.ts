@@ -7,7 +7,7 @@ const cardTrickDialogue= {
       : r === 2
       ? "✨ Which stack is your card in now?"
       : "Final round — which stack is your card in?",
-  done: "Amazing, wasn't it? Want to go again and see if you can stump me this time?",
+  done: "Impressive, wasn't it? Want to go again and see if you can stump me this time?",
 };
 
 export default cardTrickDialogue; 

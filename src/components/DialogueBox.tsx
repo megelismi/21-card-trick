@@ -31,7 +31,7 @@ function FullDialogue({
 
   return (
     <div className="pointer-events-auto relative w-full h-full">
-      <div className="absolute left-14 bottom-[calc(var(--dialogue-box-full-h)-1px)]">
+      <div className="absolute left-15 bottom-[calc(var(--dialogue-box-full-h)-1px)]">
         <img src={meganMagician} className="magician-avatar-full-size" />
       </div>
 
@@ -83,7 +83,7 @@ function DialogueBox({
             y: 20,
             transition: { duration: 0.1, ease: easeOut },
           }}
-          className={`bg-black/45 rounded-lg mt-24 border-[1.5px] border-yellow-600 fixed bottom-8 ${
+          className={`bg-black/50 rounded-lg mt-24 border-[1.5px] border-yellow-600 fixed bottom-8 ${
             isFullSize ? "dialogue-full-size" : "dialogue-footer-size"
           }`}
         >
