@@ -53,9 +53,6 @@ function AnimatedCard({
 
     (async () => {
       if (phase === "deal") {
-        // wait a tick so layout/positions are correct
-        await new Promise((r) => requestAnimationFrame(r));
-
         // 1) read current translate (whatever it is)
         const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
           scope.current
