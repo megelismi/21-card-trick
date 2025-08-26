@@ -1,7 +1,6 @@
 import { useMachine } from "@xstate/react";
 import cardTrickMachine from "./machines/cardTrickMachine";
 import CardTable from "./components/CardTable";
-import DebugControls from "./components/DebugControls";
 import DialogueBox from "./components/DialogueBox";
 
 function App() {
@@ -15,7 +14,6 @@ function App() {
 
   return (
     <div className="flex flex-wrap justify-center p-2 h-screen">
-      <DebugControls send={send} />
       <CardTable
         phase={phase}
         cards={cards}
@@ -23,7 +21,12 @@ function App() {
         send={send}
         selectedStack={selectedStack}
       />
-      <DialogueBox dialogue={dialogue} visible={!!dialogue} />
+      <DialogueBox
+        dialogue={dialogue}
+        visible={!!dialogue}
+        phase={phase}
+        send={send}
+      />
     </div>
   );
 }

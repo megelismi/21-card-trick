@@ -1,7 +1,7 @@
 import type { CardTrickContext } from '../types/cardTrickMachine'
 
 const cardTrickDialogue= {
-  intro: `I'm going to show you the 21 Card Trick ✨ I'll deal 21 cards into 3 stacks, then you'll pick a card in your mind...but don't tell me! Ready?`,
+  intro: "I'm going to show you the 21 Card Trick ✨ Prepare to be amazed!",
   ask:  (r: CardTrickContext['round']) => r === 1
       ? "Pick a card in your mind, then tell me which stack it's in."
       : r === 2
