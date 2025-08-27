@@ -38,13 +38,16 @@ body {
 
   /* dialogue box */
   --dialogue-box-full-w: 525px;
-  --dialogue-box-full-h: 140px;
+  --dialogue-box-full-h: 145px;
   --dialogue-box-footer-w: 645px;
   --dialogue-box-footer-h: 115px;
+  --dialogue-box-med-w: 525px;
+  --dialogue-box-med-h: 145px;
 
   /* magician avatar */
   --magician-avatar-footer-w: 135px;
   --magician-avatar-full-w: 400px;
+  --magician-avatar-med-w: 175px;
 }
 
 @media (max-width: 768px) {
@@ -77,6 +80,10 @@ body {
   width: var(--magician-avatar-full-w);
 }
 
+.megan-avatar-med-size {
+  width: var(--magician-avatar-med-w);
+}
+
 .rank-size {
   font-size: var(--card-rank-size);
 }
@@ -105,6 +112,11 @@ body {
 .dialogue-footer-size {
   width: var(--dialogue-box-footer-w);
   height: var(--dialogue-box-footer-h);
+}
+
+.dialogue-med-size {
+  width: var(--dialogue-box-med-w);
+  height: var(--dialogue-box-med-h);
 }
 
 .magician-font {

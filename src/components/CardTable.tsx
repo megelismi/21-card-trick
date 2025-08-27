@@ -50,7 +50,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
     null
   ) as React.RefObject<HTMLDivElement>;
 
-  if (cards.length !== 21) {
+  if (cards.length !== 21 || phase === "intro") {
     // don't render this component if our 21 cards have not been populated
     return null;
   }
