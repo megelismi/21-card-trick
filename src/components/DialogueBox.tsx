@@ -29,7 +29,7 @@ function IntroDialogue({
 
   return (
     <div className="pointer-events-auto relative w-full h-full">
-      <div className="absolute left-15 bottom-[calc(var(--dialogue-box-full-h)-1px)]">
+      <div className="absolute left-14 bottom-[calc(var(--dialogue-box-full-h)-1px)]">
         <img src={meganMagician} className="magician-avatar-full-size" />
       </div>
 
@@ -117,7 +117,6 @@ function DialogueBox({
 }) {
   const isIntroDialogue = phase === "intro";
   const isDoneDialogue = phase === "done";
-  const isFullSize = isIntroDialogue || isDoneDialogue;
 
   return (
     <AnimatePresence>
