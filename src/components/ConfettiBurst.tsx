@@ -4,18 +4,18 @@ import { useEffect, useMemo, useState } from "react";
 function ConfettiBurst({ onDone }: { onDone?: () => void }) {
   // Precompute particle vectors so every mount has a nice spread
   const pieces = useMemo(() => {
-    const N = 100;
+    const N = 45;
     const arr = Array.from({ length: N }, (_, i) => {
       // fan out in 360deg with small randomness
       const base = (i / N) * Math.PI * 2;
       const jitter = (Math.random() - 0.5) * 0.35;
       const angle = base + jitter;
-      const radius = 120 + Math.random() * 100; // px travel
+      const radius = 120 + Math.random() * 65; // px travel
       const x = Math.cos(angle) * radius;
       const y = Math.sin(angle) * radius - 12; // bias slightly upward
       const rotate = (Math.random() - 0.5) * 140;
       const scale = 0.8 + Math.random() * 0.8;
-      const duration = 0.65 + Math.random() * 0.35;
+      const duration = 0.65 + Math.random() * 0.05;
       const delay = Math.random() * 0.05;
       const colorPool = ["#FFD700", "#FFC107", "#FFE066", "#FFF4B0", "#FFFFFF"];
       const color = colorPool[Math.floor(Math.random() * colorPool.length)];
@@ -67,6 +67,7 @@ function ConfettiBurst({ onDone }: { onDone?: () => void }) {
               background: p.color,
               boxShadow: "0 0 6px rgba(255, 215, 0, 0.5)",
               margin: 0,
+              mixBlendMode: "overlay",
             }}
           />
         ))}
