@@ -18,8 +18,6 @@ function FooterDialogue({ dialogue }: { dialogue: string | null }) {
   );
 }
 
-// bottom-[calc(var(--dialogue-box-h)-1px)]
-
 function FullDialogue({
   dialogue,
   send,
@@ -45,9 +43,16 @@ function FullDialogue({
           <button
             onClick={() => send({ type: "DEAL" })}
             type="button"
-            className="magician-font uppercase text-[30px] h-11 w-32 cursor-pointer text-black bg-yellow-500 hover:bg-yellow-400 border-3 border-yellow-700 rounded-sm text-center"
+            className="
+              relative overflow-hidden
+              magician-font uppercase text-[30px]
+              h-11 w-32 cursor-pointer
+              text-black bg-yellow-500 hover:bg-yellow-400
+              border-3 border-yellow-700 rounded-sm text-center
+            "
           >
             Ready
+            <span className="shine" />
           </button>
         </div>
       </div>

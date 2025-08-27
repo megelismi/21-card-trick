@@ -146,3 +146,31 @@ body {
   font-weight: 700;
   font-style: italic;
 }
+
+.shine {
+  position: absolute;
+  top: 0;
+  left: -75%; /* start well off the left */
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  transform: skewX(-20deg);
+}
+
+button:hover .shine {
+  animation: shine 0.75s forwards;
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%; /* sweep fully across */
+  }
+}
