@@ -152,7 +152,7 @@ function AnimatedCard({
           : 0;
         // push reveal higher than the middle to avoid bottom dialogue
         const tableTargetY = tableRect
-          ? tableRect.top + tableRect.height * 0.33
+          ? tableRect.top + tableRect.height * 0.3
           : 0;
 
         // 2) Measure card center (page coords)

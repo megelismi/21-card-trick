@@ -67,16 +67,17 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
           width: "100%",
         }}
       >
-        {[0, 1, 2].map((stackNumber: SelectedStack) => {
-          const cardsInCurrentStack = cardStacks[stackNumber];
+        {[0, 1, 2].map((stackNumber) => {
+          const stackNum = stackNumber as SelectedStack;
+          const cardsInCurrentStack = cardStacks[stackNum];
 
           return (
             <CardStack
-              key={`stack-${stackNumber}`}
+              key={`stack-${stackNum}`}
               phase={phase}
               round={round}
               send={send}
-              stackNumber={stackNumber}
+              stackNumber={stackNum}
               selectedStack={selectedStack}
               tableRef={tableRef}
               cards={cardsInCurrentStack}

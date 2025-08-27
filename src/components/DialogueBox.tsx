@@ -73,7 +73,7 @@ function DoneDialogue({
 
   return (
     <div className="pointer-events-auto relative w-full h-full">
-      <div className="absolute left-2 bottom-[calc(var(--dialogue-box-med-h)-1px)]">
+      <div className="absolute left-45 bottom-[calc(var(--dialogue-box-med-h)-1px)]">
         <img src={meganMagician} className="megan-avatar-med-size" />
       </div>
 
