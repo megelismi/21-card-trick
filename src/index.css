@@ -47,7 +47,7 @@ body {
   /* magician avatar */
   --magician-avatar-footer-w: 135px;
   --magician-avatar-full-w: 400px;
-  --magician-avatar-med-w: 175px;
+  --magician-avatar-med-w: 160px;
 }
 
 @media (max-width: 768px) {

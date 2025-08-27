@@ -69,6 +69,8 @@ function DoneDialogue({
 }) {
   if (!dialogue) return;
 
+  // bottom-[calc(var(--dialogue-box-med-h)-1px)]
+
   return (
     <div className="pointer-events-auto relative w-full h-full">
       <div className="absolute left-2 bottom-[calc(var(--dialogue-box-med-h)-1px)]">
@@ -76,7 +78,7 @@ function DoneDialogue({
       </div>
 
       <div className="py-6 px-4 flex flex-col justify-between h-full ">
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
           <p className="whitespace-pre-line leading-[1.2] magician-font text-white text-[24px]">
             {dialogue}
           </p>

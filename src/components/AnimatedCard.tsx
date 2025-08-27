@@ -1,7 +1,8 @@
 import Card from "./Card";
+import ConfettiBurst from "./ConfettiBurst";
 import useCssVarPx from "../hooks/useCssVarPx";
 import { Anim } from "../config/animation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, useAnimate } from "motion/react";
 import type { Rank, Suit } from "../types/cards";
 import type { Phase, Round } from "../types/cardTrickMachine";
@@ -37,6 +38,7 @@ function AnimatedCard({
   onMoveEnd,
 }: Props) {
   const [scope, animate] = useAnimate();
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // ----- Layout constants s-----
   const overlap = useCssVarPx("--overlap", 70);
@@ -143,23 +145,24 @@ function AnimatedCard({
         // wait a tick to ensure any previous transforms/layout are applied
         await new Promise((r) => requestAnimationFrame(r));
 
-        // 1) Measure table center (page coords)
+        // 1) Measure table "higher" center (page coords)
         const tableRect = tableRef.current?.getBoundingClientRect();
         const tableCenterX = tableRect
           ? tableRect.left + tableRect.width / 2
           : 0;
-        const tableCenterY = tableRect
-          ? tableRect.top + tableRect.height / 2
+        // push reveal higher than the middle to avoid bottom dialogue
+        const tableTargetY = tableRect
+          ? tableRect.top + tableRect.height * 0.33
           : 0;
 
-        // 2) Measure this card center (page coords)
+        // 2) Measure card center (page coords)
         const cardRect = scope.current?.getBoundingClientRect();
         const cardCenterX = cardRect ? cardRect.left + cardRect.width / 2 : 0;
         const cardCenterY = cardRect ? cardRect.top + cardRect.height / 2 : 0;
 
-        // 3) Compute the *offset* needed to move the card to the table center
+        // 3) Offsets
         const offsetX = tableCenterX - cardCenterX;
-        const offsetY = tableCenterY - cardCenterY;
+        const offsetY = tableTargetY - cardCenterY;
 
         // 4) Read current translate so we can set an *absolute* target
         const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
@@ -225,6 +228,9 @@ function AnimatedCard({
           }
         );
 
+        // ✨ Fire confetti right after bounce
+        setShowConfetti(true);
+
         send({ type: "REVEAL_DONE" });
       }
     })();
@@ -258,7 +264,12 @@ function AnimatedCard({
       style={isTheChosenCard ? { zIndex: Anim.z.chosenCard } : undefined}
       initial={false}
     >
-      <Card suit={suit} rank={rank} />
+      <div className="relative w-[var(--card-w)] h-[var(--card-h)]">
+        <Card suit={suit} rank={rank} />
+        {isTheChosenCard && showConfetti && (
+          <ConfettiBurst onDone={() => setShowConfetti(false)} />
+        )}
+      </div>
     </motion.div>
   );
 }
