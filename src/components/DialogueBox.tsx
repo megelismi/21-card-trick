@@ -34,7 +34,7 @@ function IntroDialogue({
       </div>
 
       <div className="py-6 px-4 flex flex-col justify-between h-full ">
-        <div className=" flex items-center">
+        <div className=" flex items-center justify-center">
           <p className="whitespace-pre-line leading-[1.2] magician-font text-white text-[24px]">
             {dialogue}
           </p>
