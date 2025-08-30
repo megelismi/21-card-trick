@@ -53,13 +53,12 @@ function StackButton({
         font-bold text-[36px] flex items-center 
         justify-center 
         bg-cover bg-center bg-no-repeat
-        rounded-sm`}
+        rounded-md
+        border-2 border-yellow-700`}
       style={{
         backgroundImage: `url(${woodBackground})`,
-        boxShadow: isHovered
-          ? "0 12px 28px rgba(0,0,0,0.45), inset 0 0 14px rgba(255,255,255,0.18)"
-          : "",
-        filter: isHovered ? "brightness(1.05)" : "",
+        boxShadow: isHovered ? "0 0 4px 4px rgba(233, 208, 98, 0.5), " : "",
+        filter: isHovered ? "brightness(1.2)" : "",
       }}
     >
       <span className="block mr-3">Stack</span>

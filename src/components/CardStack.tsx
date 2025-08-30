@@ -70,7 +70,7 @@ function CardStack({
   return (
     <div className="flex flex-col justify-between items-center h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]">
       <motion.div
-        className="relative rounded-md cursor-pointer   
+        className="stack relative rounded-md cursor-pointer   
           w-[var(--card-w)]
           h-[calc(var(--card-h)+6*var(--overlap))]"
         onMouseEnter={() => phase === "ask" && setIsHovered(true)}
@@ -85,11 +85,9 @@ function CardStack({
               : phase === "gather"
               ? zForGather
               : 1,
-
           boxShadow: isHovered
-            ? "0 20px 60px rgba(0,0,0,0.6), inset 0 0 24px rgba(255,255,255,0.35)"
+            ? "0 0 10px 4px rgba(233, 208, 98, 0.3), 0 0 24px 12px rgba(245, 245, 245, 0.4)"
             : "",
-          filter: isHovered ? "brightness(1.05)" : "",
         }}
       >
         {cards.map((card, row) => {

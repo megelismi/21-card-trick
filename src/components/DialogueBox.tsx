@@ -34,7 +34,7 @@ function IntroDialogue({
       </div>
 
       <div className="py-6 px-4 flex flex-col justify-between h-full ">
-        <div className=" flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <p className="whitespace-pre-line leading-[1.2] magician-font text-white text-[24px]">
             {dialogue}
           </p>
@@ -73,7 +73,7 @@ function DoneDialogue({
 
   return (
     <div className="pointer-events-auto relative w-full h-full">
-      <div className="absolute left-45 bottom-[calc(var(--dialogue-box-med-h)-1px)]">
+      <div className="absolute left-40 bottom-[calc(var(--dialogue-box-med-h)-1px)]">
         <img src={meganMagician} className="megan-avatar-med-size" />
       </div>
 
@@ -95,7 +95,7 @@ function DoneDialogue({
               border-3 border-yellow-700 rounded-sm text-center
             "
           >
-            Restart
+            Encore
             <span className="shine" />
           </button>
         </div>
