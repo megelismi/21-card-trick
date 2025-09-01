@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import AnimatedCard from "./AnimatedCard";
-import StackButton from "./StackButton";
-import { Anim } from "../config/animation";
-import { CARDS_PER_ROW } from "../constants/cards";
-import type { Cards } from "../types/cards";
-import type { CardTrickEvents, Phase, Round } from "../types/cardTrickMachine";
-import type { SelectedStack } from "../types/cardTrickMachine";
+import CardStackButton from "./CardStackButton";
+import { Anim } from "../../config/animation";
+import { CARDS_PER_ROW } from "../../constants/cards";
+import type { Cards } from "../../types/cards";
+import type {
+  CardTrickEvents,
+  Phase,
+  Round,
+} from "../../types/cardTrickMachine";
+import type { SelectedStack } from "../../types/cardTrickMachine";
 
 interface Props {
   phase: Phase;
@@ -113,7 +117,7 @@ function CardStack({
           );
         })}
       </motion.div>
-      <StackButton
+      <CardStackButton
         isHovered={isHovered}
         setIsHovered={setIsHovered}
         phase={phase}

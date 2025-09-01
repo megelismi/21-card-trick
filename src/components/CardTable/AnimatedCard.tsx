@@ -1,12 +1,15 @@
 import Card from "./Card";
-import ConfettiBurst from "./ConfettiBurst";
-import useCssVarPx from "../hooks/useCssVarPx";
-import { Anim } from "../config/animation";
+import ConfettiBurst from "../ConfettiBurst";
+import useCssVarPx from "../../hooks/useCssVarPx";
+import { Anim } from "../../config/animation";
 import { useEffect, useState } from "react";
 import { motion, useAnimate } from "motion/react";
-import type { Rank, Suit } from "../types/cards";
-import type { Phase, Round } from "../types/cardTrickMachine";
-import type { SelectedStack, CardTrickEvents } from "../types/cardTrickMachine";
+import type { Rank, Suit } from "../../types/cards";
+import type { Phase, Round } from "../../types/cardTrickMachine";
+import type {
+  SelectedStack,
+  CardTrickEvents,
+} from "../../types/cardTrickMachine";
 
 interface Props {
   phase: Phase;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, useAnimate } from "motion/react";
 import woodBackground from "/images/wood-button-background.png";
-import type { SelectedStack } from "../types/cardTrickMachine";
+import type { SelectedStack } from "../../types/cardTrickMachine";
 
 interface Props {
   stackNumber: SelectedStack;
@@ -11,7 +11,7 @@ interface Props {
   setIsHovered: (arg0: boolean) => void;
 }
 
-function StackButton({
+function CardStackButton({
   stackNumber,
   onClickCallback,
   phase,
@@ -67,4 +67,4 @@ function StackButton({
   );
 }
 
-export default StackButton;
+export default CardStackButton;

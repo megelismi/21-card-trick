@@ -1,4 +1,4 @@
-import type { Suit, Rank } from "../types/cards";
+import type { Suit, Rank } from "../../types/cards";
 
 export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (

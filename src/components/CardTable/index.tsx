@@ -1,8 +1,11 @@
 import CardStack from "./CardStack";
 import { useRef } from "react";
-import type { Cards } from "../types/cards";
-import type { Phase, Round } from "../types/cardTrickMachine";
-import type { CardTrickEvents, SelectedStack } from "../types/cardTrickMachine";
+import type { Cards } from "../../types/cards";
+import type { Phase, Round } from "../../types/cardTrickMachine";
+import type {
+  CardTrickEvents,
+  SelectedStack,
+} from "../../types/cardTrickMachine";
 
 interface Props {
   phase: Phase; // Current phase from the machine

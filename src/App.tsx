@@ -1,6 +1,6 @@
 import { useMachine } from "@xstate/react";
 import cardTrickMachine from "./machines/cardTrickMachine";
-import CardTable from "./components/CardTable";
+import CardTable from "./components/CardTable/index";
 import DialogueBox from "./components/DialogueBox";
 
 function App() {
