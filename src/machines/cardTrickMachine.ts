@@ -49,6 +49,7 @@ const cardTrickMachine = setup({
 
     resetContext: assign({ round: 1 as const, selectedStack: 0, dialogue: '' }),
 
+    // used in dev mode for debugging
     logContext: ({ context, event }: { context: CardTrickContext, event: CardTrickEvents }): void => {
       console.log("Current context:", context);
       console.log("Current event", event.type);
@@ -67,11 +68,10 @@ const cardTrickMachine = setup({
     round: 1,
     dialogue: null,
   },
-  entry: ['logContext'],
   states: {
     intro: { 
-      entry: ['setIntroDialogue', 'logContext'],
-      exit: ['clearDialogue', 'setRandomCards', 'logContext'],
+      entry: 'setIntroDialogue',
+      exit: ['clearDialogue', 'setRandomCards'],
       on: { DEAL: 'deal' } 
     },
     deal: {
@@ -83,7 +83,7 @@ const cardTrickMachine = setup({
       on: { SELECT_STACK: { actions: 'setSelectedStack', target: 'gather'} }, 
       after: {
         300: {
-          actions: ['setAskDialogue', 'logContext'],
+          actions: 'setAskDialogue',
         },
       },
       exit: 'clearDialogue'
@@ -118,7 +118,7 @@ const cardTrickMachine = setup({
       after: {
         750: {
           // wait 750ms before showing done dialogue
-          actions: ['setDoneDialogue', 'logContext'],
+          actions: 'setDoneDialogue',
         }
       },
       on: {
