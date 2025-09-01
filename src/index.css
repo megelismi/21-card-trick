@@ -37,17 +37,15 @@ body {
   --stack-button-gap: 7;
 
   /* dialogue box */
-  --dialogue-box-full-w: 525px;
-  --dialogue-box-full-h: 145px;
-  --dialogue-box-footer-w: 645px;
-  --dialogue-box-footer-h: 115px;
-  --dialogue-box-med-w: 525px;
-  --dialogue-box-med-h: 145px;
+  --dialogue-box-with-btn-w: 525px;
+  --dialogue-box-with-btn-h: 145px;
+  --dialogue-box-small-w: 645px;
+  --dialogue-box-small-h: 115px;
 
   /* magician avatar */
-  --magician-avatar-footer-w: 135px;
-  --magician-avatar-full-w: 400px;
-  --magician-avatar-med-w: 160px;
+  --magician-avatar-small-w: 135px;
+  --magician-avatar-med-w: 190px;
+  --magician-avatar-large-w: 400px;
 }
 
 @media (max-width: 768px) {
@@ -72,16 +70,16 @@ body {
   }
 }
 
-.magician-avatar-footer-size {
-  width: var(--magician-avatar-footer-w);
+.magician-avatar-small-size {
+  width: var(--magician-avatar-small-w);
 }
 
-.magician-avatar-full-size {
-  width: var(--magician-avatar-full-w);
-}
-
-.megan-avatar-med-size {
+.magician-avatar-med-size {
   width: var(--magician-avatar-med-w);
+}
+
+.magician-avatar-large-size {
+  width: var(--magician-avatar-large-w);
 }
 
 .rank-size {
@@ -104,19 +102,14 @@ body {
   height: var(--card-h);
 }
 
-.dialogue-full-size {
-  width: var(--dialogue-box-full-w);
-  height: var(--dialogue-box-full-h);
+.dialogue-with-btn-size {
+  width: var(--dialogue-box-with-btn-w);
+  height: var(--dialogue-box-with-btn-h);
 }
 
-.dialogue-footer-size {
-  width: var(--dialogue-box-footer-w);
-  height: var(--dialogue-box-footer-h);
-}
-
-.dialogue-med-size {
-  width: var(--dialogue-box-med-w);
-  height: var(--dialogue-box-med-h);
+.dialogue-small-size {
+  width: var(--dialogue-box-small-w);
+  height: var(--dialogue-box-small-h);
 }
 
 .magician-font {
