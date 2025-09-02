@@ -32,7 +32,7 @@ function DialogueBox({
             y: 20,
             transition: { duration: 0.1, ease: easeOut },
           }}
-          className={`bg-black/50 rounded-lg mt-24 border-[1.5px] border-yellow-600 fixed bottom-8 ${
+          className={`bg-black/50 rounded-lg mt-24 border-[1.5px] border-yellow-600 mx-auto ${
             isIntro || isDone ? "dialogue-with-btn-size" : "dialogue-small-size"
           }`}
         >

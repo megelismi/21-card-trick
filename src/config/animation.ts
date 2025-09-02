@@ -2,7 +2,7 @@ import { ROWS_PER_STACK } from "../constants/cards";
 
 export const Anim = {
   // --- layout ---
-  cornerPadding: 24, // px; distance from viewport top/left for the corner pile
+  cornerPadding: 40, // px; distance from viewport top/left for the corner pile
 
   // --- deal ---
   deal: {
