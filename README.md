@@ -8,7 +8,13 @@ A playful and interactive React/TypeScript implementation of the classic 21 card
 ## Live Demo
 
 - **Live demo:** coming soon!
-- **Screenshots:** coming soon!
+- **Screenshots:**
+
+<img src="public/images/intro-screenshot.png" width="425" />
+
+<img src="public/images/card-table-screenshot.png" width="425" />
+
+<img src="public/images/reveal-screenshot.png" width="425" />
 
 ## Features
 
