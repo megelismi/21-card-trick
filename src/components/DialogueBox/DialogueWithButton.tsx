@@ -13,7 +13,7 @@ function DialogueButton({
       onClick={onClick}
       type="button"
       className={`relative overflow-hidden
-        magician-font uppercase text-[30px]
+        magician-font uppercase dialogue-button-font-size
         h-11 w-32 cursor-pointer
         text-black bg-yellow-500 hover:bg-yellow-400
         border-3 border-yellow-700 rounded-sm text-center`}

@@ -28,6 +28,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   /* cards */
+  --card-padding: 0.75em;
   --card-w: 150px;
   --card-h: 190px;
   --card-rank-size: 42px;
@@ -41,11 +42,18 @@ body {
   --dialogue-box-with-btn-h: 145px;
   --dialogue-box-small-w: 645px;
   --dialogue-box-small-h: 115px;
+  --dialogue-font-size: 24px;
+  --dialogue-text-width: 75%;
 
   /* magician avatar */
   --magician-avatar-small-w: 135px;
   --magician-avatar-med-w: 190px;
   --magician-avatar-large-w: 400px;
+
+  /* buttons  */
+  --stack-button-font-size: 36px;
+  --stack-button-height: 3rem;
+  --dialogue-button-font-size: 30px;
 }
 
 @media (max-width: 768px) {
@@ -62,12 +70,51 @@ body {
 
 @media (max-width: 640px) {
   :root {
-    --card-w: 100px;
-    --card-h: 150px;
-    --large-card-suit-size: 68px;
-    --small-card-suit-size: 32px;
-    --overlap: 55px;
+    --card-padding: 0.4em;
+    --card-w: 60px;
+    --card-h: 90px;
+    --large-card-suit-size: 42px;
+    --card-rank-size: 24px;
+    --small-card-suit-size: 20px;
+    --overlap: 35px;
+
+    --magician-avatar-small-w: 100px;
+    --magician-avatar-med-w: 140px;
+    --magician-avatar-large-w: 275px;
+
+    --dialogue-font-size: 16px;
+    --dialogue-text-width: 70%;
+
+    --stack-button-font-size: 16px;
+    --stack-button-height: 2rem;
+    --dialogue-button-font-size: 24px;
+
+    --dialogue-box-with-btn-h: 135px;
   }
+}
+
+.stack-button-height {
+  height: var(--stack-button-height);
+}
+
+.card-padding {
+  padding: var(--card-padding);
+}
+
+.dialogue-button-font-size {
+  font-size: var(--dialogue-button-font-size);
+}
+
+.stack-button-font-size {
+  font-size: var(--stack-button-font-size);
+}
+
+.dialogue-text-width {
+  width: var(--dialogue-text-width);
+}
+
+.dialogue-font-size {
+  font-size: var(--dialogue-font-size);
 }
 
 .magician-avatar-small-size {

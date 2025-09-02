@@ -46,11 +46,11 @@ function CardStackButton({
       onClick={onClickCallback}
       className={`
         card-width
-        h-12
+        stack-button-height
         magician-font
         cursor-pointer
         uppercase 
-        font-bold text-[36px] flex items-center 
+        font-bold stack-button-font-size flex items-center 
         justify-center 
         bg-cover bg-center bg-no-repeat
         rounded-md
@@ -61,7 +61,7 @@ function CardStackButton({
         filter: isHovered ? "brightness(1.2)" : "",
       }}
     >
-      <span className="block mr-3">Stack</span>
+      <span className="block max-sm:mr-2 mr-3">Stack</span>
       <span>{stackNumber + 1}</span>
     </motion.button>
   );

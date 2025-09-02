@@ -10,7 +10,7 @@ function DialogueNoButton({ dialogue }: { dialogue: string | null }) {
         <img src={meganMagician} className="magician-avatar-small-size" />
       </div>
 
-      <div className="p-4 w-[75%]">
+      <div className="p-4 dialogue-text-width">
         <DialogueText dialogue={dialogue} />
       </div>
     </div>

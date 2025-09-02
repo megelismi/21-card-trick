@@ -72,11 +72,11 @@ function CardStack({
   };
 
   return (
-    <div className="flex flex-col justify-between items-center h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]">
+    <div className="flex flex-col justify-between h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))] card-width">
       <motion.div
-        className="stack relative rounded-md cursor-pointer   
-          w-[var(--card-w)]
-          h-[calc(var(--card-h)+6*var(--overlap))]"
+        className="stack relative rounded-md cursor-pointer 
+        w-[var(--card-w)]
+        h-[calc(var(--card-h)+6*var(--overlap))]"
         onMouseEnter={() => phase === "ask" && setIsHovered(true)}
         onMouseLeave={() => phase === "ask" && setIsHovered(false)}
         onClick={() => handleStackSelected(stackNumber)}
