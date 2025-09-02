@@ -72,7 +72,7 @@ function CardStack({
   };
 
   return (
-    <div className="flex flex-col justify-between h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))] card-width">
+    <div className="flex flex-col items-center justify-between h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]">
       <motion.div
         className="stack relative rounded-md cursor-pointer 
         w-[var(--card-w)]

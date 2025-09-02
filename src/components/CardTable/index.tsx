@@ -67,8 +67,7 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
         className="grid grid-cols-3 gap-4 mt-4 "
         style={{
           maxWidth: "727px",
-          minWidth: "300px",
-          width: "70%",
+          width: "100%",
         }}
       >
         {[0, 1, 2].map((stackNumber) => {

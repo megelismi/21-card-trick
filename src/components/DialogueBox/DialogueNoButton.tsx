@@ -1,5 +1,5 @@
 import DialogueText from "./DialogueText";
-import meganMagician from "/images/megan_magician.png";
+import meganMagician from "/images/megan-magician.png";
 
 function DialogueNoButton({ dialogue }: { dialogue: string | null }) {
   if (!dialogue) return;
