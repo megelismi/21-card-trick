@@ -24,7 +24,7 @@ A playful and interactive React/TypeScript implementation of the classic 21 card
 
 - 💬 In‑app dialogue box that anchors at the bottom
 
-- 🎞️ Smooth animations using Framer Motion (motion/react)
+- 🎞️ Smooth animations using Framer Motion (`motion/react`)
 
 - 🎉 ConfettiBurst on reveal
 
