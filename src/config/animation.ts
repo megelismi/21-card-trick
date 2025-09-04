@@ -2,7 +2,8 @@ import { ROWS_PER_STACK } from "../constants/cards";
 
 export const Anim = {
   // --- layout ---
-  cornerPadding: 40, // px; distance from viewport top/left for the corner pile
+  cornerPadding: 44, // px; distance from viewport top/left for the corner pile
+  offScreenGutter: 48, // px; if we need to deal the cards off screen, because there's no room, then move them far enough off screen that the user can't see them
 
   // --- deal ---
   deal: {
@@ -29,7 +30,7 @@ export const Anim = {
   reveal: {
     pileToCenter: { duration: 0.45, ease: "easeInOut" as const, staggerPerCard: 0.025 },
     dimOthers:    { duration: 0.22, ease: "easeOut" as const, yBump: 6, scale: 0.96, opacity: 0.3 },
-    lift:         { duration: 0.30, ease: "easeOut" as const, lift: 20, scale: 1.20 },
+    lift:         { duration: 0.30, ease: "easeOut" as const, lift: 10, scale: 1.20 },
     bounce:       { duration: 0.50, ease: "easeOut" as const, scaleKey: [1.08, 1.12, 1.02], yKey: -6},
   },
 
@@ -80,6 +81,27 @@ export const Anim = {
       if (!t || t === "none") return { x: 0, y: 0 };
       const m = new DOMMatrixReadOnly(t);
       return { x: m.m41, y: m.m42 }; // translateX, translateY
+    },
+    computeOriginOffsetX(
+      scopeEl: HTMLElement | null,
+      tableEl: HTMLDivElement | null,
+      opts?: { offscreenGutter?: number; minGutterOnscreen?: number }
+    ) {
+        const offscreenGutter = opts?.offscreenGutter ?? Anim.offScreenGutter; // how far beyond the edge to hide
+        const minGutterOnscreen = opts?.minGutterOnscreen ?? 0; 
+
+        const tableRect = tableEl?.getBoundingClientRect();
+        const cardRect = scopeEl?.getBoundingClientRect();
+
+        const cardW = cardRect?.width ?? 0;
+
+        // Distance from viewport’s left edge to table’s left edge.
+        const availableLeft = Math.max(0, tableRect?.left ?? 0);
+
+        const canShowOnscreen = availableLeft >= cardW + minGutterOnscreen;
+
+        // If we can show it, don’t offset; otherwise shove it completely offscreen.
+        return canShowOnscreen ? 0 : -(cardW + offscreenGutter);
     }
   },
 };

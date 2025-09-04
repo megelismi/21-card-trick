@@ -71,21 +71,21 @@ body {
 @media (max-width: 640px) {
   :root {
     --card-padding: 0.4em;
-    --card-w: 80px;
-    --card-h: 110px;
-    --large-card-suit-size: 48px;
-    --card-rank-size: 28px;
-    --small-card-suit-size: 24px;
-    --overlap: 45px;
+    --card-w: 100px;
+    --card-h: 150px;
+    --large-card-suit-size: 68px;
+    --card-rank-size: 32px;
+    --small-card-suit-size: 32px;
+    --overlap: 55px;
 
     --magician-avatar-small-w: 100px;
     --magician-avatar-med-w: 140px;
     --magician-avatar-large-w: 275px;
 
-    --dialogue-font-size: 16px;
+    --dialogue-font-size: 17px;
     --dialogue-text-width: 70%;
 
-    --stack-button-font-size: 16px;
+    --stack-button-font-size: 24px;
     --stack-button-height: 2rem;
     --dialogue-button-font-size: 24px;
 

@@ -4,13 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 function ConfettiBurst({ onDone }: { onDone?: () => void }) {
   // Precompute particle vectors so every mount has a nice spread
   const pieces = useMemo(() => {
-    const N = 75;
+    const N = 45;
     const arr = Array.from({ length: N }, (_, i) => {
       // fan out in 360deg with small randomness
       const base = (i / N) * Math.PI * 2;
       const jitter = (Math.random() - 0.5) * 0.35;
       const angle = base + jitter;
-      const radius = 120 + Math.random() * 65; // px travel
+      const radius = 120 + Math.random() * 15; // px travel
       const x = Math.cos(angle) * radius;
       const y = Math.sin(angle) * radius - 12; // bias slightly upward
       const rotate = (Math.random() - 0.5) * 140;

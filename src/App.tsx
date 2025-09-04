@@ -19,7 +19,7 @@ function App() {
           row-[1] 
           min-h-[clamp(360px,60vh,680px)]  
           flex items-start justify-center  
-          px-4 pt-8
+          px-4 pt-7
         "
       >
         <CardTable

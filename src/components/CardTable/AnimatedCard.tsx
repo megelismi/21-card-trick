@@ -26,30 +26,28 @@ interface Props {
   onMoveEnd: () => void;
 }
 
-function AnimatedCard({
-  phase,
-  send,
-  round,
-  row,
-  suit,
-  rank,
-  column,
-  cardIndex,
-  selectedStack,
-  tableRef,
-  onMoveStart,
-  onMoveEnd,
-}: Props) {
+function AnimatedCard(props: Props) {
+  const {
+    phase,
+    send,
+    round,
+    row,
+    suit,
+    rank,
+    column,
+    cardIndex,
+    selectedStack,
+    tableRef,
+    onMoveStart,
+    onMoveEnd,
+  } = props;
+
   const [scope, animate] = useAnimate();
   const [showConfetti, setShowConfetti] = useState(false);
 
-  // ----- Layout constants s-----
   const overlap = useCssVarPx("--overlap", 70);
 
-  // ----- Derived per-card info -----
-  const isLastCardOverall = column === 2 && row === 6; // the 21st card on the screen
-  /* during the reveal/done phase, the user's chosen card will be the 11th card in the pile
-   * located in column 1 at row 3 */
+  const isLastCardOverall = column === 2 && row === 6;
   const isTheChosenCard =
     (phase === "reveal" || phase === "done") && column === 1 && row === 3;
 
@@ -58,64 +56,70 @@ function AnimatedCard({
 
     (async () => {
       if (phase === "deal") {
-        // 1) read current translate (whatever it is)
         const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
           scope.current
         );
 
-        // 2) compute how far to move this card to the viewport TL corner
+        // Your original base: delta to viewport top-left
         const { dx, dy } = Anim.util.getViewportDelta(scope.current);
 
-        // TODO: this may not be necessary for dealing past round 1
-        // 3) SNAP to the corner (no animation / no flash)
+        // Extra X only when there isn't room; otherwise 0 (exact TL of the screen)
+        const ox = Anim.util.computeOriginOffsetX(
+          scope.current,
+          tableRef.current,
+          {
+            offscreenGutter: Anim.offScreenGutter,
+            minGutterOnscreen: 0, // keep 0 to match original behavior
+          }
+        );
+
+        // SNAP to (viewport TL + optional offscreen push)
         await animate(
           scope.current,
-          { x: curX + dx, y: curY + dy },
+          { x: curX + dx + ox, y: curY + dy },
           { duration: 0 }
         );
 
-        // 4) Now animate the "deal" from the corner to its column/row
+        // Then your normal down-the-column deal
         await animate(
           scope.current,
-          { x: 0, y: row * overlap }, // vertical overlap
+          { x: 0, y: row * overlap },
           {
             duration: Anim.deal.duration,
-            delay: cardIndex * Anim.deal.perCardDelay, // stagger each card
+            delay: cardIndex * Anim.deal.perCardDelay,
             ease: Anim.deal.ease,
           }
         );
 
-        if (!cancelled && isLastCardOverall) {
-          send({ type: "DEAL_DONE" });
-        }
+        if (!cancelled && isLastCardOverall) send({ type: "DEAL_DONE" });
       } else if (phase === "gather") {
-        // ----- Gather timing variables -----
         const [s0, s1, s2] = Anim.util.getStackOrder(selectedStack);
-        const orderIndex = [s0, s1, s2].indexOf(column); // 0,1,2
+        const orderIndex = [s0, s1, s2].indexOf(column);
 
-        // absolute start for this stack
         const stackStartTime = Anim.util.stackStartTime(orderIndex);
         const foldDelayForThisCard = Anim.util.foldDelayForThisCard({
           stackStartTime,
-          row, // stagger fold bottom -> top
+          row,
         });
-
-        // same start time for all rows in this stack
         const moveStartTime = stackStartTime + Anim.util.foldTotal();
 
-        // Precompute corner delta once (any time before the sequence runs)
         await new Promise((r) => requestAnimationFrame(r));
 
         const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
           scope.current
         );
-
-        // measure → diff → animate to viewport corner
         const { dx, dy } = Anim.util.getViewportDelta(scope.current);
+        const ox = Anim.util.computeOriginOffsetX(
+          scope.current,
+          tableRef.current,
+          {
+            offscreenGutter: Anim.offScreenGutter,
+            minGutterOnscreen: 0,
+          }
+        );
 
         if (row === 0) onMoveStart?.();
 
-        // (1) fold vertically (staggered by row)
         await animate([
           [
             scope.current,
@@ -126,10 +130,9 @@ function AnimatedCard({
               ease: Anim.fold.ease,
             },
           ],
-          // (2) move (ONE start time for entire stack)
           [
             scope.current,
-            { x: curX + dx, y: curY + dy },
+            { x: curX + dx + ox, y: curY + dy },
             {
               duration: Anim.move.duration,
               ease: Anim.move.ease,
@@ -139,40 +142,31 @@ function AnimatedCard({
         ]);
 
         if (row === 0) onMoveEnd?.();
-
-        // Notify machine once when the last stack’s top card finishes
         if (orderIndex === 2 && row === 0) {
           send({ type: round === 3 ? "FINAL_GATHER_DONE" : "GATHER_DONE" });
         }
       } else if (phase === "reveal") {
-        // wait a tick to ensure any previous transforms/layout are applied
+        // unchanged…
         await new Promise((r) => requestAnimationFrame(r));
-
-        // 1) Measure table "higher" center (page coords)
         const tableRect = tableRef.current?.getBoundingClientRect();
         const tableCenterX = tableRect
           ? tableRect.left + tableRect.width / 2
           : 0;
-        // push reveal higher than the middle to avoid bottom dialogue
         const tableTargetY = tableRect
           ? tableRect.top + tableRect.height * 0.33
           : 0;
 
-        // 2) Measure card center (page coords)
         const cardRect = scope.current?.getBoundingClientRect();
         const cardCenterX = cardRect ? cardRect.left + cardRect.width / 2 : 0;
         const cardCenterY = cardRect ? cardRect.top + cardRect.height / 2 : 0;
 
-        // 3) Offsets
         const offsetX = tableCenterX - cardCenterX;
         const offsetY = tableTargetY - cardCenterY;
 
-        // 4) Read current translate so we can set an *absolute* target
         const { x: curX, y: curY } = Anim.util.getCurrentTranslate(
           scope.current
         );
 
-        // 5) Move entire pile to exact center (tiny stagger for flavor)
         await animate(
           scope.current,
           { x: curX + offsetX, y: curY + offsetY },
@@ -199,7 +193,6 @@ function AnimatedCard({
           return;
         }
 
-        // Chosen card: lift + glow + bounce
         await animate(
           scope.current,
           {
@@ -231,22 +224,18 @@ function AnimatedCard({
           }
         );
 
-        // ✨ Fire confetti right after bounce
         setShowConfetti(true);
-
         send({ type: "REVEAL_DONE" });
       }
     })();
 
     return () => {
-      cancelled = true; // prevents late callbacks after unmount/phase change
+      cancelled = true;
     };
   }, [
     phase,
     round,
     row,
-    onMoveEnd,
-    onMoveStart,
     overlap,
     cardIndex,
     column,
@@ -257,6 +246,8 @@ function AnimatedCard({
     send,
     tableRef,
     isTheChosenCard,
+    onMoveEnd,
+    onMoveStart,
   ]);
 
   return (
