@@ -79,12 +79,20 @@ function CardStack({
           : stackNumber === 1
           ? "items-center"
           : "items-end"
-      } justify-between h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]`}
+      } justify-between ${
+        phase === "reveal" || phase === "done"
+          ? "h-full"
+          : "h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]"
+      }`}
     >
       <motion.div
-        className="stack relative rounded-md cursor-pointer 
+        className={`stack relative rounded-md cursor-pointer 
         w-[var(--card-w)]
-        h-[calc(var(--card-h)+6*var(--overlap))]"
+         ${
+           phase === "reveal" || phase === "done"
+             ? "h-full"
+             : "h-[calc(var(--card-h)+6*var(--overlap))]"
+         }`}
         onMouseEnter={() => phase === "ask" && setIsHovered(true)}
         onMouseLeave={() => phase === "ask" && setIsHovered(false)}
         onClick={() => handleStackSelected(stackNumber)}
