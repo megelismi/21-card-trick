@@ -81,7 +81,7 @@ function CardStack({
           : "items-end"
       } justify-between ${
         phase === "reveal" || phase === "done"
-          ? "h-full"
+          ? "h-[375px]"
           : "h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]"
       }`}
     >
@@ -90,7 +90,7 @@ function CardStack({
         w-[var(--card-w)]
          ${
            phase === "reveal" || phase === "done"
-             ? "h-full"
+             ? "h-[375px]"
              : "h-[calc(var(--card-h)+6*var(--overlap))]"
          }`}
         onMouseEnter={() => phase === "ask" && setIsHovered(true)}

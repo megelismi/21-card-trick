@@ -153,7 +153,7 @@ function AnimatedCard(props: Props) {
           ? tableRect.left + tableRect.width / 2
           : 0;
         const tableTargetY = tableRect
-          ? tableRect.top + tableRect.height * 0.33
+          ? tableRect.top + tableRect.height / 2
           : 0;
 
         const cardRect = scope.current?.getBoundingClientRect();
