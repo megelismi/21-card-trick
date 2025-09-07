@@ -135,7 +135,9 @@ body {
   :root {
     --card-h: 115px;
     --card-w: 85px; /* 78% of card height*/
-    --overlap: 40px; /* card overlap */ /* 34% of card height */
+    --overlap: 37px; /* card overlap */ /* 34% of card height */
+
+    --stack-button-gap: 7.25;
   }
 }
 
@@ -209,40 +211,10 @@ body {
   font-family: "Smythe", system-ui;
 }
 
-.crimson-text-regular {
-  font-family: "Crimson Text", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .crimson-text-semibold {
   font-family: "Crimson Text", serif;
   font-weight: 600;
   font-style: normal;
-}
-
-.crimson-text-bold {
-  font-family: "Crimson Text", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.crimson-text-regular-italic {
-  font-family: "Crimson Text", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.crimson-text-semibold-italic {
-  font-family: "Crimson Text", serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.crimson-text-bold-italic {
-  font-family: "Crimson Text", serif;
-  font-weight: 700;
-  font-style: italic;
 }
 
 .shine {
