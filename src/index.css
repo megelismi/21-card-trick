@@ -18,7 +18,7 @@ body {
 
 .stage {
   height: 100vh; /* Fallback for older browsers */
-  height: 100dvh;
+  height: 100svh;
 }
 
 :root {
