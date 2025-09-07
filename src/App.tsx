@@ -13,7 +13,7 @@ function App() {
   const selectedStack = state.context.selectedStack;
 
   return (
-    <div className="min-h-[100dvh] grid grid-rows-[1fr_auto] p-4">
+    <div className="stage grid grid-rows-[1fr_auto] p-4">
       <section className="row-[1]">
         <div
           className=" mx-auto

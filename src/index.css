@@ -16,6 +16,11 @@ body {
   touch-action: manipulation;
 }
 
+.stage {
+  height: 100vh; /* Fallback for older browsers */
+  height: 100dvh;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-style: normal;
