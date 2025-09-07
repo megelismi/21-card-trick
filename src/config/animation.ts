@@ -2,7 +2,7 @@ import { ROWS_PER_STACK } from "../constants/cards";
 
 export const Anim = {
   // --- layout ---
-  cornerPadding: 44, // px; distance from viewport top/left for the corner pile
+  cornerPadding: 18, // px; distance from viewport top/left for the corner pile
   offScreenGutter: 48, // px; if we need to deal the cards off screen, because there's no room, then move them far enough off screen that the user can't see them
 
   // --- deal ---

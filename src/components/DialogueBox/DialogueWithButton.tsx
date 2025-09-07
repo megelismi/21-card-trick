@@ -38,7 +38,7 @@ function DialogueWithButton({
   if (!dialogue) return;
 
   return (
-    <div className="pointer-events-auto relative w-full h-full ">
+    <div className="pointer-events-auto relative w-full h-full">
       <div className="absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--dialogue-box-with-btn-h)-1px)]">
         <img
           src={meganMagician}
@@ -46,7 +46,7 @@ function DialogueWithButton({
         />
       </div>
 
-      <div className="py-6 px-4 flex flex-col justify-between h-full ">
+      <div className="py-6 px-4 flex flex-col justify-between h-full">
         <div className="flex items-center justify-center">
           <DialogueText dialogue={dialogue} />
         </div>

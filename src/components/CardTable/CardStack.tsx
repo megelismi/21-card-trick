@@ -31,6 +31,7 @@ function CardStack({
   send,
   tableRef,
 }: Props) {
+  console.log({ stackNumber });
   const [isHovered, setIsHovered] = useState(false);
   // TODO: add a note
   const [zPhase, setZPhase] = useState<"idle" | "moving" | "parked">("idle");
@@ -72,7 +73,15 @@ function CardStack({
   };
 
   return (
-    <div className="flex flex-col items-center justify-between h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]">
+    <div
+      className={`flex flex-col ${
+        stackNumber === 0
+          ? "items-start"
+          : stackNumber === 1
+          ? "items-center"
+          : "items-end"
+      } justify-between h-[calc(var(--card-h)+var(--stack-button-gap)*var(--overlap))]`}
+    >
       <motion.div
         className="stack relative rounded-md cursor-pointer 
         w-[var(--card-w)]

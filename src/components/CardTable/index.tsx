@@ -61,15 +61,8 @@ const CardTable = ({ cards, phase, round, send, selectedStack }: Props) => {
   const cardStacks = getCardStacks(cards);
 
   return (
-    <div className="w-full flex justify-center">
-      <div
-        ref={tableRef}
-        className="grid grid-cols-3 gap-4 mt-4 "
-        style={{
-          maxWidth: "727px",
-          width: "100%",
-        }}
-      >
+    <div className="w-[var(--dialogue-box-small-w)]">
+      <div ref={tableRef} className="grid grid-cols-3">
         {[0, 1, 2].map((stackNumber) => {
           const stackNum = stackNumber as SelectedStack;
           const cardsInCurrentStack = cardStacks[stackNum];

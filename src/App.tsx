@@ -13,27 +13,26 @@ function App() {
   const selectedStack = state.context.selectedStack;
 
   return (
-    <div className="min-h-[100dvh] grid grid-rows-[1fr_auto]">
-      <section
-        className="
-          row-[1] 
+    <div className="min-h-[100dvh] grid grid-rows-[1fr_auto] p-4">
+      <section className="row-[1]">
+        <div
+          className=" mx-auto
+          max-w-[min(960px,92vw)] 
           min-h-[clamp(360px,60vh,680px)]  
-          flex items-start justify-center  
-          px-4 pt-7
-        "
-      >
-        <CardTable
-          phase={phase}
-          cards={cards}
-          round={round}
-          send={send}
-          selectedStack={selectedStack}
-        />
+          flex items-start justify-center "
+        >
+          <CardTable
+            phase={phase}
+            cards={cards}
+            round={round}
+            send={send}
+            selectedStack={selectedStack}
+          />
+        </div>
       </section>
       <footer
         className={`
           row-[2] 
-          px-4 pb-[max(2rem,env(safe-area-inset-bottom))] 
           ${phase === "reveal" || phase === "done" ? "mt-[-24px]" : ""}
         `}
       >
