@@ -31,7 +31,6 @@ function CardStack({
   send,
   tableRef,
 }: Props) {
-  console.log({ stackNumber });
   const [isHovered, setIsHovered] = useState(false);
   // TODO: add a note
   const [zPhase, setZPhase] = useState<"idle" | "moving" | "parked">("idle");
