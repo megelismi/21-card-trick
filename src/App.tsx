@@ -39,7 +39,6 @@ function App() {
         <div
           className="
             mx-auto 
-            min-h-[var(--dialogue-box-with-btn-h)]  
             max-w-[min(960px,92vw)] 
             flex items-end justify-center
           "
