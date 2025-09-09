@@ -14,7 +14,7 @@ function DialogueButton({
       type="button"
       className={`relative overflow-hidden
         magician-font uppercase dialogue-button-font-size
-        h-11 w-32 cursor-pointer
+        h-11 w-32 cursor-pointer no-text-select
         text-black bg-yellow-500 hover:bg-yellow-400
         border-3 border-yellow-700 rounded-sm text-center`}
     >

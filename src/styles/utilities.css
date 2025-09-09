@@ -73,3 +73,9 @@
   font-weight: 600;
   font-style: normal;
 }
+
+.no-text-select {
+  user-select: none;
+  -webkit-user-select: none; /* iOS Safari */
+  -webkit-touch-callout: none; /* long press on iOS */
+}

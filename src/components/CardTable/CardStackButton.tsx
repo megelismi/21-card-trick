@@ -45,6 +45,7 @@ function CardStackButton({
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClickCallback}
       className={`
+        no-text-select
         card-width
         stack-button-height
         magician-font
