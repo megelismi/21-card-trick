@@ -1,0 +1,75 @@
+.stack-button-height {
+  height: var(--stack-button-height);
+}
+
+.card-padding {
+  padding: var(--card-padding);
+}
+
+.dialogue-button-font-size {
+  font-size: var(--dialogue-button-font-size);
+}
+
+.stack-button-font-size {
+  font-size: var(--stack-button-font-size);
+}
+
+.dialogue-text-width {
+  width: var(--dialogue-text-width);
+}
+
+.dialogue-font-size {
+  font-size: var(--dialogue-font-size);
+}
+
+.magician-avatar-small-size {
+  width: var(--magician-avatar-small-w);
+}
+
+.magician-avatar-med-size {
+  width: var(--magician-avatar-med-w);
+}
+
+.magician-avatar-large-size {
+  width: var(--magician-avatar-large-w);
+}
+
+.rank-size {
+  font-size: var(--card-rank-size);
+}
+
+.suit-size-large {
+  font-size: var(--large-card-suit-size);
+}
+
+.suit-size-small {
+  font-size: var(--small-card-suit-size);
+}
+
+.card-width {
+  width: var(--card-w);
+}
+
+.card-height {
+  height: var(--card-h);
+}
+
+.dialogue-with-btn-size {
+  width: var(--dialogue-box-with-btn-w);
+  height: var(--dialogue-box-with-btn-h);
+}
+
+.dialogue-small-size {
+  width: var(--dialogue-box-small-w);
+  height: var(--dialogue-box-small-h);
+}
+
+.magician-font {
+  font-family: "Smythe", system-ui;
+}
+
+.crimson-text-semibold {
+  font-family: "Crimson Text", serif;
+  font-weight: 600;
+  font-style: normal;
+}

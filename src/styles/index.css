@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Order matters: tokens first, then base, then utilities & animations */
+@import "./tokens.css";
+@import "./base.css";
+@import "./utilities.css";
+@import "./animations.css";
