@@ -32,10 +32,12 @@ function CardStack({
   tableRef,
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
-  // when we are gathering the cards, we do a little zIndex trick
-  // if the stack is "moving" to the left, it should pass ON TOP of other stacks - higher zIndex
-  // if a stack is in the left hand corner "parked", it should lower it's zIndex
-  // so that subsequent stacks will appear to lay on top of it
+  /*
+   * When we are gathering the cards, we do a little zIndex trick.
+   * If the stack is "moving" to the left, it should pass ON TOP of other stacks (higher zIndex).
+   * If a stack is in the left hand corner "parked", it should lower it's zIndex
+   * so that subsequent stacks will appear to lay on top of it.
+   */
   const [zPhase, setZPhase] = useState<"idle" | "moving" | "parked">("idle");
 
   useEffect(() => {
@@ -44,22 +46,22 @@ function CardStack({
     }
   }, [phase, isHovered]);
 
-  // memoized functions that top card will call after each stack has moved
-  // to the corner of the screen during the "gather" phase
-  // this allows the zIndex of the stack to be larger when moving so that
-  // it doesn't go behind stacks that have been gathered yet
-  // but smaller once it has "parked" in the corner, so that subsequent
-  // stacks can be placed on top of it
+  /*
+   * Memoized functions that the top card will call after each stack has moved
+   * to the corner of the screen during the "gather" phase.
+   */
   const onMoveStart = useCallback(() => setZPhase("moving"), []);
   const onMoveEnd = useCallback(() => setZPhase("parked"), []);
 
   const order = Anim.util.getStackOrder(selectedStack);
   const orderIndex = order.indexOf(stackNumber); // 0,1,2
 
-  // Very small z policy:
-  // - moving: huge so it passes in front of others during transit
-  // - parked: ordered layer so later stacks land on top
-  // - idle (folding / not moving yet): medium
+  /*
+   * Very small z policy:
+   * - moving: huge so it passes in front of others during transit
+   * - parked: ordered layer, so later stacks land on top
+   * - idle (folding / not moving yet): medium
+   */
   const zForGather =
     zPhase === "moving"
       ? Anim.z.gatherStackMoved
@@ -114,7 +116,7 @@ function CardStack({
         }}
       >
         {cards.map((card, row) => {
-          // the index of this card in the stack of 21
+          // The index of this card in the stack of 21
           const cardIndex = row * CARDS_PER_ROW + stackNumber;
 
           return (
@@ -123,7 +125,7 @@ function CardStack({
               cardIndex={cardIndex} // 0...21
               column={stackNumber} // 0...2
               row={row} // 0...6
-              selectedStack={selectedStack} // the current stack the user selected
+              selectedStack={selectedStack} // The current stack the user selected
               rank={card.rank}
               suit={card.suit}
               phase={phase}

@@ -1,7 +1,7 @@
 .shine {
   position: absolute;
   top: 0;
-  left: -75%; /* start well off the left */
+  left: -75%; /* start well off to the left */
   height: 100%;
   width: 50%;
   background: linear-gradient(
