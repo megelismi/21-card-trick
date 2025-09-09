@@ -7,8 +7,10 @@ A playful and interactive React/TypeScript implementation of the classic 21 card
 
 ## Live Demo
 
-- **Live demo:** coming soon!
-- **Screenshots:**
+[See the Trick in Action](https://21-card-trick-psi.vercel.app/)
+
+
+## Screenshots
 
 <img src="public/images/intro-screenshot.png" width="425" />
 
