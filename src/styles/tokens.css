@@ -1,0 +1,124 @@
+/* Design tokens & responsive overrides only */
+:root {
+  /* Typography */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-style: normal;
+  line-height: 1;
+  font-weight: 400;
+
+  color: #213547;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Cards (derive from card height where possible) */
+  --card-padding: 0.75em;
+  --card-h: 190px;
+  --card-w: 150px;
+  --overlap: 65px; /* card overlap */
+
+  /* Suit/rank scale off large size */
+  --large-card-suit-size: 85px;
+  --small-card-suit-size: 40px;
+  --card-rank-size: 42px;
+
+  --stack-button-gap: 7;
+
+  /* Dialogue box */
+  --dialogue-box-with-btn-w: 525px;
+  --dialogue-box-with-btn-h: 145px;
+  --dialogue-box-small-w: 645px;
+  --dialogue-box-small-h: 115px;
+  --dialogue-font-size: 24px;
+  --dialogue-text-width: 75%;
+
+  /* Magician avatar */
+  --magician-avatar-small-w: 135px;
+  --magician-avatar-med-w: 190px;
+  --magician-avatar-large-w: 400px;
+
+  /* Buttons  */
+  --stack-button-font-size: 36px;
+  --stack-button-height: 3rem;
+  --dialogue-button-font-size: 30px;
+}
+
+/* Width breakpoints */
+@media (max-width: 768px) {
+  :root {
+    --card-w: 125px;
+    --card-h: 175px;
+    --card-rank-size: 36px;
+    --large-card-suit-size: 75px;
+    --small-card-suit-size: 36px;
+    --overlap: 65px;
+    --stack-button-gap: 7.5;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --card-padding: 0.4em;
+    --card-w: 100px;
+    --card-h: 150px;
+    --large-card-suit-size: 68px;
+    --card-rank-size: 32px;
+    --small-card-suit-size: 32px;
+    --overlap: 55px;
+
+    --magician-avatar-small-w: 100px;
+    --magician-avatar-med-w: 140px;
+    --magician-avatar-large-w: 275px;
+
+    --dialogue-font-size: 17px;
+    --dialogue-text-width: 70%;
+
+    --stack-button-font-size: 24px;
+    --stack-button-height: 2rem;
+    --dialogue-button-font-size: 24px;
+
+    --dialogue-box-with-btn-h: 135px;
+
+    --stack-button-gap: 7;
+  }
+}
+
+@media (max-height: 800px) {
+  :root {
+    --card-padding: 0.5em;
+    --card-h: 135px;
+    --card-w: 95px; /* 78% of card height*/
+    --large-card-suit-size: 68px;
+    --small-card-suit-size: 26px; /* 47% of large-card-suit-size */
+    --card-rank-size: 28px; /* 49% of large-card-suit-size  */
+    --overlap: 42px; /* card overlap */ /* 34% of card height */
+
+    --magician-avatar-small-w: 100px;
+    --magician-avatar-med-w: 140px;
+    --magician-avatar-large-w: 275px;
+
+    --dialogue-font-size: 17px;
+    --dialogue-text-width: 70%;
+
+    --stack-button-font-size: 24px;
+    --stack-button-height: 2rem;
+    --dialogue-button-font-size: 24px;
+
+    --dialogue-box-small-w: 575px;
+    --dialogue-box-small-h: 85px;
+
+    /* --stack-button-gap: 7.5; */
+  }
+}
+
+@media (max-height: 601px) {
+  :root {
+    --card-h: 115px;
+    --card-w: 85px;
+    --overlap: 37px;
+    --stack-button-gap: 7.25;
+  }
+}

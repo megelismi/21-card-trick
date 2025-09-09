@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  background-image: url("/images/card-table-green-background.png"); /* Relative path */
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: auto;
+  background-attachment: fixed;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
+.stage {
+  height: 100vh; /* Fallback for older browsers */
+  height: 100svh;
+}
