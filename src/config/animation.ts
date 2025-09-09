@@ -66,6 +66,21 @@ export const Anim = {
     stackStartTime(orderIndex: number): number {
       return orderIndex * (Anim.util.foldTotal() + Anim.move.duration + Anim.move.betweenStacksGap);
     },
+    getSnapTargets({ el, tableEl }: { el: Element | null, tableEl: Element | null }) {
+      // SSR/defensive guard
+      if (typeof window === "undefined" || !el) return null;
+
+      const { x: curX, y: curY } = Anim.util.getCurrentTranslate(el);
+      const { dx, dy } = Anim.util.getViewportDelta(el);
+      const ox = Anim.util.computeOriginOffsetX(
+        el as HTMLDivElement, 
+        tableEl as HTMLDivElement | null, {
+        offscreenGutter: Anim.offScreenGutter,
+        minGutterOnscreen: 0,
+      });
+
+      return { curX, curY, dx, dy, ox };
+},
     getStackOrder(selected: 0 | 1| 2): [number, number, number] {
       if (selected === 0) return [1, 0, 2];
       if (selected === 1) return [0, 1, 2];
