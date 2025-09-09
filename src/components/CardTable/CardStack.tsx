@@ -32,7 +32,10 @@ function CardStack({
   tableRef,
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
-  // TODO: add a note
+  // when we are gathering the cards, we do a little zIndex trick
+  // if the stack is "moving" to the left, it should pass ON TOP of other stacks - higher zIndex
+  // if a stack is in the left hand corner "parked", it should lower it's zIndex
+  // so that subsequent stacks will appear to lay on top of it
   const [zPhase, setZPhase] = useState<"idle" | "moving" | "parked">("idle");
 
   useEffect(() => {

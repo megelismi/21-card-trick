@@ -15,7 +15,6 @@ interface Props {
   send: (arg0: CardTrickEvents) => void;
 }
 
-// TODO: clean up
 function getCardStacks(cards: Cards) {
   return {
     0: [
