@@ -20,7 +20,7 @@ A playful and interactive React/TypeScript implementation of the classic 21 card
 
 ## Features
 
-- 🎴 Authentic 21 card algorithm ( deterministic reveal at index 11 )
+- 🎴 Authentic 21 card algorithm ( deterministic reveal at position 11 )
 
 - 🧠 XState state machine for clear app flow
 
