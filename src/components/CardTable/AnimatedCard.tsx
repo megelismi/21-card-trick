@@ -131,7 +131,7 @@ function AnimatedCard({
       if (!targets) return;
       const { curX, curY, dx, dy, ox } = targets;
 
-      if (row === 0) onMoveStart?.();
+      if (row === 0) onMoveStart();
 
       await animate([
         // Fold up to the top of the column
@@ -156,7 +156,7 @@ function AnimatedCard({
         ],
       ]);
 
-      if (!cancelled && row === 0) onMoveEnd?.();
+      if (!cancelled && row === 0) onMoveEnd();
       if (!cancelled && orderIndex === 2 && row === 0) {
         send({ type: round === 3 ? "FINAL_GATHER_DONE" : "GATHER_DONE" });
       }
