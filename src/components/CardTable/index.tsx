@@ -7,7 +7,7 @@ import type {
   SelectedStack,
 } from "../../types/cardTrickMachine";
 
-interface Props {
+export interface Props {
   phase: Phase; // Current phase from the machine
   cards: Cards;
   round: Round;

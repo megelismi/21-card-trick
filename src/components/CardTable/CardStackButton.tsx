@@ -37,6 +37,7 @@ function CardStackButton({
 
   return (
     <motion.button
+      data-testid={`stack-button-${stackNumber}`}
       ref={scope}
       initial={{
         opacity: 0,

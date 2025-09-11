@@ -3,6 +3,7 @@ import type { Suit, Rank } from "../../types/cards";
 export default function Card({ suit, rank }: { suit: Suit; rank: Rank }) {
   return (
     <div
+      data-testid="card"
       className={`no-text-select crimson-text-semibold flex flex-col 
         items-center justify-between card-padding bg-white 
         card-width card-height border border-gray-300 
