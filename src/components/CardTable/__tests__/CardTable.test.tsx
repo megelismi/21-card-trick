@@ -20,7 +20,7 @@ describe("CardTable", () => {
   test("renders 21 cards", () => {
     const props = makeProps();
     render(<CardTable {...props} />);
-    const cards = screen.getAllByTestId("card"); // add data-testid to your card root
+    const cards = screen.getAllByTestId("card");
     expect(cards).toHaveLength(21);
   });
 });
