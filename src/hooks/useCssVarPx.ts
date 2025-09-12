@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function readCssVarPx(name: string, fallback = 0): number {
+export function readCssVarPx(name: string, fallback = 0): number {
   const v = getComputedStyle(document.documentElement)
     .getPropertyValue(name)
     .trim();                 
